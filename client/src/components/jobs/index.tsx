@@ -255,7 +255,8 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                                         </Button>
                                         {/* Todo */}
                                         <Button
-                                            type="link"
+                                            className="not-interested-button"
+                                            type="text"
                                             size="large"
                                             data-event={EVENTS.NOT_INTERESTED}
                                             data-details={jobId}

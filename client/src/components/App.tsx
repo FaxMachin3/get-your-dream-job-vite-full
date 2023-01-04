@@ -1,24 +1,28 @@
-import { useCallback } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
+import { Outlet } from 'react-router-dom';
+import { LadingPageContainer } from './landing-page/lading-page-container';
 
 import Navbar from './navbar';
-import LandingPage from './landing-page';
-import { ROUTES } from '../constants';
+
+const antConfig = {
+    token: {
+        colorPrimary: '#6C63FF',
+        colorLink: '#6C63FF',
+        fontFamily: '"Montserrat", sans-serif',
+        borderRadiusLG: 5,
+        borderRadiusOuter: 5,
+        borderRadiusSM: 5,
+        borderRadiusXS: 5,
+    },
+};
 
 function App() {
-    const location = useLocation();
-
-    const renderLandingPage = useCallback(() => {
-        if (location.pathname === ROUTES.ROOT) return <LandingPage />;
-        return null;
-    }, [location.pathname]);
-
     return (
-        <>
+        <ConfigProvider theme={antConfig}>
             <Navbar />
-            {renderLandingPage()}
+            <LadingPageContainer />
             <Outlet />
-        </>
+        </ConfigProvider>
     );
 }
 

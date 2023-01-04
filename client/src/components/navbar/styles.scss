@@ -7,19 +7,16 @@
     justify-content: space-between;
     align-items: center;
 
-    // a {
-    //     color: inherit;
-    // }
-
-    .logo {
+    .logo a {
+        color: $highlight-color;
         font-weight: bold;
     }
 
-    .links > a {
+    .links a {
         color: inherit;
     }
 
-    .links > a:not(:last-child) {
+    .links > span:not(:last-child) {
         margin-right: 1.6rem;
     }
 }

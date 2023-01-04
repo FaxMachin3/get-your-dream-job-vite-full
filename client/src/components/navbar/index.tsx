@@ -1,51 +1,28 @@
+import { Typography } from 'antd';
 import React, { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { UserContext } from '../../contexts/UserContext';
+import { NavLinks } from './nav-links';
 
 import './styles.scss';
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-    const { currentUser, setCurrentUserAndLocalStorage } =
-        useContext(UserContext);
-    const navigate = useNavigate();
     const location = useLocation();
     const isRoot = location.pathname === ROUTES.ROOT;
-
-    const onLogout = () => {
-        setCurrentUserAndLocalStorage?.(null);
-        navigate(ROUTES.ROOT);
-    };
-
-    const renderRelevantLinks = () => {
-        if (!currentUser) {
-            return (
-                <>
-                    <Link to={ROUTES.LOGIN}>Login</Link>
-                    <Link to={ROUTES.CANDIDATE_SIGN_UP}>Register</Link>
-                </>
-            );
-        }
-
-        return (
-            <>
-                <Link to={ROUTES.JOB_LISTING}>Jobs</Link>
-                <Link to={ROUTES.PROFILE}>Profile</Link>
-                <Link to={ROUTES.ROOT} onClick={onLogout}>
-                    Logout
-                </Link>
-            </>
-        );
-    };
 
     return (
         <nav id="navbar" className={`navbar ${isRoot ? 'white-text' : ''}`}>
             <div className="logo">
-                <Link to="/">GYDJ</Link>
+                <Typography.Text>
+                    <Link to="/">GYDJ</Link>
+                </Typography.Text>
             </div>
-            <div className="links">{renderRelevantLinks()}</div>
+            <div className="links">
+                <NavLinks />
+            </div>
         </nav>
     );
 };
