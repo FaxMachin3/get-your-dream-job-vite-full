@@ -1,0 +1,35 @@
+@import '../../partials/config';
+
+.sign-up-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .sign-up-content {
+        flex-grow: 1;
+        margin: 3rem;
+        max-width: $max-form-width;
+        padding: 4rem;
+        border-radius: 1rem;
+        box-shadow: $form-box-shadow;
+
+        .title {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        // input,
+        // button,
+        // .password-input {
+        //     border-radius: $button-radius;
+        // }
+    }
+}
+
+@media screen and (max-width: $media-mobile-width) {
+    .sign-up-wrapper {
+        .sign-up-content {
+            margin: 1rem;
+            padding: 3rem;
+        }
+    }
+}

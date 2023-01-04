@@ -1,0 +1,65 @@
+$primary-color: #17a2b8;
+$dark-color: #1f1f1f;
+$light-color: #fbfbfb;
+$light-color-2: grey;
+$danger-color: #dc3545;
+$success-color: #28a745;
+$highlight-color: #6c63ff;
+$navbar-height: 62px;
+$max-page-width: 1100px;
+$max-form-width: 400px;
+$sidebar-width: 300px;
+// $button-radius: 5px;
+$card-shadow: 0 0 10px 1px #f5f5ff;
+$min-listing-height: 1200px;
+$media-mobile-width: 480px;
+$media-tablet-width: 768px;
+$form-box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+$card-box-shadow: 1px 2px 10px rgb(0 0 0 / 0.1);
+$nav-box-shadow: 0 0 13px 7px rgb(0 0 0 / 0.2);
+
+// Set text color based on background
+@function set-text-color($color) {
+    @if (lightness($color) > 60) {
+        @return #333;
+    } @else {
+        @return #fff;
+    }
+}
+
+// Set background & text color
+@mixin set-background($color) {
+    background-color: $color;
+    color: set-text-color($color);
+}
+
+// Margin & Padding
+$space-amounts: (1, 2, 3, 4, 5);
+
+@each $space in $space-amounts {
+    // All around margin
+    .m-#{$space} {
+        margin: #{$space}rem;
+    }
+    // Vertical Margin
+    .my-#{$space} {
+        margin: #{$space}rem 0;
+    }
+    // Horizontal Margin
+    .mx-#{$space} {
+        margin: 0 #{$space}rem;
+    }
+
+    // All around Padding
+    .p-#{$space} {
+        padding: #{$space}rem;
+    }
+    // Vertical Padding
+    .py-#{$space} {
+        padding: #{$space}rem 0;
+    }
+    // Horizontal Padding
+    .px-#{$space} {
+        padding: 0 #{$space}rem;
+    }
+}
