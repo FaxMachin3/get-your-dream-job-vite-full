@@ -92,32 +92,6 @@ const SignUp: React.FC<SignUpProps> = () => {
         }
     };
 
-    const renderUserSpecificInputs = () =>
-        isRecruiter ? (
-            <Form.Item label="Your Company Name" name="companyName">
-                <Input
-                    type="text"
-                    name="companyName"
-                    placeholder="e.g. Intuit or Zerodha"
-                    value={companyName}
-                    onChange={onChange}
-                    size="large"
-                    required
-                />
-            </Form.Item>
-        ) : (
-            <Form.Item label="Github Username" name="githubUsername">
-                <Input
-                    type="text"
-                    name="githubUsername"
-                    placeholder="Your GitHub username"
-                    value={githubUsername}
-                    size="large"
-                    onChange={onChange}
-                />
-            </Form.Item>
-        );
-
     return (
         <div className="sign-up-wrapper">
             <section className="sign-up-content">
@@ -151,7 +125,33 @@ const SignUp: React.FC<SignUpProps> = () => {
                             required
                         />
                     </Form.Item>
-                    {renderUserSpecificInputs()}
+                    {isRecruiter ? (
+                        <Form.Item label="Your Company Name" name="companyName">
+                            <Input
+                                type="text"
+                                name="companyName"
+                                placeholder="e.g. Intuit or Zerodha"
+                                value={companyName}
+                                onChange={onChange}
+                                size="large"
+                                required
+                            />
+                        </Form.Item>
+                    ) : (
+                        <Form.Item
+                            label="Github Username"
+                            name="githubUsername"
+                        >
+                            <Input
+                                type="text"
+                                name="githubUsername"
+                                placeholder="Your GitHub username"
+                                value={githubUsername}
+                                size="large"
+                                onChange={onChange}
+                            />
+                        </Form.Item>
+                    )}
                     <Form.Item label="Password" name="password">
                         <Input.Password
                             type="password"

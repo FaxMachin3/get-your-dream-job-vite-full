@@ -21,7 +21,7 @@ export const NavLinks = () => {
         return (
             <>
                 {navs.NON_USER_NAVS.map(({ title, to }) => (
-                    <Typography.Text className="sub-links">
+                    <Typography.Text key={title} className="sub-links">
                         <Link to={to}>{title}</Link>
                     </Typography.Text>
                 ))}
@@ -32,7 +32,7 @@ export const NavLinks = () => {
     return (
         <>
             {navs.USER_NAVS.map(({ title, to, onClick }) => (
-                <Typography.Text className="sub-links">
+                <Typography.Text key={title} className="sub-links">
                     <Link to={to} onClick={onClick}>
                         {title}
                     </Link>

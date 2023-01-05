@@ -13,12 +13,6 @@ const TagSelect: React.FC<TagSelectProps> = ({
     onTagChange,
     defaultValue = [],
 }) => {
-    const renderOptions = () => {
-        return tagsOptions.map((tag) => (
-            <Select.Option key={tag}>{tag}</Select.Option>
-        ));
-    };
-
     return (
         <label>
             <Typography.Paragraph>Tags</Typography.Paragraph>
@@ -34,7 +28,9 @@ const TagSelect: React.FC<TagSelectProps> = ({
                 placeholder="e.g. css or typescript"
                 onChange={onTagChange}
             >
-                {renderOptions()}
+                {tagsOptions.map((tag) => (
+                    <Select.Option key={tag}>{tag}</Select.Option>
+                ))}
             </Select>
         </label>
     );
