@@ -3,7 +3,7 @@ import { Button, Typography, Image } from 'antd';
 import { Link, Navigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { UserContext } from '../../contexts/UserContext';
-import backdrop from '../../assests/job-offer.svg';
+import backdrop from '../../assets/job-offer.svg';
 
 import './styles.scss';
 
@@ -50,7 +50,12 @@ const LandingPage: React.FC<LandingPageProps> = () => {
                 </div>
             </div>
             <div className="backdrop">
-                <Image src={backdrop} preview={false} alt="backdrop" />
+                <Image
+                    loading="eager"
+                    src={backdrop}
+                    preview={false}
+                    alt="backdrop"
+                />
             </div>
         </section>
     );

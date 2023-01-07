@@ -4,6 +4,7 @@ import path from 'path';
 
 import auth from './routes/api/auth.js';
 import user from './routes/api/user.js';
+import job from './routes/api/job.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 8080;
@@ -17,6 +18,7 @@ app.use(express.json());
 // routes
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/user', user);
+app.use('/api/v1/job', job);
 
 // app.get('/', (req, res) => {
 //     res.status(200).send({ message: 'hello' });

@@ -1,19 +1,5 @@
+import { IJob } from '@_types/common.js';
 import { model, Schema } from 'mongoose';
-
-interface IJob {
-    id: string;
-    companyName: string;
-    title: string;
-    contact: string;
-    description: string;
-    requirement: string;
-    location: string;
-    createdAt: Date;
-    createdBy: string;
-    salaryRange: [number, number];
-    tags: Array<string>;
-    applicants: Array<string>;
-}
 
 const JobSchema = new Schema<IJob>({
     companyName: {

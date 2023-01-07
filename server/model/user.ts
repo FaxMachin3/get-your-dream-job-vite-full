@@ -1,26 +1,5 @@
+import { IUser, IUserDetails } from '@_types/common.js';
 import { Schema, model } from 'mongoose';
-
-enum USER_TYPE {
-    CANDIDATE = 'CANDIDATE',
-    RECRUITER = 'RECRUITER',
-}
-
-interface IUserDetails {
-    type: USER_TYPE;
-    contact?: string;
-    location: string;
-    githubUsername?: string;
-    skills?: Array<string>;
-    appliedTo?: Array<string>;
-    companyName?: string;
-}
-
-interface IUser {
-    name: string;
-    email: string;
-    password: string;
-    userDetails: IUserDetails;
-}
 
 const UserDetails = new Schema<IUserDetails>({
     type: { type: String, required: true },
