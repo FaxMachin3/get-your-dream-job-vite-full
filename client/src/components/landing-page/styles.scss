@@ -1,7 +1,7 @@
 @import '../../partials/config';
 
 .landing {
-    height: calc(100vh - $navbar-height);
+    height: calc(100% - $navbar-height);
     display: flex;
 
     &-text {
