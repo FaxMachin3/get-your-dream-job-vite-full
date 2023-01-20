@@ -7,7 +7,7 @@ const connectDB = async () => {
     try {
         console.log('mongoose connection started');
 
-        set('strictQuery', false);
+        set('strictQuery', 'throw');
         await connect(db);
 
         console.log('mongoose connection established');

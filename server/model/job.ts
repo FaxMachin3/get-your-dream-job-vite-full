@@ -1,4 +1,4 @@
-import { IJob } from '@_types/common.js';
+import { IJob } from '@_types/common-types.js';
 import { model, Schema } from 'mongoose';
 
 const JobSchema = new Schema<IJob>({
@@ -20,7 +20,10 @@ const JobSchema = new Schema<IJob>({
     },
     requirement: {
         type: String,
-        required: true,
+        validate: {
+            validator: (str: string) => !!(str?.length >= 0),
+            message: 'Not valid string',
+        },
     },
     location: {
         type: String,
@@ -28,7 +31,7 @@ const JobSchema = new Schema<IJob>({
     },
     createdAt: {
         type: Date,
-        required: true,
+        default: Date.now,
     },
     createdBy: {
         type: String,
@@ -48,4 +51,4 @@ const JobSchema = new Schema<IJob>({
     },
 });
 
-export default model<IJob>('job', JobSchema);
+export default model<IJob>('jobs', JobSchema);

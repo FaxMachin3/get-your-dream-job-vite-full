@@ -1,4 +1,4 @@
-import { IUser, IUserDetails } from '@_types/common.js';
+import { IUser, IUserDetails } from '@_types/common-types.js';
 import { Schema, model } from 'mongoose';
 
 const UserDetails = new Schema<IUserDetails>({
@@ -31,4 +31,4 @@ const UserSchema = new Schema<IUser>({
     },
 });
 
-export default model<IUser>('user', UserSchema);
+export default model<IUser>('users', UserSchema);
