@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, Typography, Image } from 'antd';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { UserContext } from '../../contexts/UserContext';
 import backdrop from '../../assets/job-offer.svg';
@@ -11,10 +11,13 @@ interface LandingPageProps {}
 
 const LandingPage: React.FC<LandingPageProps> = () => {
     const { currentUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     if (currentUser) {
         return <Navigate to={ROUTES.JOB_LISTING} />;
     }
+
+    const onSignUpClick = (route: string) => () => navigate(route);
 
     return (
         <section className="landing">
@@ -32,19 +35,19 @@ const LandingPage: React.FC<LandingPageProps> = () => {
                             type="default"
                             className="sign-up-btn"
                             size="large"
+                            title="Recruiter sign-up"
+                            onClick={onSignUpClick(ROUTES.RECRUITER_SIGN_UP)}
                         >
-                            <Link to={ROUTES.RECRUITER_SIGN_UP}>
-                                Recruiter sign-up
-                            </Link>
+                            Recruiter sign-up
                         </Button>
                         <Button
                             type="primary"
                             className="sign-up-btn"
                             size="large"
+                            title="Candidate sign-up"
+                            onClick={onSignUpClick(ROUTES.CANDIDATE_SIGN_UP)}
                         >
-                            <Link to={ROUTES.CANDIDATE_SIGN_UP}>
-                                Candidate sign-up
-                            </Link>
+                            Candidate sign-up
                         </Button>
                     </div>
                 </div>

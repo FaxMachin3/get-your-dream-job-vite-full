@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
-import { useContext, useMemo } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { UserContext } from '../../contexts/UserContext';
 import { navLinksWrapper } from '../../utils/common';
@@ -21,7 +21,11 @@ export const NavLinks = () => {
         return (
             <>
                 {navs.NON_USER_NAVS.map(({ title, to }) => (
-                    <Typography.Text key={title} className="sub-links">
+                    <Typography.Text
+                        key={title}
+                        title={title}
+                        className="sub-links"
+                    >
                         <Link to={to}>{title}</Link>
                     </Typography.Text>
                 ))}
@@ -32,7 +36,11 @@ export const NavLinks = () => {
     return (
         <>
             {navs.USER_NAVS.map(({ title, to, onClick }) => (
-                <Typography.Text key={title} className="sub-links">
+                <Typography.Text
+                    key={title}
+                    title={title}
+                    className="sub-links"
+                >
                     <Link to={to} onClick={onClick}>
                         {title}
                     </Link>

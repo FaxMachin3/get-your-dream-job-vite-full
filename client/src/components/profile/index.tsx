@@ -119,9 +119,13 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
 
         return (
             <>
-                <Typography.Paragraph strong className="applied-jobs-title">
+                {/* <Typography.Paragraph
+                    underline
+                    strong
+                    className="applied-jobs-title"
+                >
                     Applied Jobs
-                </Typography.Paragraph>
+                </Typography.Paragraph> */}
                 <Jobs data={appliedJobs} />
             </>
         );
@@ -135,7 +139,9 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
         return (
             <Typography.Paragraph>
                 {currentUserProfile.userDetails.skills?.map((skill) => (
-                    <Tag key={skill}>{skill}</Tag>
+                    <Tag title={skill} key={skill}>
+                        {skill}
+                    </Tag>
                 ))}
             </Typography.Paragraph>
         );
@@ -156,11 +162,9 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
 
         return (
             <div>
-                <Typography.Paragraph strong className="github-repos-title">
-                    GitHub Repos
-                </Typography.Paragraph>
                 {gitHubRepos.map((repo: any) => (
                     <Card
+                        type="inner"
                         key={repo.id}
                         className="git-card"
                         hoverable
@@ -168,13 +172,14 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
                         bordered={false}
                     >
                         <div className="left">
-                            <Typography.Paragraph
+                            <Typography.Link
+                                title={repo.name}
                                 className="link"
                                 strong
                                 ellipsis
                             >
                                 {repo.name}
-                            </Typography.Paragraph>
+                            </Typography.Link>
                             {repo.description ? (
                                 <Typography.Paragraph className="repo-description">
                                     {repo.description}
@@ -183,13 +188,19 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
                         </div>
                         <div className="right">
                             <Typography.Paragraph>
-                                <Tag>Stars: {repo.stargazers_count}</Tag>
+                                <Tag title={`Stars: ${repo.stargazers_count}`}>
+                                    Stars: {repo.stargazers_count}
+                                </Tag>
                             </Typography.Paragraph>
                             <Typography.Paragraph>
-                                <Tag>Watchers: {repo.watchers_count}</Tag>
+                                <Tag title={`Watchers: ${repo.watchers_count}`}>
+                                    Watchers: {repo.watchers_count}
+                                </Tag>
                             </Typography.Paragraph>
                             <Typography.Paragraph>
-                                <Tag>Forks: {repo.forks_count}</Tag>
+                                <Tag title={`Forks: ${repo.forks_count}`}>
+                                    Forks: {repo.forks_count}
+                                </Tag>
                             </Typography.Paragraph>
                         </div>
                     </Card>
@@ -284,6 +295,7 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
                             type="link"
                             className="edit-profile"
                             onClick={editProfileHandler}
+                            title="Edit profile"
                         >
                             Edit profile
                         </Button>
@@ -331,12 +343,32 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
                 {renderSkills()}
             </Card>
             {!isRecruiter && !applicant ? (
-                <Card className="applied-jobs profile-card" bordered={false}>
+                <Card
+                    title={
+                        <Typography.Paragraph
+                            strong
+                            className="applied-jobs-title"
+                        >
+                            Applied Jobs
+                        </Typography.Paragraph>
+                    }
+                    className="applied-jobs profile-card"
+                >
                     {renderJobs()}
                 </Card>
             ) : null}
             {!isRecruiter ? (
-                <Card className="github-repos profile-card" bordered={false}>
+                <Card
+                    title={
+                        <Typography.Paragraph
+                            strong
+                            className="github-repos-title"
+                        >
+                            GitHub Repos
+                        </Typography.Paragraph>
+                    }
+                    className="github-repos profile-card"
+                >
                     {renderRepos()}
                 </Card>
             ) : null}

@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Input, Button, Typography, Form, notification } from 'antd';
+import { Input, Button, Typography, Form, notification, Card } from 'antd';
 import { Link, Navigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { getUser } from '../../fake-apis/user-apis';
@@ -51,7 +51,7 @@ const Login: React.FC<LoginProps> = () => {
 
     return (
         <div className="login-wrapper">
-            <section className="login-content">
+            <Card className="login-content" bordered={false}>
                 <Typography.Title className="title">Login</Typography.Title>
                 <Form
                     name="login"
@@ -90,6 +90,7 @@ const Login: React.FC<LoginProps> = () => {
                             loading={isButtonLoading}
                             size="large"
                             htmlType="submit"
+                            title="Login"
                         >
                             Login
                         </Button>
@@ -97,9 +98,11 @@ const Login: React.FC<LoginProps> = () => {
                 </Form>
                 <Typography.Paragraph>
                     Don't have an account?{' '}
-                    <Link to={ROUTES.CANDIDATE_SIGN_UP}>Sign-up</Link>
+                    <Link title="Sign-up" to={ROUTES.CANDIDATE_SIGN_UP}>
+                        Sign-up
+                    </Link>
                 </Typography.Paragraph>
-            </section>
+            </Card>
         </div>
     );
 };
