@@ -42,8 +42,6 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.6rem;
     line-height: 1.6;
-    background-color: #fff;
-    color: #333;
 }
 
 #root {
@@ -51,9 +49,4 @@ body {
     max-width: $max-page-width;
     margin: 0 auto;
     padding: 0 2rem;
-}
-
-// Todo: added wherever needed
-.ant-card {
-    box-shadow: $card-shadow !important;
 }

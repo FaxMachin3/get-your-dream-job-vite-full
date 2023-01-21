@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Input, Form, Typography, Button, notification } from 'antd';
+import { Input, Form, Typography, Button, notification, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { ROUTES, USER_TYPE } from '../../constants';
 import { UserContext } from '../../contexts/UserContext';
@@ -94,7 +94,7 @@ const SignUp: React.FC<SignUpProps> = () => {
 
     return (
         <div className="sign-up-wrapper">
-            <section className="sign-up-content">
+            <Card className="sign-up-content" bordered={false}>
                 <Typography.Title className="title">Sign Up</Typography.Title>
                 <Form
                     name="sign-up"
@@ -184,6 +184,7 @@ const SignUp: React.FC<SignUpProps> = () => {
                             htmlType="submit"
                             size="large"
                             loading={isButtonLoading}
+                            title="Sign up"
                         >
                             Sign up
                         </Button>
@@ -192,10 +193,17 @@ const SignUp: React.FC<SignUpProps> = () => {
                 <div className="sign-up-footer">
                     <Typography.Paragraph>
                         Already have an account?{' '}
-                        <Link to={ROUTES.LOGIN}>Login</Link>
+                        <Link title="Login" to={ROUTES.LOGIN}>
+                            Login
+                        </Link>
                     </Typography.Paragraph>
                     <Typography.Paragraph>
                         <Link
+                            title={
+                                isRecruiter
+                                    ? 'Candidate Sign-up'
+                                    : 'Recruiter Sign-up'
+                            }
                             to={
                                 isRecruiter
                                     ? ROUTES.CANDIDATE_SIGN_UP
@@ -208,7 +216,7 @@ const SignUp: React.FC<SignUpProps> = () => {
                         </Link>
                     </Typography.Paragraph>
                 </div>
-            </section>
+            </Card>
         </div>
     );
 };

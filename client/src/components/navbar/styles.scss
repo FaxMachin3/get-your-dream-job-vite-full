@@ -8,12 +8,7 @@
     align-items: center;
 
     .logo a {
-        color: $highlight-color;
         font-weight: bold;
-    }
-
-    .links a {
-        color: inherit;
     }
 
     .links > span:not(:last-child) {

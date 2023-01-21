@@ -100,6 +100,7 @@ const Filter: React.FC<FilterProps> = ({ getJobsForUser }) => {
                         type="primary"
                         size="large"
                         onClick={() => setOpenCreateJobModal(true)}
+                        title="Create new job posting"
                     >
                         Create new job posting
                     </Button>
@@ -134,6 +135,7 @@ const Filter: React.FC<FilterProps> = ({ getJobsForUser }) => {
                 <label>
                     <Typography.Paragraph>Minimum Salary</Typography.Paragraph>
                     <Input
+                        title="Enter minimum salary"
                         placeholder="e.g. 1500000"
                         value={filter.minSalary}
                         name="minSalary"

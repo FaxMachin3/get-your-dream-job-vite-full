@@ -233,7 +233,9 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                                             ellipsis
                                         >
                                             {tags.map((tag) => (
-                                                <Tag key={tag}>{tag}</Tag>
+                                                <Tag title={tag} key={tag}>
+                                                    {tag}
+                                                </Tag>
                                             ))}
                                         </Typography.Paragraph>
                                     </div>
@@ -245,6 +247,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                                             size="large"
                                             data-event={EVENTS.APPLY}
                                             data-details={jobId}
+                                            title="Apply"
                                         >
                                             <span
                                                 data-event={EVENTS.APPLY}
@@ -260,6 +263,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                                             size="large"
                                             data-event={EVENTS.NOT_INTERESTED}
                                             data-details={jobId}
+                                            title="Not interested"
                                         >
                                             <span
                                                 data-event={

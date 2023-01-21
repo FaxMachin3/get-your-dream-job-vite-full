@@ -16,7 +16,6 @@
 
     .profile-details-top {
         position: relative;
-        background-color: $light-color;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -54,27 +53,22 @@
     }
 
     .applied-jobs {
-        background-color: $light-color;
-
         &-title {
+            margin: auto 0;
             width: fit-content;
             font-size: 2rem;
-            border-bottom: 1px solid $highlight-color;
         }
     }
 
     .github-repos {
-        background-color: $light-color;
-
         &-title {
+            margin: auto 0;
             width: fit-content;
             font-size: 2rem;
-            border-bottom: 1px solid $highlight-color;
         }
 
         .git-card {
             margin-bottom: 2rem;
-            // border-radius: $button-radius;
 
             > div {
                 display: flex;
@@ -91,14 +85,9 @@
             :last-child {
                 margin: 0;
             }
-
-            .link {
-                color: $highlight-color;
-            }
         }
 
         .repo-description {
-            color: $light-color-2;
             font-size: 1rem;
         }
 
@@ -118,7 +107,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: $light-color-2;
         }
     }
 }
