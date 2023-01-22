@@ -1,16 +1,23 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ConfigProvider, theme } from 'antd';
 import { ThemeConfig } from 'antd/es/config-provider/context';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useThemeStore } from '../stores/useThemeStore';
+import { useAppStore } from '../stores';
 import { THEME } from '../types/common-types';
 import LandingPageContainer from './landing-page/landing-page-container';
 import Navbar from './navbar';
 
-// Todo: add dark theme support
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: { staleTime: 1800000, refetchOnWindowFocus: false },
+    },
+});
 
+// Todo: add dark theme support
 function App() {
-    const isDarkTheme = useThemeStore((state) => state.isDarkTheme);
+    const isDarkTheme = useAppStore((state) => state.isDarkTheme);
 
     const antConfig: ThemeConfig = useMemo(
         () => ({
@@ -41,11 +48,14 @@ function App() {
     );
 
     return (
-        <ConfigProvider theme={antConfig}>
-            <Navbar />
-            <LandingPageContainer />
-            <Outlet />
-        </ConfigProvider>
+        <QueryClientProvider client={queryClient}>
+            <ConfigProvider theme={antConfig}>
+                <Navbar />
+                <LandingPageContainer />
+                <Outlet />
+            </ConfigProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
     );
 }
 

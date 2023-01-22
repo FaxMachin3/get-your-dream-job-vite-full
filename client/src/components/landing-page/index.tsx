@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
 import { Button, Typography, Image } from 'antd';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
-import { UserContext } from '../../contexts/UserContext';
 import backdrop from '../../assets/job-offer.svg';
+import { useAppStore } from '../../stores';
 
 import './styles.scss';
 
 interface LandingPageProps {}
 
 const LandingPage: React.FC<LandingPageProps> = () => {
-    const { currentUser } = useContext(UserContext);
+    const userToken = useAppStore((state) => state.userToken);
     const navigate = useNavigate();
 
-    if (currentUser) {
+    if (userToken) {
         return <Navigate to={ROUTES.JOB_LISTING} />;
     }
 

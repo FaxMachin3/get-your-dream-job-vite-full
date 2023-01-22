@@ -1,75 +1,48 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { notification } from 'antd';
-import { FilterType, ROUTES, _TOTAL_JOBS, _PAGE_SIZE } from '../../constants';
-import { UserContext } from '../../contexts/UserContext';
-import { getJobs, Job } from '../../fake-apis/job-listing-apis';
+import { ROUTES, _TOTAL_JOBS, _PAGE_SIZE, STORE } from '../../constants';
 import Sidebar from '../sidebar';
 import { JobsContainer } from './jobs-listing';
+import { useAppStore } from '../../stores';
+import { useQuery } from '@tanstack/react-query';
+import { getJobs } from '../../apis/job';
+import { getUserData } from '../../apis/auth';
 
 import './styles.scss';
 
 interface JobListingProps {}
 
 const JobListing: React.FC<JobListingProps> = () => {
-    const { currentUser } = useContext(UserContext);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [jobs, setJobs] = useState<Array<Job>>([]);
-    const [initialFetching, setInitialFetching] = useState<boolean>(true);
-    const [offset, setOffset] = useState<number>(1);
-    const [totalJobs, setTotalJobs] = useState<number>(_TOTAL_JOBS);
+    const [offset, setOffset] = useState<number>(0);
+    const { userToken, setCurrentUser } = useAppStore((state) => ({
+        userToken: state.userToken,
+        setCurrentUser: state.setCurrentUser,
+    }));
 
-    const getJobsForUser = useCallback(
-        (
-            jobFilter: FilterType = {
-                tags: [],
-                minSalary: '',
-            }
-        ) => {
-            setIsLoading(true);
-            currentUser &&
-                getJobs(currentUser.email, jobFilter, {
-                    pageSize: _PAGE_SIZE,
-                    offset: offset - 1,
-                })
-                    .then((data) => {
-                        setTotalJobs(data.totalJobs);
-                        delete data.totalJobs;
-                        setJobs(data.jobs);
-                        setIsLoading(false);
-                        setInitialFetching(false);
-                    })
-                    .catch((errorMessage) => {
-                        setIsLoading(false);
-                        setJobs([]);
-                        notification['error']({
-                            message: '',
-                            description: errorMessage,
-                            placement: 'bottomRight',
-                        });
-                    });
-        },
-        [currentUser, offset]
+    useQuery([STORE.SUB_STORE.CURRENT_USER], getUserData, {
+        enabled: !!userToken,
+        onSuccess: ({ data }) => setCurrentUser(data),
+    });
+    const { data: jobs, isLoading: isJobLoading } = useQuery(
+        [STORE.SUB_STORE.JOBS],
+        () => getJobs({ offset, pageSize: _TOTAL_JOBS }),
+        {
+            enabled: !!userToken,
+        }
     );
 
-    useEffect(() => {
-        getJobsForUser();
-    }, [currentUser, offset, getJobsForUser]);
-
-    if (!currentUser) {
+    if (!userToken) {
         return <Navigate to={ROUTES.LOGIN} />;
     }
 
     return (
         <section className="job-listing-wrapper">
-            <Sidebar getJobsForUser={getJobsForUser} />
+            <Sidebar />
             <JobsContainer
-                jobs={jobs}
-                isLoading={isLoading}
-                initialFetching={initialFetching}
+                jobs={jobs?.data?.jobs ?? []}
+                isLoading={isJobLoading}
                 offset={offset}
                 setOffset={setOffset}
-                totalJobs={totalJobs}
             />
         </section>
     );

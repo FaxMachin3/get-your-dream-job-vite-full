@@ -1,7 +1,6 @@
 import { Button, Card, Input, Modal, notification, Typography } from 'antd';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FilterType, USER_TYPE } from '../../constants';
-import { UserContext } from '../../contexts/UserContext';
 import CreateJob from '../create-job';
 import TagSelect from '../tag-select';
 import { createJob, Job } from '../../fake-apis/job-listing-apis';
@@ -9,36 +8,35 @@ import { createJob, Job } from '../../fake-apis/job-listing-apis';
 import './styles.scss';
 import { ERROR, SUCCESS } from '../../utils/fake-apis-utils';
 import { useDebounce } from '../../hooks/useDebounce';
+import { useAppStore } from '../../stores';
+import { IJob } from '../../types/common-types';
 
-interface FilterProps {
-    getJobsForUser: (jobFilter?: FilterType) => void;
-}
+interface FilterProps {}
 
-const Filter: React.FC<FilterProps> = ({ getJobsForUser }) => {
-    const memoizedGetJobsForUser = useDebounce(getJobsForUser, 150);
-    const { currentUser } = useContext(UserContext);
+const Filter: React.FC<FilterProps> = () => {
+    const currentUser = useAppStore((state) => state.currentUser);
     const [openCreateJobModal, setOpenCreateJobModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const isRecruiter = currentUser?.userDetails.type === USER_TYPE.RECRUITER;
+    const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
     const [filter, setFilter] = useState<FilterType>({
         tags: [],
         minSalary: '',
     });
-    const [jobFormData, setJobFormData] = useState<Partial<Job>>({
-        companyName: currentUser?.userDetails.companyName ?? '',
+    const [jobFormData, setJobFormData] = useState<Partial<IJob>>({
+        companyName: currentUser?.userDetails?.companyName ?? '',
         title: '',
-        contact: currentUser?.userDetails.contact ?? '',
+        contact: currentUser?.userDetails?.contact ?? '',
         description: '',
         requirement: '',
         location: '',
-        createdBy: currentUser?.id,
+        createdBy: currentUser?._id,
         salaryRange: [0, Number.MAX_SAFE_INTEGER],
         tags: [],
     });
 
-    useEffect(() => {
-        memoizedGetJobsForUser();
-    }, [filter, getJobsForUser]);
+    // useEffect(() => {
+    //     memoizedGetJobsForUser();
+    // }, [filter, getJobsForUser]);
 
     const onMinSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFilter((prevFilter) => ({
@@ -71,21 +69,21 @@ const Filter: React.FC<FilterProps> = ({ getJobsForUser }) => {
         }
 
         setIsLoading(true);
-        createJob(jobFormData)
-            .then(() => {
-                setOpenCreateJobModal(false);
-                setIsLoading(false);
-                getJobsForUser(filter);
-                notification['info']({
-                    message: '',
-                    description: SUCCESS.JOB_CREATED,
-                    placement: 'bottomRight',
-                });
-            })
-            .catch(() => {
-                setOpenCreateJobModal(false);
-                setIsLoading(false);
-            });
+        // createJob(jobFormData)
+        //     .then(() => {
+        //         setOpenCreateJobModal(false);
+        //         setIsLoading(false);
+        //         getJobsForUser(filter);
+        //         notification['info']({
+        //             message: '',
+        //             description: SUCCESS.JOB_CREATED,
+        //             placement: 'bottomRight',
+        //         });
+        //     })
+        //     .catch(() => {
+        //         setOpenCreateJobModal(false);
+        //         setIsLoading(false);
+        //     });
     };
 
     const cancelHandler = () => {

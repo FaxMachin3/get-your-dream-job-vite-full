@@ -1,25 +1,27 @@
-import { useContext, useState } from 'react';
-import { Input, Button, Typography, Form, notification, Card } from 'antd';
+import { useState } from 'react';
+import { Input, Button, Typography, Form, Card } from 'antd';
 import { Link, Navigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
-import { getUser } from '../../fake-apis/user-apis';
-import { UserContext } from '../../contexts/UserContext';
+import { useLoginUser } from '../../hooks/useUserFetch';
+import { useAppStore } from '../../stores';
 
 import './styles.scss';
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
-    const { currentUser, setCurrentUserAndLocalStorage } =
-        useContext(UserContext);
+    const { userToken, setUserToken } = useAppStore((state) => ({
+        setUserToken: state.setUserToken,
+        userToken: state.userToken,
+    }));
+    const { mutate, isLoading } = useLoginUser(setUserToken);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-    const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
 
-    if (currentUser) {
-        return <Navigate to={ROUTES.JOB_LISTING} />;
+    if (userToken) {
+        return <Navigate to={ROUTES.JOB_LISTING} />; // Todo: check why redirect doesn't work
     }
 
     const { email, password } = formData;
@@ -31,22 +33,8 @@ const Login: React.FC<LoginProps> = () => {
         }));
     };
 
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        setIsButtonLoading(true);
-
-        getUser(email, password)
-            .then((currentUser) => {
-                setCurrentUserAndLocalStorage?.(currentUser);
-                // navigate(ROUTES.JOB_LISTING);
-            })
-            .catch((errorMessage) => {
-                setIsButtonLoading(false);
-                notification['error']({
-                    message: '',
-                    description: errorMessage,
-                    placement: 'bottomRight',
-                });
-            });
+    const onSubmit = async (_event: React.FormEvent<HTMLFormElement>) => {
+        mutate(formData);
     };
 
     return (
@@ -87,7 +75,7 @@ const Login: React.FC<LoginProps> = () => {
                     <Form.Item>
                         <Button
                             type="primary"
-                            loading={isButtonLoading}
+                            loading={isLoading}
                             size="large"
                             htmlType="submit"
                             title="Login"

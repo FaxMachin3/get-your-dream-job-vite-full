@@ -28,12 +28,16 @@ router.get(
         let { pageSize, offset } = req.query as any;
 
         try {
-            pageSize = isNaN(pageSize) ? 10 : parseInt(pageSize, 10);
+            pageSize = isNaN(pageSize) ? 150 : parseInt(pageSize, 10);
             offset = isNaN(offset) ? 0 : parseInt(offset, 10);
 
             const start = pageSize * offset;
 
-            const allJobs = await Job.find().skip(start).limit(pageSize);
+            const allJobs = await Job.find({
+                applicants: { $nin: (req as any).user.id },
+            })
+                .skip(start)
+                .limit(pageSize);
 
             res.json({ jobs: allJobs, hasNext: true });
         } catch (error: any) {
@@ -47,7 +51,51 @@ router.get(
 );
 
 /**
- * @route  POST api/job
+ * @route  GET api/job/applied
+ * @desc   applied jobs with filter
+ * @access Private
+ */
+router.get(
+    '/applied',
+    [
+        auth,
+        query('pageSize', 'Page size should be > 0').isInt({ gt: 0 }),
+        query('offset', 'Offset should be numeric').isInt(),
+    ],
+    async (req: express.Request, res: express.Response) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        let { pageSize, offset } = req.query as any;
+
+        try {
+            pageSize = isNaN(pageSize) ? 5 : parseInt(pageSize, 10);
+            offset = isNaN(offset) ? 0 : parseInt(offset, 10);
+
+            const start = pageSize * offset;
+
+            const allJobs = await Job.find({
+                applicants: { $in: (req as any).user.id },
+            })
+                .skip(start)
+                .limit(pageSize);
+
+            res.json({ jobs: allJobs, hasNext: true });
+        } catch (error: any) {
+            console.error(error.message);
+            res.status(500).send({
+                message: 'Server error',
+                error: error.message,
+            });
+        }
+    }
+);
+
+/**
+ * @route  POST api/job/add
  * @desc   post a new job
  * @access Private
  */

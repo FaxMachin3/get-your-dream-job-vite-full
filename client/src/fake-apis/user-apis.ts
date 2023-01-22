@@ -86,19 +86,4 @@ export const deleteUser = async (userId: string): Promise<any> => {
     return fakePromise();
 };
 
-export const getUserGitHubRepos = async (
-    username: string = ''
-): Promise<any> => {
-    try {
-        const res = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc`
-        );
-        const data = await res.json();
-        if (data.length === 0 || !!data.message) {
-            throw new Error(ERROR.INVALID_GITHUB);
-        }
-        return fakePromise(data);
-    } catch (error: any) {
-        return fakePromise(null, error.message);
-    }
-};
+
