@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import connectDB from './config/db.js';
 import path from 'path';
 
@@ -11,6 +12,9 @@ const PORT = process.env.PORT ?? 8080;
 
 // connect database
 connectDB();
+
+// cors
+app.use(cors());
 
 // init middleware
 app.use(express.json());

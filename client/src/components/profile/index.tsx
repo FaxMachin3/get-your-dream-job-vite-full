@@ -9,107 +9,91 @@ import {
     Tag,
     Typography,
 } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { ROUTES, USER_TYPE } from '../../constants';
-import { UserContext } from '../../contexts/UserContext';
+import { ROUTES, STORE, USER_TYPE } from '../../constants';
 import { UserOutlined } from '@ant-design/icons';
-import {
-    getUserGitHubRepos,
-    updateUser,
-    User,
-} from '../../fake-apis/user-apis';
+import EditJob from '../edit-profile';
+import { ERROR } from '../../utils/fake-apis-utils';
+import { validateEmail } from '../../utils/common';
+import Jobs from '../jobs';
+import { useAppStore } from '../../stores';
+import { IUser } from '../../types/common-types';
 
 import './styles.scss';
-import EditJob from '../edit-profile';
-import { ERROR, SUCCESS } from '../../utils/fake-apis-utils';
-import { validateEmail } from '../../utils/common';
-import { getAppliedJobs, Job } from '../../fake-apis/job-listing-apis';
-import Jobs from '../jobs';
+import { useQuery } from '@tanstack/react-query';
+import { getUserGitHubRepos } from '../../apis/user';
+import { getAppliedJobs } from '../../apis/job';
 
 interface ProfileProps {
-    applicant?: User;
+    applicant?: IUser;
 }
 
 const Profile: React.FC<ProfileProps> = ({ applicant }) => {
-    const { currentUser, setCurrentUserAndLocalStorage } =
-        useContext(UserContext);
+    const currentUser = useAppStore((state) => state.currentUser);
+    const {
+        data: appliedJobs,
+        isLoading: isAppliedJobLoading,
+        isError: isAppliedJobError,
+    } = useQuery(
+        [STORE.SUB_STORE.APPLIED_JOBS],
+        () => getAppliedJobs({ offset: 0, pageSize: 5 }),
+        {
+            enabled: !!currentUser,
+        }
+    );
     const currentUserProfile = applicant ?? currentUser;
     const isRecruiter =
-        currentUserProfile?.userDetails.type === USER_TYPE.RECRUITER;
+        currentUserProfile?.userDetails?.type === USER_TYPE.RECRUITER;
+    const {
+        data: gitHubRepos,
+        isLoading: isFetchingRepos,
+        isError: isRepoFetchingError,
+    } = useQuery(
+        [STORE.SUB_STORE.USER_REPOS],
+        () => getUserGitHubRepos(currentUser?.userDetails?.githubUsername),
+        {
+            enabled: !!currentUser && !isRecruiter,
+            retry: 0,
+        }
+    );
     const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
-    const [gitHubRepos, setGitHubRepos] = useState([]);
-    const [appliedJobs, setAppliedJobs] = useState<Job[]>([]);
-    const [initialFetching, setInitialFetching] = useState(true);
-    const [isLoading, setIsLoading] = useState(true);
-    const [initialJobsFetching, setInitialJobsFetching] = useState(true);
-    const [isJobsLoading, setIsJobsLoading] = useState(true);
     const [isOkLoading, setIsOkLoading] = useState(false);
     const [editProfileFormData, setEditProfileFormData] = useState<
-        Partial<User & { confirmPassword: string }>
+        Partial<IUser & { confirmPassword: string }>
     >({
         name: currentUserProfile?.name,
         email: currentUserProfile?.email,
         password: '',
         confirmPassword: '',
         userDetails: {
-            type: currentUserProfile?.userDetails.type as USER_TYPE,
-            contact: currentUserProfile?.userDetails.contact ?? '',
-            location: currentUserProfile?.userDetails.location ?? '',
+            type: currentUserProfile?.userDetails?.type as USER_TYPE,
+            contact: currentUserProfile?.userDetails?.contact ?? '',
+            location: currentUserProfile?.userDetails?.location ?? '',
             githubUsername:
-                currentUserProfile?.userDetails.githubUsername ?? '',
-            skills: currentUserProfile?.userDetails.skills ?? [],
-            appliedTo: currentUserProfile?.userDetails.appliedTo ?? [],
-            companyName: currentUserProfile?.userDetails.companyName ?? '',
+                currentUserProfile?.userDetails?.githubUsername ?? '',
+            skills: currentUserProfile?.userDetails?.skills ?? [],
+            appliedTo: currentUserProfile?.userDetails?.appliedTo ?? [],
+            companyName: currentUserProfile?.userDetails?.companyName ?? '',
         },
     });
-
-    useEffect(() => {
-        if (!isRecruiter) {
-            getUserGitHubRepos(
-                currentUserProfile?.userDetails?.githubUsername as any
-            )
-                .then((data) => {
-                    setGitHubRepos(data);
-                    setInitialFetching(false);
-                    setIsLoading(false);
-                })
-                .catch(() => {
-                    setGitHubRepos([]);
-                    setInitialFetching(false);
-                    setIsLoading(false);
-                });
-
-            getAppliedJobs(
-                currentUserProfile?.userDetails?.appliedTo as string[]
-            )
-                .then((data) => {
-                    setAppliedJobs(data);
-                    setInitialJobsFetching(false);
-                    setIsJobsLoading(false);
-                })
-                .catch(() => {
-                    setAppliedJobs([]);
-                    setInitialJobsFetching(false);
-                    setIsJobsLoading(false);
-                });
-        }
-    }, [
-        currentUserProfile?.userDetails?.githubUsername,
-        currentUserProfile?.userDetails?.appliedTo,
-        isRecruiter,
-    ]);
 
     if (!currentUserProfile) {
         return <Navigate to={ROUTES.LOGIN} />;
     }
 
+    console.log(appliedJobs);
+
     const renderJobs = () => {
-        if (isJobsLoading) {
+        if (isAppliedJobLoading) {
             return <Skeleton active />;
         }
 
-        if (!initialJobsFetching && appliedJobs.length === 0) {
+        if (
+            isAppliedJobError ||
+            !appliedJobs ||
+            appliedJobs.data?.jobs.length === 0
+        ) {
             return (
                 <div key="no-repo" className="no-repo">
                     <Empty description="No jobs applied!" />
@@ -119,26 +103,19 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
 
         return (
             <>
-                {/* <Typography.Paragraph
-                    underline
-                    strong
-                    className="applied-jobs-title"
-                >
-                    Applied Jobs
-                </Typography.Paragraph> */}
-                <Jobs data={appliedJobs} />
+                <Jobs data={appliedJobs.data.jobs} />
             </>
         );
     };
 
     const renderSkills = () => {
-        if (currentUserProfile.userDetails.skills?.length === 0) {
+        if (currentUserProfile.userDetails?.skills?.length === 0) {
             return null;
         }
 
         return (
             <Typography.Paragraph>
-                {currentUserProfile.userDetails.skills?.map((skill) => (
+                {currentUserProfile.userDetails?.skills?.map((skill) => (
                     <Tag title={skill} key={skill}>
                         {skill}
                     </Tag>
@@ -148,11 +125,15 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
     };
 
     const renderRepos = () => {
-        if (isLoading) {
+        if (isFetchingRepos) {
             return <Skeleton active />;
         }
 
-        if (!initialFetching && gitHubRepos.length === 0) {
+        if (
+            isRepoFetchingError ||
+            !gitHubRepos ||
+            gitHubRepos.data?.length === 0
+        ) {
             return (
                 <div key="no-repo" className="no-repo">
                     <Empty description="No GitHub profile/ repo found." />
@@ -162,7 +143,7 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
 
         return (
             <div>
-                {gitHubRepos.map((repo: any) => (
+                {gitHubRepos.data.map((repo: any) => (
                     <Card
                         type="inner"
                         key={repo.id}
@@ -252,24 +233,24 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
         delete payload.confirmPassword;
         if (!payload.password) delete payload.password;
 
-        updateUser(currentUserProfile.email, payload)
-            .then(() => {
-                setOpenEditProfileModal(false);
-                setIsOkLoading(false);
-                setCurrentUserAndLocalStorage?.({
-                    ...payload,
-                    id: currentUserProfile.id,
-                } as User);
-                notification['info']({
-                    message: '',
-                    description: SUCCESS.PROFILE_SAVED,
-                    placement: 'bottomRight',
-                });
-            })
-            .catch(() => {
-                setOpenEditProfileModal(false);
-                setIsOkLoading(false);
-            });
+        // updateUser(currentUserProfile.email, payload)
+        //     .then(() => {
+        //         setOpenEditProfileModal(false);
+        //         setIsOkLoading(false);
+        //         setCurrentUserAndLocalStorage?.({
+        //             ...payload,
+        //             id: currentUserProfile.id,
+        //         } as User);
+        //         notification['info']({
+        //             message: '',
+        //             description: SUCCESS.PROFILE_SAVED,
+        //             placement: 'bottomRight',
+        //         });
+        //     })
+        //     .catch(() => {
+        //         setOpenEditProfileModal(false);
+        //         setIsOkLoading(false);
+        //     });
     };
 
     const cancelHandler = () => {
@@ -325,19 +306,19 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
                 <Typography.Paragraph>
                     {currentUserProfile.email}
                 </Typography.Paragraph>
-                {currentUserProfile.userDetails.contact ? (
+                {currentUserProfile.userDetails?.contact ? (
                     <Typography.Paragraph>
-                        {currentUserProfile.userDetails.contact}
+                        {currentUserProfile.userDetails?.contact}
                     </Typography.Paragraph>
                 ) : null}
-                {currentUserProfile.userDetails.location ? (
+                {currentUserProfile.userDetails?.location ? (
                     <Typography.Paragraph>
-                        {currentUserProfile.userDetails.location}
+                        {currentUserProfile.userDetails?.location}
                     </Typography.Paragraph>
                 ) : null}
-                {currentUserProfile.userDetails.companyName ? (
+                {currentUserProfile.userDetails?.companyName ? (
                     <Typography.Paragraph>
-                        {currentUserProfile.userDetails.companyName}
+                        {currentUserProfile.userDetails?.companyName}
                     </Typography.Paragraph>
                 ) : null}
                 {renderSkills()}

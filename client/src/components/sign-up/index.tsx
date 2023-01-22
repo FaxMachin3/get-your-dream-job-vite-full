@@ -1,21 +1,20 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Input, Form, Typography, Button, notification, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { ROUTES, USER_TYPE } from '../../constants';
-import { UserContext } from '../../contexts/UserContext';
+import { createUser, User } from '../../fake-apis/user-apis';
 
 import './styles.scss';
-import { createUser, User } from '../../fake-apis/user-apis';
+import { useAppStore } from '../../stores';
 
 interface SignUpProps {}
 
 const SignUp: React.FC<SignUpProps> = () => {
+    const userToken = useAppStore((state) => state.userToken);
     const location = useLocation();
     const isRecruiter: boolean = location.pathname === ROUTES.RECRUITER_SIGN_UP;
     const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
-    const { currentUser, setCurrentUserAndLocalStorage } =
-        useContext(UserContext);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -33,7 +32,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         companyName,
     } = formData;
 
-    if (currentUser) {
+    if (userToken) {
         return <Navigate to={ROUTES.JOB_LISTING} />;
     }
 
@@ -78,8 +77,7 @@ const SignUp: React.FC<SignUpProps> = () => {
 
             createUser(payload)
                 .then((currentUser) => {
-                    setCurrentUserAndLocalStorage?.(currentUser);
-                    // navigate(ROUTES.JOB_LISTING);
+                    // setCurrentUserAndLocalStorage?.(currentUser);
                 })
                 .catch((errorMessage) => {
                     setIsButtonLoading(false);

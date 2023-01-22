@@ -1,8 +1,8 @@
 import { Form, Input, Typography } from 'antd';
 import { useContext } from 'react';
 import { USER_TYPE } from '../../constants';
-import { UserContext } from '../../contexts/UserContext';
 import { User } from '../../fake-apis/user-apis';
+import { useAppStore } from '../../stores';
 import TagSelect from '../tag-select';
 
 import './styles.scss';
@@ -16,15 +16,16 @@ const EditJob: React.FC<EditJobProps> = ({
     editProfileFormData,
     setEditProfileFormData,
 }) => {
+    const currentUser = useAppStore((state) => state.currentUser);
+    const isRecruiter: boolean =
+        currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
+
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditProfileFormData((prevData) => ({
             ...prevData,
             [e.target.name]: e.target.value,
         }));
     };
-    const { currentUser } = useContext(UserContext);
-    const isRecruiter: boolean =
-        currentUser?.userDetails.type === USER_TYPE.RECRUITER;
 
     const onUserDetailsChangeHandler = (
         e: React.ChangeEvent<HTMLInputElement>

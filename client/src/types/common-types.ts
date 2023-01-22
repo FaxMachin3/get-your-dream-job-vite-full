@@ -3,7 +3,7 @@
  */
 
 export interface IJob {
-    id: string;
+    _id: string;
     companyName: string;
     title: string;
     contact: string;
@@ -37,6 +37,7 @@ export interface IUserDetails {
 }
 
 export interface IUser {
+    _id: string;
     name: string;
     email: string;
     password: string;
@@ -50,4 +51,20 @@ export interface IUser {
 export enum THEME {
     LIGHT = 'LIGHT',
     DARK = 'DARK',
+}
+
+/**
+ ** Store
+ */
+
+export interface ThemeSlice {
+    isDarkTheme: THEME.LIGHT | THEME.DARK;
+    toggleTheme: () => void;
+}
+
+export interface UserSlice {
+    userToken: string | null;
+    currentUser: Partial<IUser> | null;
+    setUserToken: (token: string | null) => void;
+    setCurrentUser: (user: Partial<IUser> | null) => void;
 }

@@ -2,7 +2,7 @@ import { Switch, Typography } from 'antd';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../constants';
-import { useThemeStore } from '../../stores/useThemeStore';
+import { useAppStore } from '../../stores';
 import { NavLinks } from './nav-links';
 
 import './styles.scss';
@@ -10,7 +10,7 @@ import './styles.scss';
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-    const toggleTheme = useThemeStore((state) => state.toggleTheme);
+    const toggleTheme = useAppStore((state) => state.toggleTheme);
     const location = useLocation();
     const isRoot = location.pathname === ROUTES.ROOT;
 

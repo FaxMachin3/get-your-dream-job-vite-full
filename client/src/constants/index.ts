@@ -10,6 +10,36 @@ export const ROUTES = {
     NAVBAR: '#navbar',
 };
 
+export const STORE = {
+    APP_STORE: 'APP_STORE',
+    SUB_STORE: {
+        CURRENT_USER: 'CURRENT_USER',
+        JOBS: 'JOBS',
+        APPLIED_JOBS: 'APPLIED_JOBS',
+        USER_REPOS: 'USER_REPOS',
+    },
+};
+
+export const API_ROUTES = {
+    HEALTH: '/health',
+    LOGIN: '/api/v1/auth',
+    JOBS: {
+        GET: '/api/v1/jobs',
+        GET_APPLIED: '/api/v1/jobs/applied',
+        APPLY: '/api/v1/user/apply',
+    },
+};
+
+export const API_METHOD = {
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+};
+
+export const CUSTOM_HEADER = {
+    AUTH: 'x-auth-token',
+};
+
 export enum USER_TYPE {
     CANDIDATE = 'CANDIDATE',
     RECRUITER = 'RECRUITER',

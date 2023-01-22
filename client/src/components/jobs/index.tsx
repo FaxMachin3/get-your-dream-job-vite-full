@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Avatar,
     Button,
@@ -10,19 +10,20 @@ import {
     Tag,
 } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Job, updateJob } from '../../fake-apis/job-listing-apis';
-
-import './styles.scss';
-import { ERROR, SUCCESS } from '../../utils/fake-apis-utils';
-import { getAppliedUsers, updateUser, User } from '../../fake-apis/user-apis';
-import { UserContext } from '../../contexts/UserContext';
+import { ERROR } from '../../utils/fake-apis-utils';
 import { ROUTES, USER_TYPE } from '../../constants';
 import { useLocation } from 'react-router-dom';
 import Loader from '../loader';
-import Profile from '../profile';
+import { useAppStore } from '../../stores';
+import { IJob } from '../../types/common-types';
+
+import './styles.scss';
+import { useMutation } from '@tanstack/react-query';
+import { applyJob } from '../../apis/job';
+import { useApplyJob } from '../../hooks/useApplyJob';
 
 interface JobsProps {
-    data: Array<Job>;
+    data: Array<IJob>;
 }
 
 const EVENTS = {
@@ -33,29 +34,19 @@ const EVENTS = {
 };
 
 const Jobs: React.FC<JobsProps> = ({ data }) => {
-    const { currentUser, setCurrentUserAndLocalStorage } =
-        useContext(UserContext);
+    const currentUser = useAppStore((state) => state.currentUser);
     const location = useLocation();
-    const isRecruiter = currentUser?.userDetails.type === USER_TYPE.RECRUITER;
+
+    const { mutate, isLoading: isApplying } = useApplyJob();
+
+    const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
     const isProfileRoute = location.pathname === ROUTES.PROFILE;
     const [jobApplicants, setJobApplicants] = useState<string[]>([]);
-    const [jobApplicantsData, setJobApplicantsData] = useState<User[]>([]);
     const [isApplicantsDataLoading, setIsApplicantsDataLoading] =
         useState<boolean>(true);
     const [isJobModalOpen, setIsJobModalOpen] = useState<boolean>(false);
     const [isApplicantsModalOpen, setIsApplicantsModalOpen] =
         useState<boolean>(false);
-
-    useEffect(() => {
-        if (jobApplicants.length > 0) {
-            getAppliedUsers(jobApplicants)
-                .then((data) => {
-                    setJobApplicantsData(data);
-                    setIsApplicantsDataLoading(false);
-                })
-                .catch(() => setIsApplicantsDataLoading(false));
-        }
-    }, [jobApplicants]);
 
     const openJobModal = () => {
         setIsJobModalOpen(true);
@@ -93,32 +84,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
         jobId: string
     ) => {
         e.stopPropagation();
-
-        const newPayload = {
-            ...currentUser,
-            userDetails: {
-                ...currentUser?.userDetails,
-                appliedTo: [
-                    ...(currentUser?.userDetails.appliedTo as []),
-                    jobId,
-                ],
-            },
-        };
-
-        setCurrentUserAndLocalStorage?.(newPayload as User);
-
-        if (currentUser) {
-            try {
-                await updateUser(currentUser.email, newPayload as User);
-                await updateJob(jobId, { applicants: [currentUser.id] });
-
-                notification['success']({
-                    message: '',
-                    description: SUCCESS.JOB_APPLIED,
-                    placement: 'bottomRight',
-                });
-            } catch (error) {}
-        }
+        mutate(jobId);
     };
 
     const onNotInterestedClickHandler = (
@@ -156,7 +122,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
             <main className="job-listing" onClick={onCardElementsClick}>
                 {data.map(
                     ({
-                        id: jobId,
+                        _id: jobId,
                         companyName,
                         contact,
                         location,
@@ -245,6 +211,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                                         <Button
                                             type="primary"
                                             size="large"
+                                            loading={isApplying}
                                             data-event={EVENTS.APPLY}
                                             data-details={jobId}
                                             title="Apply"
@@ -301,14 +268,14 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                     <Loader />
                 ) : (
                     <Collapse>
-                        {jobApplicantsData.map((applicant) => (
+                        {/* {jobApplicantsData.map((applicant) => (
                             <Collapse.Panel
                                 header={applicant.name}
                                 key={applicant.id}
                             >
                                 <Profile applicant={applicant} />
                             </Collapse.Panel>
-                        ))}
+                        ))} */}
                     </Collapse>
                 )}
             </Modal>

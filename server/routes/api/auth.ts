@@ -1,5 +1,6 @@
 import express from 'express';
 import { check, validationResult } from 'express-validator';
+// @ts-ignore: no-default-export
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -52,7 +53,7 @@ router.post(
             // check if email already exists
             if (!user) {
                 return res.status(400).json({
-                    error: 'Invalid credentials',
+                    error: 'Invalid credentials.',
                 });
             }
 
@@ -60,7 +61,7 @@ router.post(
 
             if (!isMatch) {
                 return res.status(400).json({
-                    error: 'Invalid credentials',
+                    error: 'Invalid credentials.',
                 });
             }
 
@@ -82,7 +83,7 @@ router.post(
                     if (error) {
                         throw error;
                     }
-                    res.json({ token });
+                    res.json(token);
                 }
             );
         } catch (error: any) {

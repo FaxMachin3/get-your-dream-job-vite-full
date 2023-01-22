@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+// @ts-ignore: no-default-export
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { body, param, query, validationResult } from 'express-validator';
@@ -178,7 +179,7 @@ router.put(
 
             await job.save();
 
-            res.json(job.applicants);
+            res.status(200).json({ message: 'Applied.' });
         } catch (error: any) {
             console.error(error.message);
             res.status(500).json({
@@ -191,7 +192,7 @@ router.put(
 
 /**
  * @route  Get api/user/all
- * @desc   Edit user profile
+ * @desc   Get all user profile
  * @access Private
  */
 router.post(

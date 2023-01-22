@@ -1,15 +1,13 @@
 import { Pagination, Skeleton, Typography } from 'antd';
 import Jobs from '../jobs';
 import React, { useRef } from 'react';
-import { Job } from '../../fake-apis/job-listing-apis';
-import { ROUTES, _PAGE_SIZE } from '../../constants';
+import { ROUTES, _PAGE_SIZE, _TOTAL_JOBS } from '../../constants';
 import { Link } from 'react-router-dom';
+import { IJob } from '../../types/common-types';
 
 interface JobsContainerInterface {
-    jobs: Job[];
+    jobs: IJob[];
     isLoading: boolean;
-    initialFetching: boolean;
-    totalJobs: number;
     offset: number;
     setOffset: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -17,8 +15,6 @@ interface JobsContainerInterface {
 export const JobsContainer: React.FC<JobsContainerInterface> = ({
     jobs,
     isLoading,
-    initialFetching,
-    totalJobs,
     offset,
     setOffset,
 }) => {
@@ -26,7 +22,7 @@ export const JobsContainer: React.FC<JobsContainerInterface> = ({
 
     if (isLoading) return <Skeleton active />;
 
-    if (!initialFetching && jobs.length === 0) {
+    if (jobs.length === 0) {
         return (
             <Typography.Paragraph className="no-jobs">
                 Sorry! No jobs available currently.{' '}
@@ -50,10 +46,10 @@ export const JobsContainer: React.FC<JobsContainerInterface> = ({
     return (
         <div className="jobs-wrapper">
             <Jobs data={jobs} />
-            {totalJobs / _PAGE_SIZE > 1 ? (
+            {_TOTAL_JOBS / _PAGE_SIZE > 1 ? (
                 <Pagination
                     className="pagination-container"
-                    total={totalJobs}
+                    total={_TOTAL_JOBS}
                     defaultCurrent={offset}
                     showSizeChanger={false}
                     showQuickJumper
