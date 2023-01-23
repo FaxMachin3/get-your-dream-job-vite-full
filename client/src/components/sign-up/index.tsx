@@ -11,7 +11,7 @@ import { useAppStore } from '../../stores';
 interface SignUpProps {}
 
 const SignUp: React.FC<SignUpProps> = () => {
-    const userToken = useAppStore((state) => state.userToken);
+    const currentUser = useAppStore((state) => state.currentUser);
     const location = useLocation();
     const isRecruiter: boolean = location.pathname === ROUTES.RECRUITER_SIGN_UP;
     const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         companyName,
     } = formData;
 
-    if (userToken) {
+    if (currentUser) {
         return <Navigate to={ROUTES.JOB_LISTING} />;
     }
 

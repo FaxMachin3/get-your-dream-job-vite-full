@@ -33,7 +33,6 @@ export const getLocalStore = () => {
     } else {
         localStorage.setItem(LOCAL_STORAGE._USERS, JSON.stringify(usersData));
     }
-    // console.log('configured _users store', usersData);
 
     let jobsData: Job[] = fakeJobsData;
 
@@ -45,7 +44,6 @@ export const getLocalStore = () => {
     } else {
         localStorage.setItem(LOCAL_STORAGE._JOBS, JSON.stringify(jobsData));
     }
-    // console.log('configured _jobs store', jobsData);
 
     return { usersData, jobsData };
 };

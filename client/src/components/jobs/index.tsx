@@ -15,12 +15,13 @@ import { ROUTES, USER_TYPE } from '../../constants';
 import { useLocation } from 'react-router-dom';
 import Loader from '../loader';
 import { useAppStore } from '../../stores';
-import { IJob } from '../../types/common-types';
+import { IJob, IUser } from '../../types/common-types';
+import { useMutation } from '@tanstack/react-query';
+import { useApplyJob } from '../../hooks/useApplyJob';
+import { getAllApplicantsProfile } from '../../apis/user';
+import Profile from '../profile';
 
 import './styles.scss';
-import { useMutation } from '@tanstack/react-query';
-import { applyJob } from '../../apis/job';
-import { useApplyJob } from '../../hooks/useApplyJob';
 
 interface JobsProps {
     data: Array<IJob>;
@@ -38,12 +39,15 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     const location = useLocation();
 
     const { mutate, isLoading: isApplying } = useApplyJob();
+    const {
+        data: applicantsData,
+        isLoading: isApplicantsDataLoading,
+        isError: isErrorDataLoading,
+        mutate: getApplicantsData,
+    } = useMutation(getAllApplicantsProfile);
 
     const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
     const isProfileRoute = location.pathname === ROUTES.PROFILE;
-    const [jobApplicants, setJobApplicants] = useState<string[]>([]);
-    const [isApplicantsDataLoading, setIsApplicantsDataLoading] =
-        useState<boolean>(true);
     const [isJobModalOpen, setIsJobModalOpen] = useState<boolean>(false);
     const [isApplicantsModalOpen, setIsApplicantsModalOpen] =
         useState<boolean>(false);
@@ -65,7 +69,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
         applicants: string[] = []
     ) => {
         e.stopPropagation();
-        setJobApplicants(applicants);
+        getApplicantsData(applicants);
         setIsApplicantsModalOpen(true);
     };
 
@@ -74,8 +78,6 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     };
 
     const handleApplicantsCancel = () => {
-        setIsApplicantsDataLoading(true);
-        setJobApplicants([]);
         setIsApplicantsModalOpen(false);
     };
 
@@ -268,14 +270,18 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                     <Loader />
                 ) : (
                     <Collapse>
-                        {/* {jobApplicantsData.map((applicant) => (
-                            <Collapse.Panel
-                                header={applicant.name}
-                                key={applicant.id}
-                            >
-                                <Profile applicant={applicant} />
-                            </Collapse.Panel>
-                        ))} */}
+                        {!isErrorDataLoading &&
+                            applicantsData?.data.map((applicant: IUser) => (
+                                <Collapse.Panel
+                                    header={applicant.name}
+                                    key={applicant._id}
+                                >
+                                    <Profile
+                                        applicant={applicant}
+                                        isProfileViewer
+                                    />
+                                </Collapse.Panel>
+                            ))}
                     </Collapse>
                 )}
             </Modal>

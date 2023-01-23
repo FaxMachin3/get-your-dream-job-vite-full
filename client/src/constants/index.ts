@@ -17,16 +17,20 @@ export const STORE = {
         JOBS: 'JOBS',
         APPLIED_JOBS: 'APPLIED_JOBS',
         USER_REPOS: 'USER_REPOS',
+        APPLICANTS: 'APPLICANTS',
     },
 };
 
 export const API_ROUTES = {
     HEALTH: '/health',
     LOGIN: '/api/v1/auth',
-    JOBS: {
+    JOB: {
         GET: '/api/v1/jobs',
         GET_APPLIED: '/api/v1/jobs/applied',
+    },
+    USER: {
         APPLY: '/api/v1/user/apply',
+        GET_APPLICANTS_DATA: '/api/v1/user/all',
     },
 };
 

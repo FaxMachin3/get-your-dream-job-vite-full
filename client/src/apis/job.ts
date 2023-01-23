@@ -9,7 +9,7 @@ export const getJobs = async ({
     pageSize: number;
 }) => {
     return axiosRequest({
-        url: API_ROUTES.JOBS.GET,
+        url: API_ROUTES.JOB.GET,
         params: {
             offset,
             pageSize,
@@ -25,7 +25,7 @@ export const getAppliedJobs = async ({
     pageSize: number;
 }) => {
     return axiosRequest({
-        url: API_ROUTES.JOBS.GET_APPLIED,
+        url: API_ROUTES.JOB.GET_APPLIED,
         params: {
             offset,
             pageSize,
@@ -35,7 +35,7 @@ export const getAppliedJobs = async ({
 
 export const applyJob = async (jobId: string) => {
     return axiosRequest({
-        url: `${API_ROUTES.JOBS.APPLY}/${jobId}`,
+        url: `${API_ROUTES.USER.APPLY}/${jobId}`,
         method: API_METHOD.PUT,
     });
 };
