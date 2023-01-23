@@ -1,9 +1,9 @@
-import { FilterType, USER_TYPE } from "../constants";
+import { FilterType, USER_TYPE } from '../constants';
 import {
   getLocalStore,
   fakePromise,
-  updateJobsLocalStore,
-} from "../utils/fake-apis-utils";
+  updateJobsLocalStore
+} from '../utils/fake-apis-utils';
 
 export interface Job {
   id: string;
@@ -47,11 +47,11 @@ export const getAppliedJobs = (appliedTo: string[]): Promise<Job[]> => {
 };
 
 export const getJobs = async (
-  userEmail: string = "",
+  userEmail: string = '',
   jobFilter: FilterType,
   paginated: { pageSize: number; offset: number } = {
     pageSize: 10,
-    offset: 0,
+    offset: 0
   }
 ): Promise<any> => {
   const { jobsData, usersData } = getLocalStore();
@@ -95,7 +95,7 @@ export const createJob = async (payload: Partial<Job>): Promise<any> => {
     ...payload,
     id,
     createdAt: new Date(),
-    applicants: [],
+    applicants: []
   } as Job;
 
   // jobsData.push(newJob);
@@ -119,8 +119,8 @@ export const updateJob = async (
         ...payload,
         applicants: [
           ...jobsData[index].applicants,
-          ...(payload.applicants as string[]),
-        ],
+          ...(payload.applicants as string[])
+        ]
       };
     }
   }

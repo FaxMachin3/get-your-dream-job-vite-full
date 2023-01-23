@@ -1,9 +1,9 @@
-import { Pagination, Skeleton, Typography } from "antd";
-import Jobs from "../jobs";
-import React, { useRef } from "react";
-import { ROUTES, _PAGE_SIZE, _TOTAL_JOBS } from "../../constants";
-import { Link } from "react-router-dom";
-import { IJob } from "../../types/common-types";
+import { Pagination, Skeleton, Typography } from 'antd';
+import Jobs from '../jobs';
+import React, { useRef } from 'react';
+import { ROUTES, _PAGE_SIZE, _TOTAL_JOBS } from '../../constants';
+import { Link } from 'react-router-dom';
+import { IJob } from '../../types/common-types';
 
 interface JobsContainerInterface {
   jobs: IJob[];
@@ -16,7 +16,7 @@ export const JobsContainer: React.FC<JobsContainerInterface> = ({
   jobs,
   isLoading,
   offset,
-  setOffset,
+  setOffset
 }) => {
   const dummyTop = useRef<HTMLAnchorElement>(null);
 
@@ -25,13 +25,13 @@ export const JobsContainer: React.FC<JobsContainerInterface> = ({
   if (jobs.length === 0) {
     return (
       <Typography.Paragraph className="no-jobs">
-        Sorry! No jobs available currently.{" "}
+        Sorry! No jobs available currently.{' '}
         {offset > 1 ? (
           <Link to={ROUTES.JOB_LISTING} onClick={() => setOffset(1)}>
             Please click here.
           </Link>
         ) : (
-          ""
+          ''
         )}
       </Typography.Paragraph>
     );

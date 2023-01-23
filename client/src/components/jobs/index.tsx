@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Avatar,
   Button,
@@ -7,31 +7,31 @@ import {
   Typography,
   Modal,
   Collapse,
-  Tag,
-} from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { ERROR } from "../../utils/fake-apis-utils";
-import { ROUTES, USER_TYPE } from "../../constants";
-import { useLocation } from "react-router-dom";
-import Loader from "../loader";
-import { useAppStore } from "../../stores";
-import { IJob, IUser } from "../../types/common-types";
-import { useMutation } from "@tanstack/react-query";
-import { useApplyJob } from "../../hooks/useApplyJob";
-import { getAllApplicantsProfile } from "../../apis/user";
-import Profile from "../profile";
+  Tag
+} from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { ERROR } from '../../utils/fake-apis-utils';
+import { ROUTES, USER_TYPE } from '../../constants';
+import { useLocation } from 'react-router-dom';
+import Loader from '../loader';
+import { useAppStore } from '../../stores';
+import { IJob, IUser } from '../../types/common-types';
+import { useMutation } from '@tanstack/react-query';
+import { useApplyJob } from '../../hooks/useApplyJob';
+import { getAllApplicantsProfile } from '../../apis/user';
+import Profile from '../profile';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface JobsProps {
   data: Array<IJob>;
 }
 
 const EVENTS = {
-  APPLY: "Apply",
-  NOT_INTERESTED: "Not interested",
-  APPLICANTS: "Applicants",
-  CARD: "card",
+  APPLY: 'Apply',
+  NOT_INTERESTED: 'Not interested',
+  APPLICANTS: 'Applicants',
+  CARD: 'card'
 };
 
 const Jobs: React.FC<JobsProps> = ({ data }) => {
@@ -43,7 +43,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     data: applicantsData,
     isLoading: isApplicantsDataLoading,
     isError: isErrorDataLoading,
-    mutate: getApplicantsData,
+    mutate: getApplicantsData
   } = useMutation(getAllApplicantsProfile);
 
   const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
@@ -94,10 +94,10 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     _jobId: string
   ) => {
     e.stopPropagation();
-    notification["info"]({
-      message: "",
+    notification['info']({
+      message: '',
       description: ERROR.FEATURE_INCOMING,
-      placement: "bottomRight",
+      placement: 'bottomRight'
     });
   };
 
@@ -112,7 +112,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
         onNotInterestedClickHandler(e, target.dataset.details);
         break;
       case EVENTS.APPLICANTS:
-        openApplicantsModal(e, target.dataset.details.split(","));
+        openApplicantsModal(e, target.dataset.details.split(','));
         break;
       default:
         openJobModal();
@@ -131,7 +131,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
             description,
             title,
             applicants,
-            tags,
+            tags
           }) => {
             return (
               <Card
@@ -143,7 +143,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
               >
                 <div
                   className={`content ${
-                    !isRecruiter && !isProfileRoute ? "content-candidate" : ""
+                    !isRecruiter && !isProfileRoute ? 'content-candidate' : ''
                   }`}
                 >
                   <div className="logo">
@@ -162,23 +162,23 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                         <Typography.Text
                           className="applicants"
                           data-event={EVENTS.APPLICANTS}
-                          data-details={applicants.join(",")}
+                          data-details={applicants.join(',')}
                         >
                           ({applicants.length} applicant
-                          {applicants.length > 1 ? "s" : ""})
+                          {applicants.length > 1 ? 's' : ''})
                         </Typography.Text>
                       ) : null}
                     </Typography.Paragraph>
                     <Typography.Paragraph italic>
                       Job available in {location}
                       <Typography.Paragraph className="contact">
-                        {contact ? `Contact - ${contact}` : ""}
+                        {contact ? `Contact - ${contact}` : ''}
                       </Typography.Paragraph>
                     </Typography.Paragraph>
                     <Typography.Paragraph
                       ellipsis={{
                         expandable: false,
-                        rows: 2,
+                        rows: 2
                       }}
                     >
                       {description}
@@ -243,7 +243,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
         onOk={handleApplicantsOk}
         onCancel={handleApplicantsCancel}
         cancelText="Close"
-        okButtonProps={{ className: "applicantsOkButton" }}
+        okButtonProps={{ className: 'applicantsOkButton' }}
       >
         {isApplicantsDataLoading ? (
           <Loader />

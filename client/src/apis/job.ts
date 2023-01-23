@@ -1,9 +1,9 @@
-import { API_METHOD, API_ROUTES } from "../constants";
-import { axiosRequest } from "../utils/axios-utils";
+import { API_METHOD, API_ROUTES } from '../constants';
+import { axiosRequest } from '../utils/axios-utils';
 
 export const getJobs = async ({
   offset,
-  pageSize,
+  pageSize
 }: {
   offset: number;
   pageSize: number;
@@ -12,14 +12,14 @@ export const getJobs = async ({
     url: API_ROUTES.JOB.GET,
     params: {
       offset,
-      pageSize,
-    },
+      pageSize
+    }
   });
 };
 
 export const getAppliedJobs = async ({
   offset,
-  pageSize,
+  pageSize
 }: {
   offset: number;
   pageSize: number;
@@ -28,14 +28,14 @@ export const getAppliedJobs = async ({
     url: API_ROUTES.JOB.GET_APPLIED,
     params: {
       offset,
-      pageSize,
-    },
+      pageSize
+    }
   });
 };
 
 export const applyJob = async (jobId: string) => {
   return axiosRequest({
     url: `${API_ROUTES.USER.APPLY}/${jobId}`,
-    method: API_METHOD.PUT,
+    method: API_METHOD.PUT
   });
 };

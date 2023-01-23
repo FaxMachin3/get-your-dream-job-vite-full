@@ -1,12 +1,12 @@
-import express from "express";
-import { check, validationResult } from "express-validator";
+import express from 'express';
+import { check, validationResult } from 'express-validator';
 // @ts-ignore: no-default-export
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-import auth from "../../middleware/auth.js";
-import User from "../../model/user.js";
-import config from "config";
+import auth from '../../middleware/auth.js';
+import User from '../../model/user.js';
+import config from 'config';
 
 const router = express.Router();
 
@@ -15,13 +15,13 @@ const router = express.Router();
  * @desc   test auth
  * @access Private
  */
-router.get("/", [auth], async (req: express.Request, res: express.Response) => {
+router.get('/', [auth], async (req: express.Request, res: express.Response) => {
   try {
-    const user = await User.findById((req as any).user.id).select("-password");
+    const user = await User.findById((req as any).user.id).select('-password');
     res.json(user);
   } catch (error: any) {
     console.error(error.message);
-    res.status(500).send({ message: "Server error", error: error.message });
+    res.status(500).send({ message: 'Server error', error: error.message });
   }
 });
 
@@ -31,10 +31,10 @@ router.get("/", [auth], async (req: express.Request, res: express.Response) => {
  * @access Public
  */
 router.post(
-  "/",
+  '/',
   [
-    check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").exists(),
+    check('email', 'Please include a valid email').isEmail(),
+    check('password', 'Password is required').exists()
   ],
   async (req: express.Request, res: express.Response) => {
     const error = validationResult(req);
@@ -51,7 +51,7 @@ router.post(
       // check if email already exists
       if (!user) {
         return res.status(400).json({
-          error: "Invalid credentials.",
+          error: 'Invalid credentials.'
         });
       }
 
@@ -59,7 +59,7 @@ router.post(
 
       if (!isMatch) {
         return res.status(400).json({
-          error: "Invalid credentials.",
+          error: 'Invalid credentials.'
         });
       }
 
@@ -67,15 +67,15 @@ router.post(
       const payload = {
         user: {
           id: user.id,
-          type: user.userDetails.type,
-        },
+          type: user.userDetails.type
+        }
       };
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.get('jwtSecret'),
         {
-          expiresIn: "3d",
+          expiresIn: '3d'
         },
         (error, token) => {
           if (error) {
@@ -87,8 +87,8 @@ router.post(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({
-        message: "Server error",
-        error: error.message,
+        message: 'Server error',
+        error: error.message
       });
     }
   }

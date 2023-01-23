@@ -1,9 +1,9 @@
-import { Form, Input, Typography, Slider } from "antd";
-import { _16KB } from "../../constants";
-import { Job } from "../../fake-apis/job-listing-apis";
-import TagSelect from "../tag-select";
+import { Form, Input, Typography, Slider } from 'antd';
+import { _16KB } from '../../constants';
+import { Job } from '../../fake-apis/job-listing-apis';
+import TagSelect from '../tag-select';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface CreateJobProps {
   jobFormData: Partial<Job>;
@@ -12,7 +12,7 @@ interface CreateJobProps {
 
 const CreateJob: React.FC<CreateJobProps> = ({
   jobFormData,
-  setJobFormData,
+  setJobFormData
 }) => {
   const onChangeHandler = (
     e:
@@ -21,21 +21,21 @@ const CreateJob: React.FC<CreateJobProps> = ({
   ) => {
     setJobFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
   const onTagChange = (value: string[]) => {
     setJobFormData((prevData) => ({
       ...prevData,
-      tags: value,
+      tags: value
     }));
   };
 
   const onSliderChange = (value: [number, number]) => {
     setJobFormData((prevData) => ({
       ...prevData,
-      salaryRange: [value[0] * 100000, value[1] * 100000],
+      salaryRange: [value[0] * 100000, value[1] * 100000]
     }));
   };
 
@@ -48,7 +48,7 @@ const CreateJob: React.FC<CreateJobProps> = ({
         initialValues={{
           remember: true,
           companyName: jobFormData.companyName,
-          contact: jobFormData.contact,
+          contact: jobFormData.contact
         }}
         autoComplete="on"
       >
@@ -132,7 +132,7 @@ const CreateJob: React.FC<CreateJobProps> = ({
             defaultValue={[45, 70]}
             onChange={onSliderChange}
             tooltip={{
-              formatter: (value) => value && `${value}0K`,
+              formatter: (value) => value && `${value}0K`
             }}
           />
         </Form.Item>

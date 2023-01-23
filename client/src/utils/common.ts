@@ -1,4 +1,4 @@
-import { ROUTES } from "../constants";
+import { ROUTES } from '../constants';
 
 export function debounce<T extends Function>(func: T, delay: number = 100): T {
   let timer: number | undefined;
@@ -22,37 +22,37 @@ export const validateEmail = (email: string) => {
 };
 
 export const navLinksWrapper = ({
-  onLogout,
+  onLogout
 }: {
   onLogout?: React.MouseEventHandler<HTMLAnchorElement>;
 }) => {
   const NAVS = {
-    BRAND: "GYDJ",
+    BRAND: 'GYDJ',
     USER_NAVS: [
       {
-        title: "Jobs",
-        to: ROUTES.JOB_LISTING,
+        title: 'Jobs',
+        to: ROUTES.JOB_LISTING
       },
       {
-        title: "Profile",
-        to: ROUTES.PROFILE,
+        title: 'Profile',
+        to: ROUTES.PROFILE
       },
       {
-        title: "Logout",
+        title: 'Logout',
         to: ROUTES.ROOT,
-        onClick: onLogout,
-      },
+        onClick: onLogout
+      }
     ],
     NON_USER_NAVS: [
       {
-        title: "Login",
-        to: ROUTES.LOGIN,
+        title: 'Login',
+        to: ROUTES.LOGIN
       },
       {
-        title: "Register",
-        to: ROUTES.CANDIDATE_SIGN_UP,
-      },
-    ],
+        title: 'Register',
+        to: ROUTES.CANDIDATE_SIGN_UP
+      }
+    ]
   };
 
   return NAVS;

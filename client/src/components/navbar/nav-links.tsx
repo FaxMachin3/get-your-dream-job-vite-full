@@ -1,9 +1,9 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { Typography } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { ROUTES, STORE } from "../../constants";
-import { useAppStore } from "../../stores";
-import { navLinksWrapper } from "../../utils/common";
+import { useQueryClient } from '@tanstack/react-query';
+import { Typography } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { ROUTES, STORE } from '../../constants';
+import { useAppStore } from '../../stores';
+import { navLinksWrapper } from '../../utils/common';
 
 export const NavLinks = () => {
   const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ export const NavLinks = () => {
     (state) => ({
       currentUser: state.currentUser,
       setUserToken: state.setUserToken,
-      setCurrentUser: state.setCurrentUser,
+      setCurrentUser: state.setCurrentUser
     })
   );
   const navigate = useNavigate();

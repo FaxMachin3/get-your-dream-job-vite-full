@@ -1,7 +1,7 @@
-import React from "react";
-import Filter from "../filter";
+import React from 'react';
+import Filter from '../filter';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface SidebarProps {}
 

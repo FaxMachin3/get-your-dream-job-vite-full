@@ -1,15 +1,15 @@
-import { Button, Card, Input, Modal, notification, Typography } from "antd";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { FilterType, USER_TYPE } from "../../constants";
-import CreateJob from "../create-job";
-import TagSelect from "../tag-select";
-import { createJob, Job } from "../../fake-apis/job-listing-apis";
+import { Button, Card, Input, Modal, notification, Typography } from 'antd';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { FilterType, USER_TYPE } from '../../constants';
+import CreateJob from '../create-job';
+import TagSelect from '../tag-select';
+import { createJob, Job } from '../../fake-apis/job-listing-apis';
 
-import "./styles.scss";
-import { ERROR, SUCCESS } from "../../utils/fake-apis-utils";
-import { useDebounce } from "../../hooks/useDebounce";
-import { useAppStore } from "../../stores";
-import { IJob } from "../../types/common-types";
+import './styles.scss';
+import { ERROR, SUCCESS } from '../../utils/fake-apis-utils';
+import { useDebounce } from '../../hooks/useDebounce';
+import { useAppStore } from '../../stores';
+import { IJob } from '../../types/common-types';
 
 interface FilterProps {}
 
@@ -20,18 +20,18 @@ const Filter: React.FC<FilterProps> = () => {
   const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
   const [filter, setFilter] = useState<FilterType>({
     tags: [],
-    minSalary: "",
+    minSalary: ''
   });
   const [jobFormData, setJobFormData] = useState<Partial<IJob>>({
-    companyName: currentUser?.userDetails?.companyName ?? "",
-    title: "",
-    contact: currentUser?.userDetails?.contact ?? "",
-    description: "",
-    requirement: "",
-    location: "",
+    companyName: currentUser?.userDetails?.companyName ?? '',
+    title: '',
+    contact: currentUser?.userDetails?.contact ?? '',
+    description: '',
+    requirement: '',
+    location: '',
     createdBy: currentUser?._id,
     salaryRange: [0, Number.MAX_SAFE_INTEGER],
-    tags: [],
+    tags: []
   });
 
   // useEffect(() => {
@@ -41,14 +41,14 @@ const Filter: React.FC<FilterProps> = () => {
   const onMinSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter((prevFilter) => ({
       ...prevFilter,
-      minSalary: e.target.value,
+      minSalary: e.target.value
     }));
   };
 
   const onTagChange = (value: string[]) => {
     setFilter((prevFilter) => ({
       ...prevFilter,
-      tags: value,
+      tags: value
     }));
   };
 
@@ -60,10 +60,10 @@ const Filter: React.FC<FilterProps> = () => {
       !jobFormData.requirement ||
       !jobFormData.location
     ) {
-      notification["error"]({
-        message: "",
+      notification['error']({
+        message: '',
         description: ERROR.CHECK_FORM_DATA,
-        placement: "topRight",
+        placement: 'topRight'
       });
       return;
     }
@@ -109,13 +109,13 @@ const Filter: React.FC<FilterProps> = () => {
             onCancel={cancelHandler}
             okText="Create"
             cancelButtonProps={{
-              size: "large",
-              className: "cancel-button",
+              size: 'large',
+              className: 'cancel-button'
             }}
             okButtonProps={{
               loading: isLoading,
-              size: "large",
-              className: "create-button",
+              size: 'large',
+              className: 'create-button'
             }}
           >
             <CreateJob

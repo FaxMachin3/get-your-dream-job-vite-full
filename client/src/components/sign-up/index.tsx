@@ -1,27 +1,37 @@
-import { useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { Input, Form, Typography, Button, notification, Card } from "antd";
-import { Link } from "react-router-dom";
-import { ROUTES, USER_TYPE } from "../../constants";
-import { createUser, User } from "../../fake-apis/user-apis";
+import { useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { Input, Form, Typography, Button, notification, Card } from 'antd';
+import { Link } from 'react-router-dom';
+import { ROUTES, USER_TYPE } from '../../constants';
+import { useAppStore } from '../../stores';
+import { useMutation } from '@tanstack/react-query';
+import { signUp } from '../../apis/user';
 
-import "./styles.scss";
-import { useAppStore } from "../../stores";
+import './styles.scss';
+import { IUser, IUserDetails } from '../../types/common-types';
 
 interface SignUpProps {}
 
 const SignUp: React.FC<SignUpProps> = () => {
-  const currentUser = useAppStore((state) => state.currentUser);
+  const { userToken, setUserToken } = useAppStore((state) => ({
+    setUserToken: state.setUserToken,
+    userToken: state.userToken
+  }));
+  const {
+    mutate: signUpMutate,
+    isError: isSignUpError,
+    isLoading: isSignUpLoading
+  } = useMutation(signUp, { onSuccess: ({ data }) => setUserToken(data) });
+
   const location = useLocation();
   const isRecruiter: boolean = location.pathname === ROUTES.RECRUITER_SIGN_UP;
-  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    companyName: "",
-    githubUsername: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    companyName: '',
+    githubUsername: ''
   });
   const {
     name,
@@ -29,17 +39,17 @@ const SignUp: React.FC<SignUpProps> = () => {
     password,
     confirmPassword,
     githubUsername,
-    companyName,
+    companyName
   } = formData;
 
-  if (currentUser) {
+  if (userToken) {
     return <Navigate to={ROUTES.JOB_LISTING} />;
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -47,7 +57,7 @@ const SignUp: React.FC<SignUpProps> = () => {
     if (isRecruiter) {
       return {
         type: USER_TYPE.RECRUITER,
-        companyName,
+        companyName
       };
     }
 
@@ -55,39 +65,27 @@ const SignUp: React.FC<SignUpProps> = () => {
       type: USER_TYPE.CANDIDATE,
       appliedTo: [],
       skills: [],
-      githubUsername,
+      githubUsername
     };
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (password !== confirmPassword) {
-      notification["error"]({
-        message: "",
-        description: "Passwords do not match.",
-        placement: "bottomRight",
+      return notification['error']({
+        message: '',
+        description: 'Passwords do not match.',
+        placement: 'bottomRight'
       });
-    } else {
-      setIsButtonLoading(true);
-      const payload: Partial<User> = {
-        name,
-        email,
-        password,
-        userDetails: { ...getUserDetails(), location: "" },
-      };
-
-      createUser(payload)
-        .then((currentUser) => {
-          // setCurrentUserAndLocalStorage?.(currentUser);
-        })
-        .catch((errorMessage) => {
-          setIsButtonLoading(false);
-          notification["error"]({
-            message: "",
-            description: errorMessage,
-            placement: "bottomRight",
-          });
-        });
     }
+
+    const payload: Partial<IUser> = {
+      name,
+      email,
+      password,
+      userDetails: { ...getUserDetails() } as IUserDetails
+    };
+
+    signUpMutate(payload as IUser);
   };
 
   return (
@@ -178,7 +176,7 @@ const SignUp: React.FC<SignUpProps> = () => {
               type="primary"
               htmlType="submit"
               size="large"
-              loading={isButtonLoading}
+              loading={isSignUpLoading}
               title="Sign up"
             >
               Sign up
@@ -187,21 +185,21 @@ const SignUp: React.FC<SignUpProps> = () => {
         </Form>
         <div className="sign-up-footer">
           <Typography.Paragraph>
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link title="Login" to={ROUTES.LOGIN}>
               Login
             </Link>
           </Typography.Paragraph>
           <Typography.Paragraph>
             <Link
-              title={isRecruiter ? "Candidate Sign-up" : "Recruiter Sign-up"}
+              title={isRecruiter ? 'Candidate Sign-up' : 'Recruiter Sign-up'}
               to={
                 isRecruiter
                   ? ROUTES.CANDIDATE_SIGN_UP
                   : ROUTES.RECRUITER_SIGN_UP
               }
             >
-              {isRecruiter ? "Candidate Sign-up" : "Recruiter Sign-up"}
+              {isRecruiter ? 'Candidate Sign-up' : 'Recruiter Sign-up'}
             </Link>
           </Typography.Paragraph>
         </div>
