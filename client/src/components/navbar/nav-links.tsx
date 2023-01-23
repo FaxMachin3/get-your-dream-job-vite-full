@@ -7,9 +7,9 @@ import { navLinksWrapper } from '../../utils/common';
 
 export const NavLinks = () => {
     const queryClient = useQueryClient();
-    const { userToken, setUserToken, setCurrentUser } = useAppStore(
+    const { currentUser, setUserToken, setCurrentUser } = useAppStore(
         (state) => ({
-            userToken: state.userToken,
+            currentUser: state.currentUser,
             setUserToken: state.setUserToken,
             setCurrentUser: state.setCurrentUser,
         })
@@ -19,13 +19,13 @@ export const NavLinks = () => {
     const onLogout = () => {
         setUserToken(null);
         setCurrentUser(null);
-        queryClient.clear()
+        queryClient.clear();
         navigate(ROUTES.ROOT);
     };
 
     const navs = navLinksWrapper({ onLogout });
 
-    if (!userToken) {
+    if (!currentUser) {
         return (
             <>
                 {navs.NON_USER_NAVS.map(({ title, to }) => (

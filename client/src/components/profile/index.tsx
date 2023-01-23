@@ -27,10 +27,18 @@ import { getAppliedJobs } from '../../apis/job';
 
 interface ProfileProps {
     applicant?: IUser;
+    isProfileViewer?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ applicant }) => {
+const Profile: React.FC<ProfileProps> = ({
+    applicant,
+    isProfileViewer = false,
+}) => {
     const currentUser = useAppStore((state) => state.currentUser);
+    const currentUserProfile = applicant ?? currentUser;
+    const isRecruiter =
+        currentUserProfile?.userDetails?.type === USER_TYPE.RECRUITER;
+
     const {
         data: appliedJobs,
         isLoading: isAppliedJobLoading,
@@ -39,24 +47,26 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
         [STORE.SUB_STORE.APPLIED_JOBS],
         () => getAppliedJobs({ offset: 0, pageSize: 5 }),
         {
-            enabled: !!currentUser,
+            enabled: !!currentUser && !isProfileViewer && !isRecruiter,
         }
     );
-    const currentUserProfile = applicant ?? currentUser;
-    const isRecruiter =
-        currentUserProfile?.userDetails?.type === USER_TYPE.RECRUITER;
     const {
         data: gitHubRepos,
         isLoading: isFetchingRepos,
         isError: isRepoFetchingError,
     } = useQuery(
-        [STORE.SUB_STORE.USER_REPOS],
-        () => getUserGitHubRepos(currentUser?.userDetails?.githubUsername),
+        [
+            STORE.SUB_STORE.USER_REPOS,
+            currentUserProfile?.userDetails?.githubUsername,
+        ],
+        () =>
+            getUserGitHubRepos(currentUserProfile?.userDetails?.githubUsername),
         {
-            enabled: !!currentUser && !isRecruiter,
+            enabled: !!currentUser && (isProfileViewer || !isRecruiter),
             retry: 0,
         }
     );
+
     const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
     const [isOkLoading, setIsOkLoading] = useState(false);
     const [editProfileFormData, setEditProfileFormData] = useState<
@@ -81,8 +91,6 @@ const Profile: React.FC<ProfileProps> = ({ applicant }) => {
     if (!currentUserProfile) {
         return <Navigate to={ROUTES.LOGIN} />;
     }
-
-    console.log(appliedJobs);
 
     const renderJobs = () => {
         if (isAppliedJobLoading) {

@@ -195,36 +195,38 @@ router.put(
  * @desc   Get all user profile
  * @access Private
  */
-router.post(
-    '/all',
-    [auth, body('users', 'Users length should be > 0').isArray({ min: 1 })],
-    async (req: Request, res: Response) => {
-        const error = validationResult(req);
+router.post('/all', [auth], async (req: Request, res: Response) => {
+    const error = validationResult(req);
 
-        if (!error.isEmpty()) {
-            return res.status(400).json({ errors: error.array() });
-        }
+    if (!error.isEmpty()) {
+        return res.status(400).json({ errors: error.array() });
+    }
 
-        try {
-            if ((req as any).user.type !== USER_TYPE.RECRUITER) {
-                return res.status(400).json({
-                    error: 'Denied!',
-                });
-            }
-
-            const user = await User.where('_id')
-                .in(req.body.users)
-                .select('-password');
-
-            res.json(user);
-        } catch (error: any) {
-            console.error(error.message);
-            res.status(500).json({
-                message: 'Server error',
-                error: error.message,
+    try {
+        if (!Array.isArray(req.body)) {
+            return res.status(400).json({
+                error: 'Bad request.',
             });
         }
+
+        if ((req as any).user.type !== USER_TYPE.RECRUITER) {
+            return res.status(400).json({
+                error: 'Denied',
+            });
+        }
+
+        const user = await User.where('_id')
+            .in(req.body)
+            .select('-password -userDetails.appliedTo');
+
+        res.json(user);
+    } catch (error: any) {
+        console.error(error.message);
+        res.status(500).json({
+            message: 'Server error',
+            error: error.message,
+        });
     }
-);
+});
 
 export default router;

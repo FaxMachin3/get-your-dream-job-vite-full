@@ -10,10 +10,10 @@ import './styles.scss';
 interface LandingPageProps {}
 
 const LandingPage: React.FC<LandingPageProps> = () => {
-    const userToken = useAppStore((state) => state.userToken);
+    const currentUser = useAppStore((state) => state.currentUser);
     const navigate = useNavigate();
 
-    if (userToken) {
+    if (currentUser) {
         return <Navigate to={ROUTES.JOB_LISTING} />;
     }
 

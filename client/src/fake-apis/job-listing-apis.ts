@@ -78,10 +78,8 @@ export const getJobs = async (
     }
 
     const totalJobs = jobs.length;
-    // console.log({ totalJobs });
     const start = paginated.offset * paginated.pageSize;
     const slicedJobs = jobs.slice(start, start + paginated.pageSize);
-    // console.log({ slicedJobs });
 
     return fakePromise({ jobs: slicedJobs, totalJobs });
 };
