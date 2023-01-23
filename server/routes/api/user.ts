@@ -1,14 +1,14 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from 'express';
 // @ts-ignore: no-default-export
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { body, param, query, validationResult } from "express-validator";
-import config from "config";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { body, param, query, validationResult } from 'express-validator';
+import config from 'config';
 
-import User from "../../model/user.js";
-import Job from "../../model/job.js";
-import auth from "../../middleware/auth.js";
-import { USER_TYPE } from "../../types/common-types.js"; // Todo: check we weren't able to use shortcut
+import User from '../../model/user.js';
+import Job from '../../model/job.js';
+import auth from '../../middleware/auth.js';
+import { USER_TYPE } from '../../types/common-types.js'; // Todo: check we weren't able to use shortcut
 
 const router = express.Router();
 
@@ -18,14 +18,14 @@ const router = express.Router();
  * @access Public
  */
 router.post(
-  "/",
+  '/',
   [
-    body("name", "Name is required").not().isEmpty(),
-    body("email", "Please include a valid email").isEmail(),
+    body('name', 'Name is required').not().isEmpty(),
+    body('email', 'Please include a valid email').isEmail(),
     body(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6, max: 45 }),
+      'password',
+      'Please enter a password with 6 or more characters'
+    ).isLength({ min: 6, max: 45 })
     // TODO body('userDetails', 'Please include a valid user details'),
   ],
   async (req: Request, res: Response) => {
@@ -43,7 +43,7 @@ router.post(
       // check if email already exists
       if (userDoc) {
         return res.status(400).json({
-          error: "User already exists",
+          error: 'User already exists'
         });
       }
 
@@ -52,7 +52,7 @@ router.post(
         name,
         email,
         password,
-        userDetails,
+        userDetails
       });
 
       // encrypt password
@@ -66,15 +66,15 @@ router.post(
       const payload = {
         user: {
           id: user.id,
-          type: user.userDetails.type,
-        },
+          type: user.userDetails.type
+        }
       };
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.get('jwtSecret'),
         {
-          expiresIn: "3d",
+          expiresIn: '3d'
         },
         (error, token) => {
           if (error) {
@@ -86,8 +86,8 @@ router.post(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({
-        message: "Server error",
-        error: error.message,
+        message: 'Server error',
+        error: error.message
       });
     }
   }
@@ -99,15 +99,15 @@ router.post(
  * @access Private
  */
 router.put(
-  "/update",
+  '/update',
   [
     auth,
-    body("name", "Name is required").not().isEmpty(),
-    body("email", "Please include a valid email").isEmail(),
+    body('name', 'Name is required').not().isEmpty(),
+    body('email', 'Please include a valid email').isEmail(),
     body(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6, max: 45 }),
+      'password',
+      'Please enter a password with 6 or more characters'
+    ).isLength({ min: 6, max: 45 })
     // TODO body('userDetails', 'Please include a valid user details'),
   ],
   async (req: Request, res: Response) => {
@@ -124,12 +124,12 @@ router.put(
 
       await User.findByIdAndUpdate((req as any).user.id, req.body);
 
-      res.status(200).json({ message: "Profile updated!" });
+      res.status(200).json({ message: 'Profile updated!' });
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({
-        message: "Server error",
-        error: error.message,
+        message: 'Server error',
+        error: error.message
       });
     }
   }
@@ -141,8 +141,8 @@ router.put(
  * @access Private
  */
 router.put(
-  "/apply/:jobId",
-  [auth, param("jobId", "Job ID required").isLength({ min: 1 })],
+  '/apply/:jobId',
+  [auth, param('jobId', 'Job ID required').isLength({ min: 1 })],
   async (req: Request, res: Response) => {
     const error = validationResult(req);
 
@@ -153,7 +153,7 @@ router.put(
     try {
       if ((req as any).user.type !== USER_TYPE.CANDIDATE) {
         return res.status(400).json({
-          error: "Denied!",
+          error: 'Denied!'
         });
       }
 
@@ -161,7 +161,7 @@ router.put(
 
       if (!job) {
         return res.status(400).json({
-          error: "Job not found.",
+          error: 'Job not found.'
         });
       }
 
@@ -169,7 +169,7 @@ router.put(
         job?.applicants.find((applicant) => applicant === (req as any).user.id)
       ) {
         return res.status(400).json({
-          error: "Already applied.",
+          error: 'Already applied.'
         });
       }
 
@@ -177,12 +177,12 @@ router.put(
 
       await job.save();
 
-      res.status(200).json({ message: "Applied." });
+      res.status(200).json({ message: 'Applied.' });
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({
-        message: "Server error",
-        error: error.message,
+        message: 'Server error',
+        error: error.message
       });
     }
   }
@@ -193,7 +193,7 @@ router.put(
  * @desc   Get all user profile
  * @access Private
  */
-router.post("/all", [auth], async (req: Request, res: Response) => {
+router.post('/all', [auth], async (req: Request, res: Response) => {
   const error = validationResult(req);
 
   if (!error.isEmpty()) {
@@ -203,26 +203,26 @@ router.post("/all", [auth], async (req: Request, res: Response) => {
   try {
     if (!Array.isArray(req.body)) {
       return res.status(400).json({
-        error: "Bad request.",
+        error: 'Bad request.'
       });
     }
 
     if ((req as any).user.type !== USER_TYPE.RECRUITER) {
       return res.status(400).json({
-        error: "Denied",
+        error: 'Denied'
       });
     }
 
-    const user = await User.where("_id")
+    const user = await User.where('_id')
       .in(req.body)
-      .select("-password -userDetails.appliedTo");
+      .select('-password -userDetails.appliedTo');
 
     res.json(user);
   } catch (error: any) {
     console.error(error.message);
     res.status(500).json({
-      message: "Server error",
-      error: error.message,
+      message: 'Server error',
+      error: error.message
     });
   }
 });

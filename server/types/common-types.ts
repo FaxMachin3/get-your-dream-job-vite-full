@@ -22,8 +22,8 @@ export interface IJob {
  */
 
 export enum USER_TYPE {
-  CANDIDATE = "CANDIDATE",
-  RECRUITER = "RECRUITER",
+  CANDIDATE = 'CANDIDATE',
+  RECRUITER = 'RECRUITER'
 }
 
 export interface IUserDetails {

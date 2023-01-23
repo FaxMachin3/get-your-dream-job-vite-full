@@ -1,5 +1,5 @@
-import { API_METHOD, API_ROUTES } from "../constants";
-import { axiosRequest } from "../utils/axios-utils";
+import { API_METHOD, API_ROUTES } from '../constants';
+import { axiosRequest } from '../utils/axios-utils';
 
 export const loginUser = async (payload: {
   email: string;
@@ -8,12 +8,12 @@ export const loginUser = async (payload: {
   return axiosRequest({
     url: API_ROUTES.LOGIN,
     method: API_METHOD.POST,
-    data: payload,
+    data: payload
   });
 };
 
 export const getUserData = async () => {
   return axiosRequest({
-    url: API_ROUTES.LOGIN,
+    url: API_ROUTES.LOGIN
   });
 };

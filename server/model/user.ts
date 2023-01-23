@@ -1,5 +1,5 @@
-import { IUser, IUserDetails } from "@_types/common-types.js";
-import { Schema, model } from "mongoose";
+import { IUser, IUserDetails } from '@_types/common-types.js';
+import { Schema, model } from 'mongoose';
 
 const UserDetails = new Schema<IUserDetails>({
   type: { type: String, required: true },
@@ -8,27 +8,27 @@ const UserDetails = new Schema<IUserDetails>({
   githubUsername: { type: String },
   skills: { type: [String] },
   appliedTo: { type: [String] },
-  companyName: { type: String },
+  companyName: { type: String }
 });
 
 const UserSchema = new Schema<IUser>({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   userDetails: {
     type: UserDetails,
-    required: true,
-  },
+    required: true
+  }
 });
 
-export default model<IUser>("users", UserSchema);
+export default model<IUser>('users', UserSchema);

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { Input, Form, Typography, Button, notification, Card } from "antd";
-import { Link } from "react-router-dom";
-import { ROUTES, USER_TYPE } from "../../constants";
-import { createUser, User } from "../../fake-apis/user-apis";
+import { useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { Input, Form, Typography, Button, notification, Card } from 'antd';
+import { Link } from 'react-router-dom';
+import { ROUTES, USER_TYPE } from '../../constants';
+import { createUser, User } from '../../fake-apis/user-apis';
 
-import "./styles.scss";
-import { useAppStore } from "../../stores";
+import './styles.scss';
+import { useAppStore } from '../../stores';
 
 interface SignUpProps {}
 
@@ -16,12 +16,12 @@ const SignUp: React.FC<SignUpProps> = () => {
   const isRecruiter: boolean = location.pathname === ROUTES.RECRUITER_SIGN_UP;
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    companyName: "",
-    githubUsername: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    companyName: '',
+    githubUsername: ''
   });
   const {
     name,
@@ -29,7 +29,7 @@ const SignUp: React.FC<SignUpProps> = () => {
     password,
     confirmPassword,
     githubUsername,
-    companyName,
+    companyName
   } = formData;
 
   if (currentUser) {
@@ -39,7 +39,7 @@ const SignUp: React.FC<SignUpProps> = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -47,7 +47,7 @@ const SignUp: React.FC<SignUpProps> = () => {
     if (isRecruiter) {
       return {
         type: USER_TYPE.RECRUITER,
-        companyName,
+        companyName
       };
     }
 
@@ -55,16 +55,16 @@ const SignUp: React.FC<SignUpProps> = () => {
       type: USER_TYPE.CANDIDATE,
       appliedTo: [],
       skills: [],
-      githubUsername,
+      githubUsername
     };
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (password !== confirmPassword) {
-      notification["error"]({
-        message: "",
-        description: "Passwords do not match.",
-        placement: "bottomRight",
+      notification['error']({
+        message: '',
+        description: 'Passwords do not match.',
+        placement: 'bottomRight'
       });
     } else {
       setIsButtonLoading(true);
@@ -72,7 +72,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         name,
         email,
         password,
-        userDetails: { ...getUserDetails(), location: "" },
+        userDetails: { ...getUserDetails(), location: '' }
       };
 
       createUser(payload)
@@ -81,10 +81,10 @@ const SignUp: React.FC<SignUpProps> = () => {
         })
         .catch((errorMessage) => {
           setIsButtonLoading(false);
-          notification["error"]({
-            message: "",
+          notification['error']({
+            message: '',
             description: errorMessage,
-            placement: "bottomRight",
+            placement: 'bottomRight'
           });
         });
     }
@@ -187,21 +187,21 @@ const SignUp: React.FC<SignUpProps> = () => {
         </Form>
         <div className="sign-up-footer">
           <Typography.Paragraph>
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link title="Login" to={ROUTES.LOGIN}>
               Login
             </Link>
           </Typography.Paragraph>
           <Typography.Paragraph>
             <Link
-              title={isRecruiter ? "Candidate Sign-up" : "Recruiter Sign-up"}
+              title={isRecruiter ? 'Candidate Sign-up' : 'Recruiter Sign-up'}
               to={
                 isRecruiter
                   ? ROUTES.CANDIDATE_SIGN_UP
                   : ROUTES.RECRUITER_SIGN_UP
               }
             >
-              {isRecruiter ? "Candidate Sign-up" : "Recruiter Sign-up"}
+              {isRecruiter ? 'Candidate Sign-up' : 'Recruiter Sign-up'}
             </Link>
           </Typography.Paragraph>
         </div>

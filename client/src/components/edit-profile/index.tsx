@@ -1,11 +1,11 @@
-import { Form, Input, Typography } from "antd";
-import { useContext } from "react";
-import { USER_TYPE } from "../../constants";
-import { User } from "../../fake-apis/user-apis";
-import { useAppStore } from "../../stores";
-import TagSelect from "../tag-select";
+import { Form, Input, Typography } from 'antd';
+import { useContext } from 'react';
+import { USER_TYPE } from '../../constants';
+import { User } from '../../fake-apis/user-apis';
+import { useAppStore } from '../../stores';
+import TagSelect from '../tag-select';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface EditJobProps {
   editProfileFormData: Partial<User & { confirmPassword: string }>;
@@ -14,7 +14,7 @@ interface EditJobProps {
 
 const EditJob: React.FC<EditJobProps> = ({
   editProfileFormData,
-  setEditProfileFormData,
+  setEditProfileFormData
 }) => {
   const currentUser = useAppStore((state) => state.currentUser);
   const isRecruiter: boolean =
@@ -23,7 +23,7 @@ const EditJob: React.FC<EditJobProps> = ({
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditProfileFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -36,8 +36,8 @@ const EditJob: React.FC<EditJobProps> = ({
           ...prevData,
           userDetails: {
             ...prevData.userDetails,
-            [e.target.name]: e.target.value,
-          },
+            [e.target.name]: e.target.value
+          }
         } as User)
     );
   };
@@ -49,8 +49,8 @@ const EditJob: React.FC<EditJobProps> = ({
           ...prevData,
           userDetails: {
             ...prevData.userDetails,
-            skills: value,
-          },
+            skills: value
+          }
         } as User)
     );
   };
@@ -68,7 +68,7 @@ const EditJob: React.FC<EditJobProps> = ({
           companyName: editProfileFormData.userDetails?.companyName,
           contact: editProfileFormData.userDetails?.contact,
           githubUsername: editProfileFormData.userDetails?.githubUsername,
-          location: editProfileFormData.userDetails?.location,
+          location: editProfileFormData.userDetails?.location
         }}
         autoComplete="on"
       >

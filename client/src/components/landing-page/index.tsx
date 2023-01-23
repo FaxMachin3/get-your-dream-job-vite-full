@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { Button, Typography, Image } from "antd";
-import { Navigate, useNavigate } from "react-router-dom";
-import { ROUTES } from "../../constants";
-import backdrop from "../../assets/job-offer.svg";
-import { useAppStore } from "../../stores";
+import React, { useContext } from 'react';
+import { Button, Typography, Image } from 'antd';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants';
+import backdrop from '../../assets/job-offer.svg';
+import { useAppStore } from '../../stores';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface LandingPageProps {}
 

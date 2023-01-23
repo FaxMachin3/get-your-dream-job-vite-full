@@ -7,23 +7,23 @@ import {
   notification,
   Skeleton,
   Tag,
-  Typography,
-} from "antd";
-import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { ROUTES, STORE, USER_TYPE } from "../../constants";
-import { UserOutlined } from "@ant-design/icons";
-import EditJob from "../edit-profile";
-import { ERROR } from "../../utils/fake-apis-utils";
-import { validateEmail } from "../../utils/common";
-import Jobs from "../jobs";
-import { useAppStore } from "../../stores";
-import { IUser } from "../../types/common-types";
+  Typography
+} from 'antd';
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { ROUTES, STORE, USER_TYPE } from '../../constants';
+import { UserOutlined } from '@ant-design/icons';
+import EditJob from '../edit-profile';
+import { ERROR } from '../../utils/fake-apis-utils';
+import { validateEmail } from '../../utils/common';
+import Jobs from '../jobs';
+import { useAppStore } from '../../stores';
+import { IUser } from '../../types/common-types';
 
-import "./styles.scss";
-import { useQuery } from "@tanstack/react-query";
-import { getUserGitHubRepos } from "../../apis/user";
-import { getAppliedJobs } from "../../apis/job";
+import './styles.scss';
+import { useQuery } from '@tanstack/react-query';
+import { getUserGitHubRepos } from '../../apis/user';
+import { getAppliedJobs } from '../../apis/job';
 
 interface ProfileProps {
   applicant?: IUser;
@@ -32,7 +32,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({
   applicant,
-  isProfileViewer = false,
+  isProfileViewer = false
 }) => {
   const currentUser = useAppStore((state) => state.currentUser);
   const currentUserProfile = applicant ?? currentUser;
@@ -42,27 +42,27 @@ const Profile: React.FC<ProfileProps> = ({
   const {
     data: appliedJobs,
     isLoading: isAppliedJobLoading,
-    isError: isAppliedJobError,
+    isError: isAppliedJobError
   } = useQuery(
     [STORE.SUB_STORE.APPLIED_JOBS],
     () => getAppliedJobs({ offset: 0, pageSize: 5 }),
     {
-      enabled: !!currentUser && !isProfileViewer && !isRecruiter,
+      enabled: !!currentUser && !isProfileViewer && !isRecruiter
     }
   );
   const {
     data: gitHubRepos,
     isLoading: isFetchingRepos,
-    isError: isRepoFetchingError,
+    isError: isRepoFetchingError
   } = useQuery(
     [
       STORE.SUB_STORE.USER_REPOS,
-      currentUserProfile?.userDetails?.githubUsername,
+      currentUserProfile?.userDetails?.githubUsername
     ],
     () => getUserGitHubRepos(currentUserProfile?.userDetails?.githubUsername),
     {
       enabled: !!currentUser && (isProfileViewer || !isRecruiter),
-      retry: 0,
+      retry: 0
     }
   );
 
@@ -73,17 +73,17 @@ const Profile: React.FC<ProfileProps> = ({
   >({
     name: currentUserProfile?.name,
     email: currentUserProfile?.email,
-    password: "",
-    confirmPassword: "",
+    password: '',
+    confirmPassword: '',
     userDetails: {
       type: currentUserProfile?.userDetails?.type as USER_TYPE,
-      contact: currentUserProfile?.userDetails?.contact ?? "",
-      location: currentUserProfile?.userDetails?.location ?? "",
-      githubUsername: currentUserProfile?.userDetails?.githubUsername ?? "",
+      contact: currentUserProfile?.userDetails?.contact ?? '',
+      location: currentUserProfile?.userDetails?.location ?? '',
+      githubUsername: currentUserProfile?.userDetails?.githubUsername ?? '',
       skills: currentUserProfile?.userDetails?.skills ?? [],
       appliedTo: currentUserProfile?.userDetails?.appliedTo ?? [],
-      companyName: currentUserProfile?.userDetails?.companyName ?? "",
-    },
+      companyName: currentUserProfile?.userDetails?.companyName ?? ''
+    }
   });
 
   if (!currentUserProfile) {
@@ -198,28 +198,28 @@ const Profile: React.FC<ProfileProps> = ({
 
   const createJobHandler = () => {
     if (!validateEmail(editProfileFormData.email as string)) {
-      notification["error"]({
-        message: "",
+      notification['error']({
+        message: '',
         description: ERROR.INVALID_EMAIL,
-        placement: "topRight",
+        placement: 'topRight'
       });
       return;
     }
 
     if (!editProfileFormData.name || !editProfileFormData.email) {
-      notification["error"]({
-        message: "",
+      notification['error']({
+        message: '',
         description: ERROR.CHECK_FORM_DATA,
-        placement: "topRight",
+        placement: 'topRight'
       });
       return;
     }
 
     if (editProfileFormData.password !== editProfileFormData.confirmPassword) {
-      notification["error"]({
-        message: "",
+      notification['error']({
+        message: '',
         description: ERROR.PASSWORD_MISMATCH,
-        placement: "topRight",
+        placement: 'topRight'
       });
       return;
     }
@@ -227,7 +227,7 @@ const Profile: React.FC<ProfileProps> = ({
     setIsOkLoading(true);
 
     const payload = {
-      ...editProfileFormData,
+      ...editProfileFormData
     };
 
     delete payload.confirmPassword;
@@ -288,13 +288,13 @@ const Profile: React.FC<ProfileProps> = ({
             onCancel={cancelHandler}
             okText="Save"
             cancelButtonProps={{
-              size: "large",
-              className: "cancel-button",
+              size: 'large',
+              className: 'cancel-button'
             }}
             okButtonProps={{
               loading: isOkLoading,
-              size: "large",
-              className: "create-button",
+              size: 'large',
+              className: 'create-button'
             }}
           >
             <EditJob

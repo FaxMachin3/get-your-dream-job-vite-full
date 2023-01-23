@@ -1,6 +1,6 @@
-import { StateCreator } from "zustand";
-import { CUSTOM_HEADER } from "../constants";
-import { ThemeSlice, UserSlice } from "../types/common-types";
+import { StateCreator } from 'zustand';
+import { CUSTOM_HEADER } from '../constants';
+import { ThemeSlice, UserSlice } from '../types/common-types';
 
 export const createUserSlice: StateCreator<
   ThemeSlice & UserSlice,
@@ -12,10 +12,10 @@ export const createUserSlice: StateCreator<
   currentUser: null,
   setUserToken: (token) =>
     set((state) => ({
-      userToken: token,
+      userToken: token
     })),
   setCurrentUser: (user) =>
     set((state) => ({
-      currentUser: user,
-    })),
+      currentUser: user
+    }))
 });

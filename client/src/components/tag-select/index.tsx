@@ -1,8 +1,8 @@
-import { Select, Typography } from "antd";
-import React from "react";
-import { tagsOptions } from "../../constants";
+import { Select, Typography } from 'antd';
+import React from 'react';
+import { tagsOptions } from '../../constants';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface TagSelectProps {
   onTagChange: (value: string[]) => void;
@@ -11,7 +11,7 @@ interface TagSelectProps {
 
 const TagSelect: React.FC<TagSelectProps> = ({
   onTagChange,
-  defaultValue = [],
+  defaultValue = []
 }) => {
   return (
     <label>
@@ -23,7 +23,7 @@ const TagSelect: React.FC<TagSelectProps> = ({
         defaultValue={defaultValue}
         mode="multiple"
         allowClear
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
         size="large"
         placeholder="e.g. css or typescript"
         onChange={onTagChange}

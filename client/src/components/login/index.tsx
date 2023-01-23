@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { Input, Button, Typography, Form, Card } from "antd";
-import { Link, Navigate } from "react-router-dom";
-import { ROUTES } from "../../constants";
-import { useLoginUser } from "../../hooks/useUserFetch";
-import { useAppStore } from "../../stores";
+import { useState } from 'react';
+import { Input, Button, Typography, Form, Card } from 'antd';
+import { Link, Navigate } from 'react-router-dom';
+import { ROUTES } from '../../constants';
+import { useLoginUser } from '../../hooks/useUserFetch';
+import { useAppStore } from '../../stores';
 
-import "./styles.scss";
+import './styles.scss';
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
   const { userToken, setUserToken } = useAppStore((state) => ({
     setUserToken: state.setUserToken,
-    userToken: state.userToken,
+    userToken: state.userToken
   }));
   const { mutate, isLoading } = useLoginUser(setUserToken);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   });
 
   if (userToken) {
@@ -29,7 +29,7 @@ const Login: React.FC<LoginProps> = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -85,7 +85,7 @@ const Login: React.FC<LoginProps> = () => {
           </Form.Item>
         </Form>
         <Typography.Paragraph>
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link title="Sign-up" to={ROUTES.CANDIDATE_SIGN_UP}>
             Sign-up
           </Link>

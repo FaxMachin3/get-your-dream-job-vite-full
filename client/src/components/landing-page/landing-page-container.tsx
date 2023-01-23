@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
-import { ROUTES } from "../../constants";
-import LandingPage from ".";
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '../../constants';
+import LandingPage from '.';
 
 const LandingPageContainer = () => {
   const location = useLocation();

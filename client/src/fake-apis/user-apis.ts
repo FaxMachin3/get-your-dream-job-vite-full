@@ -1,10 +1,10 @@
-import { USER_TYPE } from "../constants";
+import { USER_TYPE } from '../constants';
 import {
   getLocalStore,
   ERROR,
   fakePromise,
-  updateUsersLocalStore,
-} from "../utils/fake-apis-utils";
+  updateUsersLocalStore
+} from '../utils/fake-apis-utils';
 
 export interface User {
   id: string;
@@ -68,7 +68,7 @@ export const updateUser = async (
     if (usersData[index].email === userEmail) {
       usersData[index] = {
         ...usersData[index],
-        ...payload,
+        ...payload
       };
       break;
     }

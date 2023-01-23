@@ -22,8 +22,8 @@ export interface IJob {
  */
 
 export enum USER_TYPE {
-  CANDIDATE = "CANDIDATE",
-  RECRUITER = "RECRUITER",
+  CANDIDATE = 'CANDIDATE',
+  RECRUITER = 'RECRUITER'
 }
 
 export interface IUserDetails {
@@ -49,8 +49,8 @@ export interface IUser {
  */
 
 export enum THEME {
-  LIGHT = "LIGHT",
-  DARK = "DARK",
+  LIGHT = 'LIGHT',
+  DARK = 'DARK'
 }
 
 /**

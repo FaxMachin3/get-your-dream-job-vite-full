@@ -1,8 +1,8 @@
-import axios from "axios";
-import { CUSTOM_HEADER, STORE } from "../constants";
+import axios from 'axios';
+import { CUSTOM_HEADER, STORE } from '../constants';
 
 export const axiosRequest = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: 'http://localhost:8080'
 });
 
 axiosRequest.interceptors.request.use(

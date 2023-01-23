@@ -1,8 +1,8 @@
-import { Button, Result } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../constants";
-import Navbar from "../navbar";
+import { Button, Result } from 'antd';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants';
+import Navbar from '../navbar';
 
 interface ErrorProps {}
 

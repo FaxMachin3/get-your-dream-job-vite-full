@@ -1,5 +1,5 @@
-import { StateCreator } from "zustand";
-import { THEME, ThemeSlice, UserSlice } from "../types/common-types";
+import { StateCreator } from 'zustand';
+import { THEME, ThemeSlice, UserSlice } from '../types/common-types';
 
 export const createThemeSlice: StateCreator<
   ThemeSlice & UserSlice,
@@ -10,6 +10,6 @@ export const createThemeSlice: StateCreator<
   isDarkTheme: THEME.LIGHT,
   toggleTheme: () =>
     set((state) => ({
-      isDarkTheme: state.isDarkTheme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT,
-    })),
+      isDarkTheme: state.isDarkTheme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT
+    }))
 });
