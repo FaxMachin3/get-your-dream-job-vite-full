@@ -5,14 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "prettier --check .",
-    "format": "prettier --write .",
+    "format": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*": "prettier --write"
