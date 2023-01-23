@@ -1,24 +1,24 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .create-job-wrapper {
-    .title {
-        text-align: center;
+  .title {
+    text-align: center;
+  }
+
+  .description-input {
+    label {
+      width: 100%;
     }
 
-    .description-input {
-        label {
-            width: 100%;
-        }
+    .description-label {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
 
-        .description-label {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-
-            .limit {
-                font-size: 0.8rem;
-                align-self: flex-end;
-            }
-        }
+      .limit {
+        font-size: 0.8rem;
+        align-self: flex-end;
+      }
     }
+  }
 }
