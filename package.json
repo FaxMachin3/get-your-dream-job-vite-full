@@ -10,14 +10,18 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "prettier --write . && git add -A ."
+            "pre-commit": "lint-staged"
         }
     },
+    "lint-staged": {
+        "*": "prettier --write"
+    },
     "keywords": [],
-    "author": "",
+    "author": "Subham Raj",
     "license": "ISC",
     "devDependencies": {
         "husky": "^8.0.3",
+        "lint-staged": "^13.1.0",
         "prettier": "^2.8.3"
     }
 }

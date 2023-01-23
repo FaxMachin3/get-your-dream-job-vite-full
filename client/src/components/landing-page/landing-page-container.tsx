@@ -1,13 +1,13 @@
-import { useLocation } from 'react-router-dom';
-import { ROUTES } from '../../constants';
-import LandingPage from '.';
+import { useLocation } from "react-router-dom";
+import { ROUTES } from "../../constants";
+import LandingPage from ".";
 
 const LandingPageContainer = () => {
-    const location = useLocation();
+  const location = useLocation();
 
-    if (location.pathname !== ROUTES.ROOT) return null;
+  if (location.pathname !== ROUTES.ROOT) return null;
 
-    return <LandingPage />;
+  return <LandingPage />;
 };
 
 export default LandingPageContainer;

@@ -1,7 +1,7 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .sidebar {
-    width: $sidebar-width;
-    margin-right: 2rem;
-    flex-shrink: 0;
+  width: $sidebar-width;
+  margin-right: 2rem;
+  flex-shrink: 0;
 }
