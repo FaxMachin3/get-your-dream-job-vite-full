@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "prettier --check .",
-    "format": "lint-staged",
+    "lint": "lint-staged",
+    "lint-format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*": "prettier --write"
+    "*": "prettier --check"
   },
   "keywords": [],
   "author": "Subham Raj",
