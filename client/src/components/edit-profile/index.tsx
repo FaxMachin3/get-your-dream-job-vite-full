@@ -1,15 +1,14 @@
 import { Form, Input, Typography } from 'antd';
-import { useContext } from 'react';
 import { USER_TYPE } from '../../constants';
-import { User } from '../../fake-apis/user-apis';
 import { useAppStore } from '../../stores';
+import { IUser } from '../../types/common-types';
 import TagSelect from '../tag-select';
 
 import './styles.scss';
 
 interface EditJobProps {
-  editProfileFormData: Partial<User & { confirmPassword: string }>;
-  setEditProfileFormData: React.Dispatch<React.SetStateAction<Partial<User>>>;
+  editProfileFormData: Partial<IUser & { confirmPassword: string }>;
+  setEditProfileFormData: React.Dispatch<React.SetStateAction<Partial<IUser>>>;
 }
 
 const EditJob: React.FC<EditJobProps> = ({
@@ -38,7 +37,7 @@ const EditJob: React.FC<EditJobProps> = ({
             ...prevData.userDetails,
             [e.target.name]: e.target.value
           }
-        } as User)
+        } as IUser)
     );
   };
 
@@ -51,7 +50,7 @@ const EditJob: React.FC<EditJobProps> = ({
             ...prevData.userDetails,
             skills: value
           }
-        } as User)
+        } as IUser)
     );
   };
 

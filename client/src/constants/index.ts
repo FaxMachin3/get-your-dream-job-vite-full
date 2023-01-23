@@ -29,6 +29,7 @@ export const API_ROUTES = {
     GET_APPLIED: '/api/v1/jobs/applied'
   },
   USER: {
+    REGISTER: 'api/v1/user',
     APPLY: '/api/v1/user/apply',
     GET_APPLICANTS_DATA: '/api/v1/user/all'
   }

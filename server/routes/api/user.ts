@@ -25,7 +25,10 @@ router.post(
     body(
       'password',
       'Please enter a password with 6 or more characters'
-    ).isLength({ min: 6, max: 45 })
+    ).isLength({
+      min: 6,
+      max: 45
+    })
     // TODO body('userDetails', 'Please include a valid user details'),
   ],
   async (req: Request, res: Response) => {
@@ -80,7 +83,7 @@ router.post(
           if (error) {
             throw error;
           }
-          res.json({ token });
+          res.json(token);
         }
       );
     } catch (error: any) {
@@ -103,11 +106,7 @@ router.put(
   [
     auth,
     body('name', 'Name is required').not().isEmpty(),
-    body('email', 'Please include a valid email').isEmail(),
-    body(
-      'password',
-      'Please enter a password with 6 or more characters'
-    ).isLength({ min: 6, max: 45 })
+    body('email', 'Please include a valid email').isEmail()
     // TODO body('userDetails', 'Please include a valid user details'),
   ],
   async (req: Request, res: Response) => {
@@ -118,9 +117,16 @@ router.put(
     }
 
     try {
-      // !encrypt password [Remove password logic away]
-      const salt = await bcrypt.genSalt(10);
-      req.body.password = await bcrypt.hash(req.body.password, salt);
+      if (req.body.password) {
+        if (req.body.password.length < 6) {
+          return res.status(400).json({
+            errors: 'Please enter a password with 6 or more characters'
+          });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+      }
 
       await User.findByIdAndUpdate((req as any).user.id, req.body);
 

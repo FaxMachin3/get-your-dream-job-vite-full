@@ -4,7 +4,7 @@ import { Schema, model } from 'mongoose';
 const UserDetails = new Schema<IUserDetails>({
   type: { type: String, required: true },
   contact: { type: String },
-  location: { type: String, required: true },
+  location: { type: String, default: '' },
   githubUsername: { type: String },
   skills: { type: [String] },
   appliedTo: { type: [String] },
