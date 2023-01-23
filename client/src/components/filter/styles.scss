@@ -1,32 +1,32 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .create-job-modal {
-    top: 40px;
+  top: 40px;
 }
 
 .create-job {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 
-    > button {
-        width: 100%;
-    }
+  > button {
+    width: 100%;
+  }
 }
 
 .search-input {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 
-    .search-icon {
-        opacity: 0.2;
-    }
+  .search-icon {
+    opacity: 0.2;
+  }
 }
 
 .filter-title {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 @media screen and (max-width: $media-mobile-width) {
-    .create-job-modal {
-        top: 10px;
-        width: 90% !important;
-    }
+  .create-job-modal {
+    top: 10px;
+    width: 90% !important;
+  }
 }

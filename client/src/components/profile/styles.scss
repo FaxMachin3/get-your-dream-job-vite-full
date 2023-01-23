@@ -1,144 +1,144 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .edit-profile-modal {
-    top: 40px;
+  top: 40px;
 
-    button {
-        // border-radius: $button-radius;
-    }
+  button {
+    // border-radius: $button-radius;
+  }
 }
 
 .profile-wrapper {
-    .profile-card {
-        margin-bottom: 2rem;
-        // border-radius: $button-radius;
+  .profile-card {
+    margin-bottom: 2rem;
+    // border-radius: $button-radius;
+  }
+
+  .profile-details-top {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    .title {
+      margin-bottom: 1.4rem;
     }
 
-    .profile-details-top {
-        position: relative;
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.4rem;
+
+      .avatar {
         display: flex;
         justify-content: center;
         align-items: center;
-        text-align: center;
+        height: 100px;
+        width: 100px;
 
-        .title {
-            margin-bottom: 1.4rem;
+        span {
+          font-size: 4rem;
         }
-
-        .avatar-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.4rem;
-
-            .avatar {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100px;
-                width: 100px;
-
-                span {
-                    font-size: 4rem;
-                }
-            }
-        }
-
-        .edit-profile {
-            margin: 1rem;
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
+      }
     }
 
-    .applied-jobs {
-        &-title {
-            margin: auto 0;
-            width: fit-content;
-            font-size: 2rem;
-        }
+    .edit-profile {
+      margin: 1rem;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .applied-jobs {
+    &-title {
+      margin: auto 0;
+      width: fit-content;
+      font-size: 2rem;
+    }
+  }
+
+  .github-repos {
+    &-title {
+      margin: auto 0;
+      width: fit-content;
+      font-size: 2rem;
     }
 
-    .github-repos {
-        &-title {
-            margin: auto 0;
-            width: fit-content;
-            font-size: 2rem;
-        }
+    .git-card {
+      margin-bottom: 2rem;
 
-        .git-card {
-            margin-bottom: 2rem;
-
-            > div {
-                display: flex;
-                justify-content: space-around;
-            }
-        }
-
-        .left {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex-grow: 1;
-
-            :last-child {
-                margin: 0;
-            }
-        }
-
-        .repo-description {
-            font-size: 1rem;
-        }
-
-        .right {
-            text-align: center;
-
-            :last-child {
-                margin: 0;
-            }
-
-            span {
-                width: 100%;
-            }
-        }
-
-        .no-repo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+      > div {
+        display: flex;
+        justify-content: space-around;
+      }
     }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+
+      :last-child {
+        margin: 0;
+      }
+    }
+
+    .repo-description {
+      font-size: 1rem;
+    }
+
+    .right {
+      text-align: center;
+
+      :last-child {
+        margin: 0;
+      }
+
+      span {
+        width: 100%;
+      }
+    }
+
+    .no-repo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 
 @media screen and (max-width: $media-mobile-width) {
-    .edit-profile-modal {
-        top: 10px;
-        width: 90% !important;
+  .edit-profile-modal {
+    top: 10px;
+    width: 90% !important;
+  }
+
+  .profile-wrapper {
+    .edit-profile {
+      font-size: 1.2rem;
     }
 
-    .profile-wrapper {
-        .edit-profile {
-            font-size: 1.2rem;
+    .github-repos {
+      .left {
+        .link {
+          font-size: 1.1rem;
+          max-width: 130px;
         }
+      }
 
-        .github-repos {
-            .left {
-                .link {
-                    font-size: 1.1rem;
-                    max-width: 130px;
-                }
-            }
+      .repo-description {
+        font-size: 0.8rem;
+      }
 
-            .repo-description {
-                font-size: 0.8rem;
-            }
-
-            .right {
-                span {
-                    font-size: 0.8rem;
-                }
-            }
+      .right {
+        span {
+          font-size: 0.8rem;
         }
+      }
     }
+  }
 }

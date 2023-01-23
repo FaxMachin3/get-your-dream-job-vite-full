@@ -1,17 +1,17 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .navbar {
-    height: $navbar-height;
-    padding: 1.75rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  height: $navbar-height;
+  padding: 1.75rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    .logo a {
-        font-weight: bold;
-    }
+  .logo a {
+    font-weight: bold;
+  }
 
-    .links > span:not(:last-child) {
-        margin-right: 1.6rem;
-    }
+  .links > span:not(:last-child) {
+    margin-right: 1.6rem;
+  }
 }

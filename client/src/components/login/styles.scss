@@ -1,28 +1,28 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .login-wrapper {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    .login-content {
-        flex-grow: 1;
-        margin: 3rem;
-        max-width: $max-form-width;
-        padding: 1.5rem;
-        border-radius: 1rem;
+  .login-content {
+    flex-grow: 1;
+    margin: 3rem;
+    max-width: $max-form-width;
+    padding: 1.5rem;
+    border-radius: 1rem;
 
-        .title {
-            font-weight: bold;
-            text-align: center;
-        }
+    .title {
+      font-weight: bold;
+      text-align: center;
     }
+  }
 }
 
 @media screen and (max-width: $media-mobile-width) {
-    .login-wrapper {
-        .login-content {
-            margin: 1rem;
-            padding: 3rem;
-        }
+  .login-wrapper {
+    .login-content {
+      margin: 1rem;
+      padding: 3rem;
     }
+  }
 }

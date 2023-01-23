@@ -1,8 +1,8 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .loader-wrapper {
-    width: 100%;
-    height: calc(100% - $navbar-height);
-    display: grid;
-    place-content: center;
+  width: 100%;
+  height: calc(100% - $navbar-height);
+  display: grid;
+  place-content: center;
 }

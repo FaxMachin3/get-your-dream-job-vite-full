@@ -1,110 +1,110 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .landing {
-    height: calc(100% - $navbar-height);
-    display: flex;
+  height: calc(100% - $navbar-height);
+  display: flex;
 
-    &-text {
-        margin: auto 0;
+  &-text {
+    margin: auto 0;
 
-        .landing.text {
-            height: 100%;
-        }
-
-        .landing-content {
-            height: 100%;
-            display: flex;
-            justify-content: space-evenly;
-            flex-direction: column;
-            > h1 {
-                margin-bottom: 4rem;
-                font-size: 6rem;
-            }
-
-            > .sub-title {
-                margin-bottom: 4rem;
-                font-size: 3rem;
-            }
-
-            .sign-up-btn:first-child {
-                margin-right: 4rem;
-            }
-        }
+    .landing.text {
+      height: 100%;
     }
 
-    .backdrop {
-        margin: auto;
-        padding-top: 1rem;
-        flex-basis: 500px;
-        display: grid;
-        place-content: center;
+    .landing-content {
+      height: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: column;
+      > h1 {
+        margin-bottom: 4rem;
+        font-size: 6rem;
+      }
 
-        .ant-image,
-        .ant-image-img {
-            width: 500px;
-        }
+      > .sub-title {
+        margin-bottom: 4rem;
+        font-size: 3rem;
+      }
+
+      .sign-up-btn:first-child {
+        margin-right: 4rem;
+      }
     }
+  }
+
+  .backdrop {
+    margin: auto;
+    padding-top: 1rem;
+    flex-basis: 500px;
+    display: grid;
+    place-content: center;
+
+    .ant-image,
+    .ant-image-img {
+      width: 500px;
+    }
+  }
 }
 
 @media screen and (max-width: $media-tablet-width) {
-    .landing {
-        flex-direction: column-reverse;
-        justify-content: space-evenly;
-        &-text {
-            margin: initial;
-            margin-bottom: 5rem;
+  .landing {
+    flex-direction: column-reverse;
+    justify-content: space-evenly;
+    &-text {
+      margin: initial;
+      margin-bottom: 5rem;
 
-            .landing-content {
-                text-align: center;
-                > h1 {
-                    margin-bottom: 2rem;
-                    font-size: 5rem;
-                }
-
-                > .sub-title {
-                    margin-bottom: 2rem;
-                    font-size: 1.5rem;
-                }
-            }
+      .landing-content {
+        text-align: center;
+        > h1 {
+          margin-bottom: 2rem;
+          font-size: 5rem;
         }
+
+        > .sub-title {
+          margin-bottom: 2rem;
+          font-size: 1.5rem;
+        }
+      }
     }
+  }
 }
 
 @media screen and (max-width: $media-mobile-width) {
-    .landing {
-        &-text {
-            .landing-content {
-                > h1 {
-                    font-size: 3rem;
-                    margin-bottom: 3rem;
-                }
-
-                > .sub-title {
-                    margin-bottom: 2rem;
-                    font-size: 1.5rem;
-                }
-
-                .button-container {
-                    button {
-                        margin-top: 1rem;
-                        font-size: 1.3rem;
-                        flex-grow: 1;
-                        padding: 0rem 1rem;
-                    }
-                }
-            }
+  .landing {
+    &-text {
+      .landing-content {
+        > h1 {
+          font-size: 3rem;
+          margin-bottom: 3rem;
         }
 
-        .backdrop {
-            margin: initial;
-            flex-basis: auto;
-            padding-top: 1rem;
-            margin-bottom: 2rem;
-
-            .ant-image,
-            .ant-image-img {
-                width: 375px;
-            }
+        > .sub-title {
+          margin-bottom: 2rem;
+          font-size: 1.5rem;
         }
+
+        .button-container {
+          button {
+            margin-top: 1rem;
+            font-size: 1.3rem;
+            flex-grow: 1;
+            padding: 0rem 1rem;
+          }
+        }
+      }
     }
+
+    .backdrop {
+      margin: initial;
+      flex-basis: auto;
+      padding-top: 1rem;
+      margin-bottom: 2rem;
+
+      .ant-image,
+      .ant-image-img {
+        width: 375px;
+      }
+    }
+  }
 }

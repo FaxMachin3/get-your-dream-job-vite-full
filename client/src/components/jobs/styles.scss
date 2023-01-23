@@ -1,119 +1,119 @@
-@import '../../partials/config';
+@import "../../partials/config";
 
 .job-listing {
-    flex-grow: 1;
+  flex-grow: 1;
 
-    .job-card {
-        margin-bottom: 2rem;
-        border-radius: 1rem;
+  .job-card {
+    margin-bottom: 2rem;
+    border-radius: 1rem;
 
-        > :first-child {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .content {
-            flex-grow: 1;
-            display: flex;
-
-            &.content-candidate {
-                margin-right: 2rem;
-                padding-right: 1rem;
-                border-right: 1px solid #f0f0f0;
-            }
-
-            .logo {
-                margin: auto 0;
-                &-image {
-                    display: grid;
-                    place-content: center;
-                }
-            }
-
-            .job-details {
-                margin-left: 2rem;
-                flex-grow: 1;
-
-                .title {
-                    font-weight: bold;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-
-                    .applicants {
-                        font-size: 0.9rem;
-                        font-weight: normal;
-                    }
-                }
-
-                .contact {
-                    font-size: 0.8rem;
-                }
-
-                .tags {
-                    max-width: 400px;
-                    > span {
-                        padding: 0 0.5rem;
-                        margin-right: 0.5rem;
-                        font-size: 0.8rem;
-                    }
-                }
-            }
-        }
-        .not-interested-button {
-            margin-top: 1rem;
-        }
-
-        .action-center {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    > :first-child {
+      display: flex;
+      justify-content: space-between;
     }
+
+    .content {
+      flex-grow: 1;
+      display: flex;
+
+      &.content-candidate {
+        margin-right: 2rem;
+        padding-right: 1rem;
+        border-right: 1px solid #f0f0f0;
+      }
+
+      .logo {
+        margin: auto 0;
+        &-image {
+          display: grid;
+          place-content: center;
+        }
+      }
+
+      .job-details {
+        margin-left: 2rem;
+        flex-grow: 1;
+
+        .title {
+          font-weight: bold;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .applicants {
+            font-size: 0.9rem;
+            font-weight: normal;
+          }
+        }
+
+        .contact {
+          font-size: 0.8rem;
+        }
+
+        .tags {
+          max-width: 400px;
+          > span {
+            padding: 0 0.5rem;
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+    .not-interested-button {
+      margin-top: 1rem;
+    }
+
+    .action-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
 }
 
 .applicants-modal {
-    // div,
-    // button {
-    //     border-radius: $button-radius;
-    // }
-    .ant-modal-close-x,
-    .applicantsOkButton {
-        display: none;
-    }
+  // div,
+  // button {
+  //     border-radius: $button-radius;
+  // }
+  .ant-modal-close-x,
+  .applicantsOkButton {
+    display: none;
+  }
 }
 
 @media screen and (max-width: $media-tablet-width) {
-    .job-listing {
-        .job-card {
-            .content {
-                flex-direction: column;
+  .job-listing {
+    .job-card {
+      .content {
+        flex-direction: column;
 
-                .logo {
-                    margin: 1rem auto;
-                }
-
-                .job-details {
-                    .tags {
-                        max-width: 400px;
-                    }
-                }
-            }
+        .logo {
+          margin: 1rem auto;
         }
+
+        .job-details {
+          .tags {
+            max-width: 400px;
+          }
+        }
+      }
     }
+  }
 }
 
 @media screen and (max-width: $media-mobile-width) {
-    .job-listing {
-        .job-card {
-            .content {
-                .job-details {
-                    margin: 0;
-                    .tags {
-                        max-width: 225px;
-                    }
-                }
-            }
+  .job-listing {
+    .job-card {
+      .content {
+        .job-details {
+          margin: 0;
+          .tags {
+            max-width: 225px;
+          }
         }
+      }
     }
+  }
 }

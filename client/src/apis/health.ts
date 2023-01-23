@@ -1,6 +1,6 @@
-import { API_ROUTES } from '../constants';
-import { axiosRequest } from '../utils/axios-utils';
+import { API_ROUTES } from "../constants";
+import { axiosRequest } from "../utils/axios-utils";
 
 export const getServerHealth = async () => {
-    return axiosRequest({ url: API_ROUTES.HEALTH });
+  return axiosRequest({ url: API_ROUTES.HEALTH });
 };
