@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input, Button, Typography, Form, Card } from 'antd';
 import { Link, Navigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
-import { useLoginUser } from '../../hooks/useUserFetch';
+import { useLoginUser } from '../../hooks/mutation';
 import { useAppStore } from '../../stores';
 
 import './styles.scss';

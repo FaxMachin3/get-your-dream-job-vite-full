@@ -4,11 +4,10 @@ import { Input, Form, Typography, Button, notification, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { ROUTES, USER_TYPE } from '../../constants';
 import { useAppStore } from '../../stores';
-import { useMutation } from '@tanstack/react-query';
-import { signUp } from '../../apis/user';
+import { IUser, IUserDetails } from '../../types/common-types';
+import { useSignUp } from '../../hooks/mutation';
 
 import './styles.scss';
-import { IUser, IUserDetails } from '../../types/common-types';
 
 interface SignUpProps {}
 
@@ -21,7 +20,7 @@ const SignUp: React.FC<SignUpProps> = () => {
     mutate: signUpMutate,
     isError: isSignUpError,
     isLoading: isSignUpLoading
-  } = useMutation(signUp, { onSuccess: ({ data }) => setUserToken(data) });
+  } = useSignUp(setUserToken);
 
   const location = useLocation();
   const isRecruiter: boolean = location.pathname === ROUTES.RECRUITER_SIGN_UP;
