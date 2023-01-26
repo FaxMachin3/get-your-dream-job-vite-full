@@ -16,9 +16,7 @@ import { useLocation } from 'react-router-dom';
 import Loader from '../loader';
 import { useAppStore } from '../../stores';
 import { IJob, IUser } from '../../types/common-types';
-import { useMutation } from '@tanstack/react-query';
-import { useApplyJob } from '../../hooks/useApplyJob';
-import { getAllApplicantsProfile } from '../../apis/user';
+import { useApplyJob, useGetAllApplicantsProfile } from '../../hooks/mutation';
 import Profile from '../profile';
 
 import './styles.scss';
@@ -44,7 +42,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     isLoading: isApplicantsDataLoading,
     isError: isErrorDataLoading,
     mutate: getApplicantsData
-  } = useMutation(getAllApplicantsProfile);
+  } = useGetAllApplicantsProfile();
 
   const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
   const isProfileRoute = location.pathname === ROUTES.PROFILE;

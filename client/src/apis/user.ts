@@ -24,3 +24,11 @@ export const signUp = async (payload: IUser) => {
     data: payload
   });
 };
+
+export const editProfile = async (payload: IUser) => {
+  return axiosRequest({
+    url: API_ROUTES.USER.EDIT_PROFILE,
+    method: API_METHOD.PUT,
+    data: payload
+  });
+};

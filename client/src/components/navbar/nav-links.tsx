@@ -1,19 +1,17 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES, STORE } from '../../constants';
+import { ROUTES } from '../../constants';
 import { useAppStore } from '../../stores';
 import { navLinksWrapper } from '../../utils/common';
 
 export const NavLinks = () => {
   const queryClient = useQueryClient();
-  const { currentUser, setUserToken, setCurrentUser } = useAppStore(
-    (state) => ({
-      currentUser: state.currentUser,
-      setUserToken: state.setUserToken,
-      setCurrentUser: state.setCurrentUser
-    })
-  );
+  const { userToken, setUserToken, setCurrentUser } = useAppStore((state) => ({
+    userToken: state.userToken,
+    setUserToken: state.setUserToken,
+    setCurrentUser: state.setCurrentUser
+  }));
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -25,7 +23,7 @@ export const NavLinks = () => {
 
   const navs = navLinksWrapper({ onLogout });
 
-  if (!currentUser) {
+  if (!userToken) {
     return (
       <>
         {navs.NON_USER_NAVS.map(({ title, to }) => (

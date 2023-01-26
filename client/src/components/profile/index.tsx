@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { ROUTES, STORE, USER_TYPE } from '../../constants';
+import { ROUTES, USER_TYPE } from '../../constants';
 import { UserOutlined } from '@ant-design/icons';
 import EditJob from '../edit-profile';
 import { ERROR } from '../../utils/fake-apis-utils';
@@ -19,11 +19,14 @@ import { validateEmail } from '../../utils/common';
 import Jobs from '../jobs';
 import { useAppStore } from '../../stores';
 import { IUser } from '../../types/common-types';
+import { useEditProfileMutation } from '../../hooks/mutation';
+import {
+  useGetAppliedJobs,
+  useGetUserData,
+  usGetUserGitHubRepos
+} from '../../hooks/query';
 
 import './styles.scss';
-import { useQuery } from '@tanstack/react-query';
-import { getUserGitHubRepos } from '../../apis/user';
-import { getAppliedJobs } from '../../apis/job';
 
 interface ProfileProps {
   applicant?: IUser;
@@ -34,40 +37,38 @@ const Profile: React.FC<ProfileProps> = ({
   applicant,
   isProfileViewer = false
 }) => {
-  const currentUser = useAppStore((state) => state.currentUser);
+  const { currentUser, setCurrentUser, userToken } = useAppStore((state) => ({
+    currentUser: state.currentUser,
+    setCurrentUser: state.setCurrentUser,
+    userToken: state.userToken
+  }));
   const currentUserProfile = applicant ?? currentUser;
+  const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
   const isRecruiter =
     currentUserProfile?.userDetails?.type === USER_TYPE.RECRUITER;
 
+  useGetUserData(setCurrentUser, !!userToken);
   const {
     data: appliedJobs,
     isLoading: isAppliedJobLoading,
     isError: isAppliedJobError
-  } = useQuery(
-    [STORE.SUB_STORE.APPLIED_JOBS],
-    () => getAppliedJobs({ offset: 0, pageSize: 5 }),
-    {
-      enabled: !!currentUser && !isProfileViewer && !isRecruiter
-    }
-  );
+  } = useGetAppliedJobs(!!currentUser && !isProfileViewer && !isRecruiter);
   const {
     data: gitHubRepos,
     isLoading: isFetchingRepos,
     isError: isRepoFetchingError
-  } = useQuery(
-    [
-      STORE.SUB_STORE.USER_REPOS,
-      currentUserProfile?.userDetails?.githubUsername
-    ],
-    () => getUserGitHubRepos(currentUserProfile?.userDetails?.githubUsername),
-    {
-      enabled: !!currentUser && (isProfileViewer || !isRecruiter),
-      retry: 0
-    }
+  } = usGetUserGitHubRepos(
+    currentUserProfile?.userDetails?.githubUsername,
+    !!currentUser &&
+      !!currentUserProfile?.userDetails?.githubUsername &&
+      (isProfileViewer || !isRecruiter)
   );
+  const {
+    mutate: editProfileMutate,
+    isLoading: isEditProfileLoading,
+    isError: isEditProfileError
+  } = useEditProfileMutation(setOpenEditProfileModal);
 
-  const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
-  const [isOkLoading, setIsOkLoading] = useState(false);
   const [editProfileFormData, setEditProfileFormData] = useState<
     Partial<IUser & { confirmPassword: string }>
   >({
@@ -224,8 +225,6 @@ const Profile: React.FC<ProfileProps> = ({
       return;
     }
 
-    setIsOkLoading(true);
-
     const payload = {
       ...editProfileFormData
     };
@@ -233,24 +232,7 @@ const Profile: React.FC<ProfileProps> = ({
     delete payload.confirmPassword;
     if (!payload.password) delete payload.password;
 
-    // updateUser(currentUserProfile.email, payload)
-    //     .then(() => {
-    //         setOpenEditProfileModal(false);
-    //         setIsOkLoading(false);
-    //         setCurrentUserAndLocalStorage?.({
-    //             ...payload,
-    //             id: currentUserProfile.id,
-    //         } as User);
-    //         notification['info']({
-    //             message: '',
-    //             description: SUCCESS.PROFILE_SAVED,
-    //             placement: 'bottomRight',
-    //         });
-    //     })
-    //     .catch(() => {
-    //         setOpenEditProfileModal(false);
-    //         setIsOkLoading(false);
-    //     });
+    editProfileMutate(payload as IUser);
   };
 
   const cancelHandler = () => {
@@ -292,7 +274,7 @@ const Profile: React.FC<ProfileProps> = ({
               className: 'cancel-button'
             }}
             okButtonProps={{
-              loading: isOkLoading,
+              loading: isEditProfileLoading,
               size: 'large',
               className: 'create-button'
             }}

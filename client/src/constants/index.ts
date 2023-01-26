@@ -30,6 +30,7 @@ export const API_ROUTES = {
   },
   USER: {
     REGISTER: 'api/v1/user',
+    EDIT_PROFILE: 'api/v1/user/update',
     APPLY: '/api/v1/user/apply',
     GET_APPLICANTS_DATA: '/api/v1/user/all'
   }
