@@ -1,12 +1,19 @@
-import { ROUTES } from '../constants';
+import { API_ROUTES, ROUTES } from '../constants';
 
-export function debounce<T extends Function>(func: T, delay: number = 100): T {
+export function debounce<T extends Function>(
+  func: T,
+  delay: number = 100,
+  context?: Object
+): T {
   let timer: number | undefined;
 
   return ((...args: any[]) => {
     clearTimeout(timer);
-    // @ts-ignore: Implicit type
-    timer = setTimeout(() => (func as Function).apply(this, args), delay);
+    timer = setTimeout(
+      // @ts-ignore: Implicit type
+      () => (func as Function).apply(context ?? this, args),
+      delay
+    );
   }) as any;
 }
 
@@ -57,3 +64,8 @@ export const navLinksWrapper = ({
 
   return NAVS;
 };
+
+export const getSpecificVersionApi = (
+  route: string,
+  version = API_ROUTES.V1
+): string => `${version}${route}`;

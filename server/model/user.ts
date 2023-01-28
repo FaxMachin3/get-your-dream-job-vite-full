@@ -3,11 +3,11 @@ import { Schema, model } from 'mongoose';
 
 const UserDetails = new Schema<IUserDetails>({
   type: { type: String, required: true },
-  contact: { type: String },
+  contact: { type: String, unique: true },
   location: { type: String, default: '' },
-  githubUsername: { type: String },
-  skills: { type: [String] },
-  appliedTo: { type: [String] },
+  githubUsername: { type: String, default: '' },
+  skills: { type: [String], default: [] },
+  appliedTo: { type: [String], default: [] },
   companyName: { type: String }
 });
 
@@ -30,5 +30,7 @@ const UserSchema = new Schema<IUser>({
     required: true
   }
 });
+
+UserSchema.index({ email: 1 }, { unique: true });
 
 export default model<IUser>('users', UserSchema);

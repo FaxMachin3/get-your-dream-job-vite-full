@@ -128,9 +128,12 @@ router.put(
         req.body.password = await bcrypt.hash(req.body.password, salt);
       }
 
-      await User.findByIdAndUpdate((req as any).user.id, req.body);
+      const updatedUser = await User.findByIdAndUpdate(
+        (req as any).user.id,
+        req.body
+      );
 
-      res.status(200).json({ message: 'Profile updated!' });
+      res.status(200).json(updatedUser);
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({
@@ -179,11 +182,15 @@ router.put(
         });
       }
 
-      job.applicants.unshift((req as any).user.id);
+      const user = await User.findById((req as any).user.id);
+
+      job.applicants.push((req as any).user.id);
+      user!.userDetails.appliedTo!.unshift(req.params.jobId);
 
       await job.save();
+      await user!.save();
 
-      res.status(200).json({ message: 'Applied.' });
+      res.status(200).json(user!.userDetails.appliedTo);
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({

@@ -20,18 +20,16 @@ const JobSchema = new Schema<IJob>({
   },
   requirement: {
     type: String,
-    validate: {
-      validator: (str: string) => !!(str?.length >= 0),
-      message: 'Not valid string'
-    }
+    default: ''
   },
   location: {
     type: String,
-    required: true
+    default: ''
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    index: true
   },
   createdBy: {
     type: String,
@@ -39,16 +37,21 @@ const JobSchema = new Schema<IJob>({
   },
   salaryRange: {
     type: [Number, Number],
-    required: true
+    required: true,
+    default: [0, Number.MAX_SAFE_INTEGER]
   },
   tags: {
     type: [String],
-    required: true
+    required: true,
+    default: []
   },
   applicants: {
     type: [String],
-    required: true
+    required: true,
+    default: []
   }
 });
+
+JobSchema.index({ createdAt: 1, createdBy: 1 }, { unique: true });
 
 export default model<IJob>('jobs', JobSchema);
