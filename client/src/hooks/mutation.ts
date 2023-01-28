@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../apis/auth';
-import { applyJob } from '../apis/job';
+import { applyJob, createJob } from '../apis/job';
 import { editProfile, getAllApplicantsProfile, signUp } from '../apis/user';
 import { STORE } from '../constants';
 
@@ -43,4 +43,17 @@ export const useSignUp = (setUserToken: (token: string | null) => void) => {
 
 export const useGetAllApplicantsProfile = () => {
   return useMutation(getAllApplicantsProfile);
+};
+
+export const useCreateJob = (
+  setOpenCreateJobModal: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(createJob, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([STORE.SUB_STORE.JOBS]);
+      setOpenCreateJobModal(false);
+    }
+  });
 };

@@ -6,6 +6,7 @@ import TagSelect from '../tag-select';
 import { ERROR } from '../../utils/fake-apis-utils';
 import { useAppStore } from '../../stores';
 import { IJob } from '../../types/common-types';
+import { useCreateJob } from '../../hooks/mutation';
 
 import './styles.scss';
 
@@ -14,7 +15,6 @@ interface FilterProps {}
 const Filter: React.FC<FilterProps> = () => {
   const currentUser = useAppStore((state) => state.currentUser);
   const [openCreateJobModal, setOpenCreateJobModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
   const [filter, setFilter] = useState<FilterType>({
     tags: [],
@@ -31,6 +31,12 @@ const Filter: React.FC<FilterProps> = () => {
     salaryRange: [0, Number.MAX_SAFE_INTEGER],
     tags: []
   });
+
+  const {
+    mutate: createJob,
+    isLoading: isCreatingJob,
+    isError: isCreatingJobError
+  } = useCreateJob(setOpenCreateJobModal);
 
   // useEffect(() => {
   //     memoizedGetJobsForUser();
@@ -66,22 +72,7 @@ const Filter: React.FC<FilterProps> = () => {
       return;
     }
 
-    setIsLoading(true);
-    // createJob(jobFormData)
-    //     .then(() => {
-    //         setOpenCreateJobModal(false);
-    //         setIsLoading(false);
-    //         getJobsForUser(filter);
-    //         notification['info']({
-    //             message: '',
-    //             description: SUCCESS.JOB_CREATED,
-    //             placement: 'bottomRight',
-    //         });
-    //     })
-    //     .catch(() => {
-    //         setOpenCreateJobModal(false);
-    //         setIsLoading(false);
-    //     });
+    createJob(jobFormData as IJob);
   };
 
   const cancelHandler = () => {
@@ -111,7 +102,7 @@ const Filter: React.FC<FilterProps> = () => {
               className: 'cancel-button'
             }}
             okButtonProps={{
-              loading: isLoading,
+              loading: isCreatingJob,
               size: 'large',
               className: 'create-button'
             }}

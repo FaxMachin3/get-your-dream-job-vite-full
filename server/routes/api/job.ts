@@ -56,6 +56,7 @@ router.get(
       const allJobs = await Job.find({
         ...searchConfig
       })
+        .sort({ createdAt: 'desc' }) // Todo: add caching | find a way to keep the new data at the top
         .select(selectConfig)
         .skip(start)
         .limit(pageSize);
@@ -97,7 +98,7 @@ router.get(
         '-password'
       );
 
-      if (user?.userDetails.type === USER_TYPE.RECRUITER) {
+      if (user!.userDetails.type === USER_TYPE.RECRUITER) {
         return res.status(400).json({
           error: 'Action not allowed!'
         });
@@ -108,7 +109,7 @@ router.get(
       const start = pageSize * offset;
 
       const allJobs = await Job.find({
-        applicants: { $in: (req as any).user.id }
+        _id: { $in: user!.userDetails.appliedTo }
       })
         .select('-applicants')
         .skip(start)

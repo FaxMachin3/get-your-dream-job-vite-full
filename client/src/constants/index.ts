@@ -22,17 +22,19 @@ export const STORE = {
 };
 
 export const API_ROUTES = {
+  V1: '/api/v1',
   HEALTH: '/health',
-  LOGIN: '/api/v1/auth',
+  LOGIN: '/auth',
   JOB: {
-    GET: '/api/v1/jobs',
-    GET_APPLIED: '/api/v1/jobs/applied'
+    GET: '/jobs',
+    GET_APPLIED: '/jobs/applied',
+    CREATE: '/jobs/add'
   },
   USER: {
-    REGISTER: 'api/v1/user',
-    EDIT_PROFILE: 'api/v1/user/update',
-    APPLY: '/api/v1/user/apply',
-    GET_APPLICANTS_DATA: '/api/v1/user/all'
+    REGISTER: '/user',
+    EDIT_PROFILE: '/user/update',
+    APPLY: '/user/apply',
+    GET_APPLICANTS_DATA: '/user/all'
   }
 };
 

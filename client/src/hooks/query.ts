@@ -14,7 +14,6 @@ export const useGetUserData = (
   return useQuery([STORE.SUB_STORE.CURRENT_USER], getUserData, {
     enabled,
     onSuccess: ({ data }) => {
-      console.log({ data });
       setCurrentUser(data);
       queryClient.invalidateQueries([STORE.SUB_STORE.USER_REPOS]);
     }
