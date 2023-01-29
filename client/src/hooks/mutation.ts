@@ -1,9 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 import { loginUser } from '../apis/auth';
 import { applyJob, createJob } from '../apis/job';
 import { editProfile, getAllApplicantsProfile, signUp } from '../apis/user';
-import { STORE } from '../constants';
+import { STORE, SUCCESS } from '../constants';
 
 export const useApplyJob = () => {
   const queryClient = useQueryClient();
@@ -12,6 +13,7 @@ export const useApplyJob = () => {
     onSuccess: async () => {
       queryClient.invalidateQueries([STORE.SUB_STORE.JOBS]);
       queryClient.invalidateQueries([STORE.SUB_STORE.APPLIED_JOBS]);
+      message.success({ content: SUCCESS.JOB_APPLIED });
     }
   });
 };
@@ -20,6 +22,9 @@ export const useLoginUser = (setUserToken: (token: string | null) => void) => {
   return useMutation(loginUser, {
     onSuccess: ({ data }) => {
       setUserToken(data);
+    },
+    onError: (error: any) => {
+      message.error({ content: error.response.data.error ?? error.message });
     }
   });
 };
@@ -32,13 +37,19 @@ export const useEditProfileMutation = (
   return useMutation(editProfile, {
     onSuccess: () => {
       queryClient.invalidateQueries([STORE.SUB_STORE.CURRENT_USER]);
+      message.success({ content: SUCCESS.PROFILE_SAVED });
       setOpenEditProfileModal(false);
     }
   });
 };
 
 export const useSignUp = (setUserToken: (token: string | null) => void) => {
-  return useMutation(signUp, { onSuccess: ({ data }) => setUserToken(data) });
+  return useMutation(signUp, {
+    onSuccess: ({ data }) => setUserToken(data),
+    onError: (error: any) => {
+      message.error({ content: error.response.data.error ?? error.message });
+    }
+  });
 };
 
 export const useGetAllApplicantsProfile = () => {
@@ -53,6 +64,7 @@ export const useCreateJob = (
   return useMutation(createJob, {
     onSuccess: () => {
       queryClient.invalidateQueries([STORE.SUB_STORE.JOBS]);
+      message.success({ content: SUCCESS.JOB_CREATED });
       setOpenCreateJobModal(false);
     }
   });

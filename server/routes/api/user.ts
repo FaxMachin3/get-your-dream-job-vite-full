@@ -46,7 +46,7 @@ router.post(
       // check if email already exists
       if (userDoc) {
         return res.status(400).json({
-          error: 'User already exists'
+          error: 'User already exists.'
         });
       }
 
@@ -89,7 +89,7 @@ router.post(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }
@@ -137,7 +137,7 @@ router.put(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }
@@ -194,7 +194,7 @@ router.put(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }
@@ -222,7 +222,7 @@ router.post('/all', [auth], async (req: Request, res: Response) => {
 
     if ((req as any).user.type !== USER_TYPE.RECRUITER) {
       return res.status(400).json({
-        error: 'Denied'
+        error: 'Denied!'
       });
     }
 
@@ -234,7 +234,7 @@ router.post('/all', [auth], async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error(error.message);
     res.status(500).json({
-      message: 'Server error',
+      message: 'Server error.',
       error: error.message
     });
   }

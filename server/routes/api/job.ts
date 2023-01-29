@@ -79,7 +79,7 @@ router.post(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }
@@ -133,7 +133,7 @@ router.get(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }
@@ -190,7 +190,7 @@ router.post(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).json({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }

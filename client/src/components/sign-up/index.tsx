@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Input, Form, Typography, Button, notification, Card } from 'antd';
+import { Input, Form, Typography, Button, message, Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { ROUTES, USER_TYPE } from '../../constants';
+import { ERROR, ROUTES, USER_TYPE } from '../../constants';
 import { useAppStore } from '../../stores';
 import { IUser, IUserDetails } from '../../types/common-types';
 import { useSignUp } from '../../hooks/mutation';
@@ -70,10 +70,8 @@ const SignUp: React.FC<SignUpProps> = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (password !== confirmPassword) {
-      return notification['error']({
-        message: '',
-        description: 'Passwords do not match.',
-        placement: 'bottomRight'
+      return message.error({
+        content: ERROR.PASSWORD_MISMATCH
       });
     }
 

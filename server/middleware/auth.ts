@@ -23,7 +23,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
     next();
   } catch (error: any) {
     res.status(401).json({
-      message: 'Token is not valid',
+      message: 'Token is not valid.',
       error: error.message
     });
   }
