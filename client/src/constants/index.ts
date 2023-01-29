@@ -1,3 +1,7 @@
+export const _16KB = 16384;
+export const _PAGE_SIZE = 10;
+export const _TOTAL_JOBS = 150;
+
 export const ROUTES = {
   ROOT: '/',
   LOGIN: '/login',
@@ -85,6 +89,18 @@ export const tagsOptions = [
   'Adobe XD'
 ];
 
-export const _16KB = 16384;
-export const _PAGE_SIZE = 10;
-export const _TOTAL_JOBS = 150;
+export enum ERROR {
+  CHECK_CREDENTIALS = 'Please check your credentials.',
+  CHECK_FORM_DATA = 'Please fill asterisk(*) marked fields',
+  USER_EXISTS = 'This user is already registered.',
+  FEATURE_INCOMING = 'Feature on the way!',
+  PASSWORD_MISMATCH = 'Password mismatch!',
+  INVALID_EMAIL = 'Invalid email!',
+  INVALID_GITHUB = 'Invalid GitHut username!'
+}
+
+export enum SUCCESS {
+  JOB_APPLIED = 'Applied!',
+  JOB_CREATED = 'Job created!',
+  PROFILE_SAVED = 'Profile saved!'
+}

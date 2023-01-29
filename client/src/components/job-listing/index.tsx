@@ -11,7 +11,7 @@ import './styles.scss';
 interface JobListingProps {}
 
 const JobListing: React.FC<JobListingProps> = () => {
-  const [offset, setOffset] = useState<number>(0);
+  const [offset, setOffset] = useState<number>(1);
   const { userToken, setCurrentUser, jobFilter } = useAppStore((state) => ({
     userToken: state.userToken,
     setCurrentUser: state.setCurrentUser,

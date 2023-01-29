@@ -1,5 +1,5 @@
 import { tagsOptions } from '../constants';
-import { Job } from '../fake-apis/job-listing-apis';
+import { IJob } from '../types/common-types';
 
 const generateJobData = () => {
   const companyName: any = [
@@ -35,7 +35,9 @@ const generateJobData = () => {
     'Support Engineer - III',
     'Staff Engineer - II',
     'Staff Engineer - III',
-    'CEO'
+    'CEO',
+    'CFO',
+    'CTO'
   ];
   const location: any = [
     'Ranchi',
@@ -50,7 +52,8 @@ const generateJobData = () => {
     'Poland',
     'Warsaw',
     'Pakistan',
-    'China'
+    'China',
+    'Remote'
   ];
   // year month day
   const createdAt: any = [
@@ -70,19 +73,23 @@ const generateJobData = () => {
     [19, 2, 2024],
     [27, 7, 2019]
   ];
-  const createdBy: any = ['U-10004', 'U-10005', 'U-10006'];
+  const createdBy: any = [
+    '63d2adaacc9c4711f72a7b39',
+    '63ce8b825a0c0a82615b5a06',
+    '63cab0ad53d8efecf543c784'
+  ];
   const contact: any = [9360602123, 'janedoe@gmail.com', 4660602123];
 
   const getRandomNumber = (max: number, min: number = 0): number => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  const data: Job[] = [];
+  const data: Partial<IJob>[] = [];
 
-  for (let index = 1; index <= 150; index++) {
+  for (let index = 1; index <= 3000; index++) {
     const createdByIndex = getRandomNumber(createdBy.length - 1);
     data.push({
-      id: `J-${10000 + index}`,
+      // _id: `J-${10000 + index}`,
       companyName: companyName[getRandomNumber(companyName.length - 1)],
       title: title[getRandomNumber(title.length - 1)],
       contact: contact[createdByIndex],
@@ -94,7 +101,10 @@ const generateJobData = () => {
         createdAt[getRandomNumber(createdAt.length - 1)].reverse()
       ),
       createdBy: createdBy[createdByIndex],
-      salaryRange: [getRandomNumber(9000000, 500000), 9000000],
+      salaryRange: {
+        min: getRandomNumber(7000000, 500000),
+        max: getRandomNumber(7000001, 9999999)
+      },
       tags: tagsOptions.slice(
         getRandomNumber(tagsOptions.length - 1),
         getRandomNumber(
@@ -102,13 +112,13 @@ const generateJobData = () => {
           Math.floor((tagsOptions.length - 1) / 2)
         )
       ),
-      applicants: ['U-10003']
+      applicants: []
     });
   }
 
   return data;
 };
 
-const jobListing: Job[] = generateJobData();
+const jobListing: Partial<IJob>[] = generateJobData();
 
 export default jobListing;

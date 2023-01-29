@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getUserData } from '../apis/auth';
 import { getAppliedJobs, getJobs } from '../apis/job';
 import { getUserGitHubRepos } from '../apis/user';
-import { STORE, _TOTAL_JOBS } from '../constants';
+import { STORE, _PAGE_SIZE } from '../constants';
 import { FilterType, IUser } from '../types/common-types';
 
 export const useGetUserData = (
@@ -26,8 +26,8 @@ export const useGetJobs = (
   jobFilters: FilterType
 ) => {
   return useQuery(
-    [STORE.SUB_STORE.JOBS, jobFilters],
-    () => getJobs({ offset, pageSize: _TOTAL_JOBS, jobFilters }),
+    [STORE.SUB_STORE.JOBS, offset, jobFilters],
+    () => getJobs({ offset, pageSize: _PAGE_SIZE, jobFilters }),
     {
       enabled
     }
