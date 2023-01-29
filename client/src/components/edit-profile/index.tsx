@@ -159,7 +159,7 @@ const EditJob: React.FC<EditJobProps> = ({
         {!isRecruiter ? (
           <TagSelect
             onTagChange={onTagChange}
-            defaultValue={editProfileFormData.userDetails?.skills}
+            defaultValue={editProfileFormData.userDetails?.skills ?? []}
           />
         ) : null}
       </Form>

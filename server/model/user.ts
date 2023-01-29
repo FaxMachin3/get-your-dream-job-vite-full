@@ -2,7 +2,11 @@ import { IUser, IUserDetails } from '@_types/common-types.js';
 import { Schema, model } from 'mongoose';
 
 const UserDetails = new Schema<IUserDetails>({
-  type: { type: String, required: true },
+  type: {
+    type: String,
+    required: true,
+    enum: ['CANDIDATE', 'RECRUITER', 'ADMIN']
+  },
   contact: { type: String, unique: true },
   location: { type: String, default: '' },
   githubUsername: { type: String, default: '' },

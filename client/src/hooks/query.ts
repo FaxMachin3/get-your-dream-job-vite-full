@@ -3,7 +3,7 @@ import { getUserData } from '../apis/auth';
 import { getAppliedJobs, getJobs } from '../apis/job';
 import { getUserGitHubRepos } from '../apis/user';
 import { STORE, _TOTAL_JOBS } from '../constants';
-import { IUser } from '../types/common-types';
+import { FilterType, IUser } from '../types/common-types';
 
 export const useGetUserData = (
   setCurrentUser: (user: Partial<IUser> | null) => void,
@@ -20,10 +20,14 @@ export const useGetUserData = (
   });
 };
 
-export const useGetJobs = (offset: number, enabled: boolean) => {
+export const useGetJobs = (
+  offset: number,
+  enabled: boolean,
+  jobFilters: FilterType
+) => {
   return useQuery(
-    [STORE.SUB_STORE.JOBS],
-    () => getJobs({ offset, pageSize: _TOTAL_JOBS }),
+    [STORE.SUB_STORE.JOBS, jobFilters],
+    () => getJobs({ offset, pageSize: _TOTAL_JOBS, jobFilters }),
     {
       enabled
     }

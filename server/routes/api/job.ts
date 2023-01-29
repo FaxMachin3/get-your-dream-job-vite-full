@@ -1,21 +1,23 @@
 import express from 'express';
 const router = express.Router();
-import { query, validationResult } from 'express-validator';
+import { body, query, validationResult } from 'express-validator';
 
 import auth from '../../middleware/auth.js';
 import User from '../../model/user.js';
 import Job from '../../model/job.js';
-import { USER_TYPE } from '../../types/common-types.js';
+import { IJob, USER_TYPE } from '../../types/common-types.js';
 
 /**
- * @route  GET api/job
+ * @route  POST api/job
  * @desc   all jobs with filter
  * @access Private
  */
-router.get(
+router.post(
   '/',
   [
     auth,
+    body('tags', 'Should be array of strings').isArray(),
+    body('minSalary', 'Should be a string').isString(),
     query('pageSize', 'Page size should be > 0').isInt({ gt: 0 }),
     query('offset', 'Offset should be numeric').isInt()
   ],
@@ -27,6 +29,7 @@ router.get(
     }
 
     let { pageSize, offset } = req.query as any;
+    let { tags, minSalary } = req.body;
 
     try {
       const user = await User.findById((req as any).user.id).select(
@@ -40,6 +43,7 @@ router.get(
       const start = pageSize * offset;
 
       let searchConfig = {};
+      let commonSearchConfig: any = {};
       let selectConfig = '';
 
       if (isRecruiter) {
@@ -53,8 +57,18 @@ router.get(
         selectConfig = '-applicants';
       }
 
+      minSalary = parseInt(minSalary);
+      if (!Number.isNaN(minSalary)) {
+        commonSearchConfig['salaryRange.max'] = { $gte: minSalary };
+      }
+
+      if (tags.length > 0) {
+        commonSearchConfig['tags'] = { $in: tags };
+      }
+
       const allJobs = await Job.find({
-        ...searchConfig
+        ...searchConfig,
+        ...commonSearchConfig
       })
         .sort({ createdAt: 'desc' }) // Todo: add caching | find a way to keep the new data at the top
         .select(selectConfig)

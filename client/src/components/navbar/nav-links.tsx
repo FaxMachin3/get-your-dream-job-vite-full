@@ -2,21 +2,18 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
+import { useResetAppStore } from '../../hooks/common';
 import { useAppStore } from '../../stores';
 import { navLinksWrapper } from '../../utils/common';
 
 export const NavLinks = () => {
   const queryClient = useQueryClient();
-  const { userToken, setUserToken, setCurrentUser } = useAppStore((state) => ({
-    userToken: state.userToken,
-    setUserToken: state.setUserToken,
-    setCurrentUser: state.setCurrentUser
-  }));
+  const userToken = useAppStore((state) => state.userToken);
+  const resetAppStores = useResetAppStore();
   const navigate = useNavigate();
 
   const onLogout = () => {
-    setUserToken(null);
-    setCurrentUser(null);
+    resetAppStores();
     queryClient.clear();
     navigate(ROUTES.ROOT);
   };
