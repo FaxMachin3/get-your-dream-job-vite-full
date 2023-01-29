@@ -21,7 +21,7 @@ router.get('/', [auth], async (req: express.Request, res: express.Response) => {
     res.json(user);
   } catch (error: any) {
     console.error(error.message);
-    res.status(500).send({ message: 'Server error', error: error.message });
+    res.status(500).send({ message: 'Server error.', error: error.message });
   }
 });
 
@@ -87,7 +87,7 @@ router.post(
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({
-        message: 'Server error',
+        message: 'Server error.',
         error: error.message
       });
     }

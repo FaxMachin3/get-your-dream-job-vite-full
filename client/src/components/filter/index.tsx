@@ -1,4 +1,4 @@
-import { Button, Card, Input, Modal, notification, Typography } from 'antd';
+import { Button, Card, Input, message, Modal, Typography } from 'antd';
 import React, { useState } from 'react';
 import { ERROR, USER_TYPE } from '../../constants';
 import CreateJob from '../create-job';
@@ -56,10 +56,8 @@ const Filter: React.FC<FilterProps> = () => {
       !jobFormData.requirement ||
       !jobFormData.location
     ) {
-      notification['error']({
-        message: '',
-        description: ERROR.CHECK_FORM_DATA,
-        placement: 'topRight'
+      message.error({
+        content: ERROR.CHECK_FORM_DATA
       });
       return;
     }

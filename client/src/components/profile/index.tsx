@@ -4,7 +4,7 @@ import {
   Card,
   Empty,
   Modal,
-  notification,
+  message,
   Skeleton,
   Tag,
   Typography
@@ -196,30 +196,24 @@ const Profile: React.FC<ProfileProps> = ({
     setOpenEditProfileModal(true);
   };
 
-  const createJobHandler = () => {
+  const saveProfileHandler = () => {
     if (!validateEmail(editProfileFormData.email as string)) {
-      notification['error']({
-        message: '',
-        description: ERROR.INVALID_EMAIL,
-        placement: 'topRight'
+      message.error({
+        content: ERROR.INVALID_EMAIL
       });
       return;
     }
 
     if (!editProfileFormData.name || !editProfileFormData.email) {
-      notification['error']({
-        message: '',
-        description: ERROR.CHECK_FORM_DATA,
-        placement: 'topRight'
+      message.error({
+        content: ERROR.CHECK_FORM_DATA
       });
       return;
     }
 
     if (editProfileFormData.password !== editProfileFormData.confirmPassword) {
-      notification['error']({
-        message: '',
-        description: ERROR.PASSWORD_MISMATCH,
-        placement: 'topRight'
+      message.error({
+        content: ERROR.PASSWORD_MISMATCH
       });
       return;
     }
@@ -265,7 +259,7 @@ const Profile: React.FC<ProfileProps> = ({
           <Modal
             className="edit-profile-modal"
             open={openEditProfileModal}
-            onOk={createJobHandler}
+            onOk={saveProfileHandler}
             onCancel={cancelHandler}
             okText="Save"
             cancelButtonProps={{

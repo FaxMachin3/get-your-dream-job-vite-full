@@ -93,10 +93,13 @@ export enum ERROR {
   CHECK_CREDENTIALS = 'Please check your credentials.',
   CHECK_FORM_DATA = 'Please fill asterisk(*) marked fields',
   USER_EXISTS = 'This user is already registered.',
-  FEATURE_INCOMING = 'Feature on the way!',
   PASSWORD_MISMATCH = 'Password mismatch!',
   INVALID_EMAIL = 'Invalid email!',
-  INVALID_GITHUB = 'Invalid GitHut username!'
+  INVALID_GITHUB = 'Invalid GitHub username!'
+}
+
+export enum INFO {
+  FEATURE_INCOMING = 'Feature on the way!'
 }
 
 export enum SUCCESS {

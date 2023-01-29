@@ -3,14 +3,14 @@ import {
   Avatar,
   Button,
   Card,
-  notification,
+  message,
   Typography,
   Modal,
   Collapse,
   Tag
 } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { ERROR, ROUTES, USER_TYPE } from '../../constants';
+import { INFO, ROUTES, USER_TYPE } from '../../constants';
 import { useLocation } from 'react-router-dom';
 import Loader from '../loader';
 import { useAppStore } from '../../stores';
@@ -91,10 +91,8 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
     _jobId: string
   ) => {
     e.stopPropagation();
-    notification['info']({
-      message: '',
-      description: ERROR.FEATURE_INCOMING,
-      placement: 'bottomRight'
+    message.info({
+      content: INFO.FEATURE_INCOMING
     });
   };
 
@@ -232,7 +230,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
         onCancel={handleJobCancel}
       >
         {/* Todo */}
-        {ERROR.FEATURE_INCOMING}
+        {INFO.FEATURE_INCOMING}
       </Modal>
       <Modal
         className="applicants-modal"
