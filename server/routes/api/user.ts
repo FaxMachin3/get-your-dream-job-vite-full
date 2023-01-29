@@ -2,8 +2,7 @@ import express, { Request, Response } from 'express';
 // @ts-ignore: no-default-export
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { body, param, query, validationResult } from 'express-validator';
-import config from 'config';
+import { body, param, validationResult } from 'express-validator';
 
 import User from '../../model/user.js';
 import Job from '../../model/job.js';
@@ -75,7 +74,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.JWT_SECRET ?? '',
         {
           expiresIn: '3d'
         },

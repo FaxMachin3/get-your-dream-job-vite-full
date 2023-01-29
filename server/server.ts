@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import path from 'path';
+import { config } from 'dotenv';
 
 import auth from './routes/api/auth.js';
 import user from './routes/api/user.js';
@@ -9,6 +10,9 @@ import job from './routes/api/job.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 8080;
+
+// load env
+config();
 
 // connect database
 connectDB();

@@ -1,5 +1,4 @@
 import { verify } from 'jsonwebtoken';
-import config from 'config';
 import { NextFunction, Request, Response } from 'express';
 
 /**
@@ -18,7 +17,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
 
   // verify token
   try {
-    const decoded = verify(token, config.get('jwtSecret'));
+    const decoded = verify(token, process.env.JWT_SECRET ?? '');
     (req as any).user = (decoded as any).user;
     next();
   } catch (error: any) {

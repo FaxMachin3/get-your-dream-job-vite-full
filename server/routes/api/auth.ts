@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 
 import auth from '../../middleware/auth.js';
 import User from '../../model/user.js';
-import config from 'config';
 
 const router = express.Router();
 
@@ -73,7 +72,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.JWT_SECRET ?? '',
         {
           expiresIn: '3d'
         },
