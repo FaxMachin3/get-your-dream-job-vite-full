@@ -1,25 +1,29 @@
 import { Button, Card, Input, Modal, notification, Typography } from 'antd';
 import React, { useState } from 'react';
-import { FilterType, USER_TYPE } from '../../constants';
+import { USER_TYPE } from '../../constants';
 import CreateJob from '../create-job';
 import TagSelect from '../tag-select';
 import { ERROR } from '../../utils/fake-apis-utils';
 import { useAppStore } from '../../stores';
 import { IJob } from '../../types/common-types';
 import { useCreateJob } from '../../hooks/mutation';
+import { useDebounce } from '../../hooks/common';
 
 import './styles.scss';
 
 interface FilterProps {}
 
 const Filter: React.FC<FilterProps> = () => {
-  const currentUser = useAppStore((state) => state.currentUser);
+  const { currentUser, setMinSalary, jobFilter, setTag } = useAppStore(
+    (state) => ({
+      currentUser: state.currentUser,
+      jobFilter: state.jobFilter,
+      setMinSalary: state.setMinSalary,
+      setTag: state.setTag
+    })
+  );
   const [openCreateJobModal, setOpenCreateJobModal] = useState(false);
   const isRecruiter = currentUser?.userDetails?.type === USER_TYPE.RECRUITER;
-  const [filter, setFilter] = useState<FilterType>({
-    tags: [],
-    minSalary: ''
-  });
   const [jobFormData, setJobFormData] = useState<Partial<IJob>>({
     companyName: currentUser?.userDetails?.companyName ?? '',
     title: '',
@@ -28,7 +32,7 @@ const Filter: React.FC<FilterProps> = () => {
     requirement: '',
     location: '',
     createdBy: currentUser?._id,
-    salaryRange: [0, Number.MAX_SAFE_INTEGER],
+    salaryRange: { min: 0, max: Number.MAX_SAFE_INTEGER },
     tags: []
   });
 
@@ -38,23 +42,12 @@ const Filter: React.FC<FilterProps> = () => {
     isError: isCreatingJobError
   } = useCreateJob(setOpenCreateJobModal);
 
-  // useEffect(() => {
-  //     memoizedGetJobsForUser();
-  // }, [filter, getJobsForUser]);
-
-  const onMinSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter((prevFilter) => ({
-      ...prevFilter,
-      minSalary: e.target.value
-    }));
-  };
-
-  const onTagChange = (value: string[]) => {
-    setFilter((prevFilter) => ({
-      ...prevFilter,
-      tags: value
-    }));
-  };
+  const onMinSalaryChange_Debounced = useDebounce(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setMinSalary(e.target.value ?? '');
+    },
+    300
+  );
 
   const createJobHandler = () => {
     if (
@@ -118,15 +111,15 @@ const Filter: React.FC<FilterProps> = () => {
         <Typography.Paragraph className="filter-title" strong>
           Filter
         </Typography.Paragraph>
-        <TagSelect onTagChange={onTagChange} />
+        <TagSelect onTagChange={setTag} defaultValue={jobFilter.tags} />
         <label>
           <Typography.Paragraph>Minimum Salary</Typography.Paragraph>
           <Input
+            defaultValue={jobFilter.minSalary}
             title="Enter minimum salary"
             placeholder="e.g. 1500000"
-            value={filter.minSalary}
             name="minSalary"
-            onChange={onMinSalaryChange}
+            onChange={onMinSalaryChange_Debounced}
             className="min-salary-input"
             type="number"
             size="large"

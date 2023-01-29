@@ -59,11 +59,6 @@ export const LOCAL_STORAGE = {
   _JOBS: '_JOBS'
 };
 
-export type FilterType = {
-  tags: Array<string>;
-  minSalary: string;
-};
-
 export const tagsOptions = [
   'CSS',
   'HTML',

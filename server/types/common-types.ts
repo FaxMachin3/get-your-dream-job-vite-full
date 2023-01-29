@@ -12,7 +12,7 @@ export interface IJob {
   location: string;
   createdAt: Date;
   createdBy: string;
-  salaryRange: [number, number];
+  salaryRange: { min: number; max: number };
   tags: Array<string>;
   applicants: Array<string>;
 }

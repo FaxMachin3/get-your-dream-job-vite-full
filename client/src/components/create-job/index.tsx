@@ -1,13 +1,13 @@
 import { Form, Input, Typography, Slider } from 'antd';
 import { _16KB } from '../../constants';
-import { Job } from '../../fake-apis/job-listing-apis';
+import { IJob } from '../../types/common-types';
 import TagSelect from '../tag-select';
 
 import './styles.scss';
 
 interface CreateJobProps {
-  jobFormData: Partial<Job>;
-  setJobFormData: React.Dispatch<React.SetStateAction<Partial<Job>>>;
+  jobFormData: Partial<IJob>;
+  setJobFormData: React.Dispatch<React.SetStateAction<Partial<IJob>>>;
 }
 
 const CreateJob: React.FC<CreateJobProps> = ({
@@ -35,7 +35,7 @@ const CreateJob: React.FC<CreateJobProps> = ({
   const onSliderChange = (value: [number, number]) => {
     setJobFormData((prevData) => ({
       ...prevData,
-      salaryRange: [value[0] * 100000, value[1] * 100000]
+      salaryRange: { min: value[0] * 100000, max: value[1] * 100000 }
     }));
   };
 

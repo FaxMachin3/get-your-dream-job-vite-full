@@ -1,21 +1,25 @@
 import { API_METHOD, API_ROUTES } from '../constants';
-import { IJob } from '../types/common-types';
+import { FilterType, IJob } from '../types/common-types';
 import { axiosRequest } from '../utils/axios-utils';
 import { getSpecificVersionApi } from '../utils/common';
 
 export const getJobs = async ({
   offset,
-  pageSize
+  pageSize,
+  jobFilters
 }: {
   offset: number;
   pageSize: number;
+  jobFilters: FilterType;
 }) => {
   return axiosRequest({
     url: getSpecificVersionApi(API_ROUTES.JOB.GET),
+    method: API_METHOD.POST,
     params: {
       offset,
       pageSize
-    }
+    },
+    data: jobFilters
   });
 };
 

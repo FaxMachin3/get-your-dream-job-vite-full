@@ -12,16 +12,18 @@ interface JobListingProps {}
 
 const JobListing: React.FC<JobListingProps> = () => {
   const [offset, setOffset] = useState<number>(0);
-  const { userToken, setCurrentUser } = useAppStore((state) => ({
+  const { userToken, setCurrentUser, jobFilter } = useAppStore((state) => ({
     userToken: state.userToken,
-    setCurrentUser: state.setCurrentUser
+    setCurrentUser: state.setCurrentUser,
+    jobFilter: state.jobFilter
   }));
 
   useGetUserData(setCurrentUser, !!userToken);
 
   const { data: jobs, isLoading: isJobLoading } = useGetJobs(
     offset,
-    !!userToken
+    !!userToken,
+    jobFilter
   );
 
   if (!userToken) {

@@ -12,7 +12,7 @@ export interface IJob {
   location: string;
   createdAt: Date;
   createdBy: string;
-  salaryRange: [number, number];
+  salaryRange: { min: Number; max: Number };
   tags: Array<string>;
   applicants: Array<string>;
 }
@@ -53,13 +53,19 @@ export enum THEME {
   DARK = 'DARK'
 }
 
+export type FilterType = {
+  tags: Array<string>;
+  minSalary: string;
+};
+
 /**
- ** Store
+ ** Stores
  */
 
 export interface ThemeSlice {
   isDarkTheme: THEME.LIGHT | THEME.DARK;
   toggleTheme: () => void;
+  resetThemeSlice: () => void;
 }
 
 export interface UserSlice {
@@ -67,4 +73,12 @@ export interface UserSlice {
   currentUser: Partial<IUser> | null;
   setUserToken: (token: string | null) => void;
   setCurrentUser: (user: Partial<IUser> | null) => void;
+  resetUserSlice: () => void;
+}
+
+export interface AppSlice {
+  jobFilter: FilterType;
+  setTag: (tags: string[]) => void;
+  setMinSalary: (minSalary: string) => void;
+  resetAppSlice: () => void;
 }

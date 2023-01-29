@@ -36,9 +36,9 @@ const JobSchema = new Schema<IJob>({
     required: true
   },
   salaryRange: {
-    type: [Number, Number],
+    type: { min: Number, max: Number },
     required: true,
-    default: [0, Number.MAX_SAFE_INTEGER]
+    default: { min: 0, max: Number.MAX_SAFE_INTEGER }
   },
   tags: {
     type: [String],
