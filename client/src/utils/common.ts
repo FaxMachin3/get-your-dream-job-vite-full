@@ -5,7 +5,7 @@ export function debounce<T extends Function>(
   delay: number = 100,
   context?: Object
 ): T {
-  let timer: number | undefined;
+  let timer: NodeJS.Timeout;
 
   return ((...args: any[]) => {
     clearTimeout(timer);

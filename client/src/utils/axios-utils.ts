@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CUSTOM_HEADER, STORE } from '../constants';
 
 export const axiosRequest = axios.create({
-  baseURL: 'http://localhost:8080'
+  baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080'
 });
 
 axiosRequest.interceptors.request.use(
