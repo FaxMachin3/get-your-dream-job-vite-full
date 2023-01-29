@@ -1,9 +1,8 @@
 import { Button, Card, Input, Modal, notification, Typography } from 'antd';
 import React, { useState } from 'react';
-import { USER_TYPE } from '../../constants';
+import { ERROR, USER_TYPE } from '../../constants';
 import CreateJob from '../create-job';
 import TagSelect from '../tag-select';
-import { ERROR } from '../../utils/fake-apis-utils';
 import { useAppStore } from '../../stores';
 import { IJob } from '../../types/common-types';
 import { useCreateJob } from '../../hooks/mutation';

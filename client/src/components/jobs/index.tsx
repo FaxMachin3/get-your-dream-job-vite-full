@@ -10,8 +10,7 @@ import {
   Tag
 } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { ERROR } from '../../utils/fake-apis-utils';
-import { ROUTES, USER_TYPE } from '../../constants';
+import { ERROR, ROUTES, USER_TYPE } from '../../constants';
 import { useLocation } from 'react-router-dom';
 import Loader from '../loader';
 import { useAppStore } from '../../stores';

@@ -4,6 +4,7 @@ import { ConfigProvider, theme } from 'antd';
 import { ThemeConfig } from 'antd/es/config-provider/context';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
+import jobListing from '../fake-databases/job-listing';
 import { useAppStore } from '../stores';
 import { THEME } from '../types/common-types';
 import LandingPageContainer from './landing-page/landing-page-container';

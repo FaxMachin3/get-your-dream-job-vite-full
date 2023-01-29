@@ -16,7 +16,7 @@ export const getJobs = async ({
     url: getSpecificVersionApi(API_ROUTES.JOB.GET),
     method: API_METHOD.POST,
     params: {
-      offset,
+      offset: offset - 1,
       pageSize
     },
     data: jobFilters

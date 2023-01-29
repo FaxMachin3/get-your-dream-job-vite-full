@@ -46,7 +46,7 @@ export const JobsContainer: React.FC<JobsContainerInterface> = ({
   return (
     <div className="jobs-wrapper">
       <Jobs data={jobs} />
-      {_TOTAL_JOBS / _PAGE_SIZE > 1 ? (
+      {offset > 1 || jobs.length >= _PAGE_SIZE ? (
         <Pagination
           className="pagination-container"
           total={_TOTAL_JOBS}

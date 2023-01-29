@@ -11,10 +11,9 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { ROUTES, USER_TYPE } from '../../constants';
+import { ERROR, ROUTES, USER_TYPE } from '../../constants';
 import { UserOutlined } from '@ant-design/icons';
 import EditJob from '../edit-profile';
-import { ERROR } from '../../utils/fake-apis-utils';
 import { validateEmail } from '../../utils/common';
 import Jobs from '../jobs';
 import { useAppStore } from '../../stores';

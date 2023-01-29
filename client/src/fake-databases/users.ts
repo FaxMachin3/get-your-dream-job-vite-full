@@ -1,9 +1,9 @@
 import { USER_TYPE } from '../constants';
-import { User } from '../fake-apis/user-apis';
+import { IUser } from '../types/common-types';
 
-const users: User[] = [
+const users: IUser[] = [
   {
-    id: 'U-10001',
+    _id: 'U-10001',
     name: 'Subham Raj',
     email: 'subhamraj@gmail.com',
     password: '123456',
@@ -18,7 +18,7 @@ const users: User[] = [
     }
   },
   {
-    id: 'U-10002',
+    _id: 'U-10002',
     name: 'Akash Sharma',
     email: 'akashsharma@gmail.com',
     password: '123456',
@@ -33,7 +33,7 @@ const users: User[] = [
     }
   },
   {
-    id: 'U-10003',
+    _id: 'U-10003',
     name: 'Prince Raj',
     email: 'princeraj@gmail.com',
     password: '123456',
@@ -48,7 +48,7 @@ const users: User[] = [
     }
   },
   {
-    id: 'U-10004',
+    _id: 'U-10004',
     name: 'John Doe',
     email: 'jhondoe@gmail.com',
     password: '123456',
@@ -60,7 +60,7 @@ const users: User[] = [
     }
   },
   {
-    id: 'U-10005',
+    _id: 'U-10005',
     name: 'Jane Doe',
     email: 'janedoe@gmail.com',
     password: '123456',
@@ -72,7 +72,7 @@ const users: User[] = [
     }
   },
   {
-    id: 'U-10006',
+    _id: 'U-10006',
     name: 'John Cena',
     email: 'jhoncena@gmail.com',
     password: '123456',
