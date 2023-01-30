@@ -4,15 +4,19 @@ import { message } from 'antd';
 import { loginUser } from '../apis/auth';
 import { applyJob, createJob } from '../apis/job';
 import { editProfile, getAllApplicantsProfile, signUp } from '../apis/user';
-import { STORE, SUCCESS } from '../constants';
+import { INFO, STORE, SUCCESS } from '../constants';
 
 export const useApplyJob = () => {
   const queryClient = useQueryClient();
 
   return useMutation(applyJob, {
+    onMutate: async () => {
+      message.loading({ content: INFO.APPLYING });
+    },
     onSuccess: async () => {
       queryClient.invalidateQueries([STORE.SUB_STORE.JOBS]);
       queryClient.invalidateQueries([STORE.SUB_STORE.APPLIED_JOBS]);
+      message.destroy();
       message.success({ content: SUCCESS.JOB_APPLIED });
     }
   });

@@ -63,7 +63,7 @@ router.post(
       }
 
       if (tags.length > 0) {
-        commonSearchConfig['tags'] = { $in: tags };
+        commonSearchConfig['tags'] = { $in: tags }; // Todo: compare with similar letter casing
       }
 
       const allJobs = await Job.find({
@@ -122,14 +122,35 @@ router.get(
 
       const start = pageSize * offset;
 
+      const appliedJobs: string[] = user!.userDetails.appliedTo!.splice(
+        start,
+        pageSize
+      );
+
       const allJobs = await Job.find({
-        _id: { $in: user!.userDetails.appliedTo }
+        _id: { $in: appliedJobs }
       })
         .select('-applicants')
         .skip(start)
         .limit(pageSize);
 
-      res.json({ jobs: allJobs, hasNext: true });
+      const withAppliedSequence: any[] = new Array(pageSize);
+
+      /**
+       * The size of allJobs would pageSize always
+       * so going with O(n^2) approach.
+       *
+       * This can be done in O(n) approach
+       * with a Map
+       */
+      appliedJobs.forEach(
+        (jobId, index) =>
+          (withAppliedSequence[index] = allJobs.find((job) =>
+            job._id.equals(jobId)
+          ))
+      );
+
+      res.json({ jobs: withAppliedSequence, hasNext: true });
     } catch (error: any) {
       console.error(error.message);
       res.status(500).send({

@@ -99,6 +99,7 @@ export enum ERROR {
 }
 
 export enum INFO {
+  APPLYING = 'Applying',
   FEATURE_INCOMING = 'Feature on the way!'
 }
 
