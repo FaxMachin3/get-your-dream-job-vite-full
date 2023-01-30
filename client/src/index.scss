@@ -1,5 +1,4 @@
 @import './partials/config';
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 *,
 *::after,
@@ -39,7 +38,7 @@ html {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: Montserrat, 'Open Sans', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
   line-height: 1.6;
 }

@@ -35,13 +35,11 @@
   .backdrop {
     margin: auto;
     padding-top: 1rem;
-    flex-basis: 500px;
-    display: grid;
-    place-content: center;
+    flex-basis: 1200px;
 
     .ant-image,
     .ant-image-img {
-      width: 500px;
+      max-width: 100%;
     }
   }
 }
@@ -96,15 +94,9 @@
     }
 
     .backdrop {
-      margin: initial;
-      flex-basis: auto;
-      padding-top: 1rem;
-      margin-bottom: 2rem;
-
-      .ant-image,
-      .ant-image-img {
-        width: 350px;
-      }
+      flex-basis: 300px;
+      display: grid;
+      place-content: center;
     }
   }
 }

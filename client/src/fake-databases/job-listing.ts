@@ -121,4 +121,4 @@ const generateJobData = () => {
 
 const jobListing: Partial<IJob>[] = generateJobData();
 
-export default jobListing;
+// export default jobListing;
