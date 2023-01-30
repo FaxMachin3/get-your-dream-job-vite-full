@@ -173,15 +173,20 @@ router.put(
         });
       }
 
-      if (
-        job?.applicants.find((applicant) => applicant === (req as any).user.id)
-      ) {
+      const user = await User.findById((req as any).user.id);
+
+      const alreadyAnApplicant = job.applicants.some(
+        (applicant) => applicant === (req as any).user.id
+      );
+      const alreadyAppliedJob = user!.userDetails.appliedTo!.some(
+        (jobId) => jobId === req.params.jobId
+      );
+
+      if (alreadyAnApplicant || alreadyAppliedJob) {
         return res.status(400).json({
           error: 'Already applied.'
         });
       }
-
-      const user = await User.findById((req as any).user.id);
 
       job.applicants.push((req as any).user.id);
       user!.userDetails.appliedTo!.unshift(req.params.jobId);
