@@ -25,10 +25,10 @@ interface JobsProps {
 }
 
 const EVENTS = {
-  APPLY: 'Apply',
-  NOT_INTERESTED: 'Not interested',
-  APPLICANTS: 'Applicants',
-  CARD: 'card'
+  APPLY: 'APPLY',
+  NOT_INTERESTED: 'NOT_INTERESTED',
+  APPLICANTS: 'APPLICANTS',
+  CARD: 'CARD'
 };
 
 const Jobs: React.FC<JobsProps> = ({ data }) => {
@@ -97,6 +97,8 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
   };
 
   const onCardElementsClick = (e: any) => {
+    if (isApplying || isApplicantsModalOpen || isJobModalOpen) return;
+
     const { target } = e;
 
     switch (target.dataset.event) {
@@ -192,7 +194,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                     <Button
                       type="primary"
                       size="large"
-                      loading={isApplying}
+                      disabled={isApplying}
                       data-event={EVENTS.APPLY}
                       data-details={jobId}
                       title="Apply"
@@ -206,6 +208,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                       className="not-interested-button"
                       type="text"
                       size="large"
+                      disabled={isApplying}
                       data-event={EVENTS.NOT_INTERESTED}
                       data-details={jobId}
                       title="Not interested"

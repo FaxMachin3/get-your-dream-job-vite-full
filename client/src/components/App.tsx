@@ -24,7 +24,7 @@ function App() {
       token: {
         colorPrimary: '#6C63FF',
         colorLink: '#6C63FF',
-        fontFamily: '"Montserrat", sans-serif',
+        fontFamily: 'Montserrat, "Open Sans", Helvetica, Arial, sans-serif',
         borderRadiusLG: 5,
         borderRadiusOuter: 5,
         borderRadiusSM: 5,
