@@ -33,12 +33,12 @@
   }
 
   .backdrop {
-    margin: auto;
-    padding-top: 1rem;
-    flex-basis: 1200px;
+    display: flex;
+    align-items: center;
+    width: 500px;
+    flex-shrink: 0;
 
-    .ant-image,
-    .ant-image-img {
+    svg {
       max-width: 100%;
     }
   }
@@ -63,6 +63,15 @@
           margin-bottom: 2rem;
           font-size: 1.5rem;
         }
+      }
+    }
+
+    .backdrop {
+      width: 100%;
+      justify-content: center;
+
+      svg {
+        height: 330px;
       }
     }
   }
@@ -91,12 +100,6 @@
           }
         }
       }
-    }
-
-    .backdrop {
-      flex-basis: 300px;
-      display: grid;
-      place-content: center;
     }
   }
 }
