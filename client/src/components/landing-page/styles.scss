@@ -69,6 +69,10 @@
     .backdrop {
       width: 100%;
       justify-content: center;
+
+      svg {
+        height: 330px;
+      }
     }
   }
 }
