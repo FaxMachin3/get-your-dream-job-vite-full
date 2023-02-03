@@ -1,21 +1,10 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  Empty,
-  Modal,
-  message,
-  Skeleton,
-  Tag,
-  Typography
-} from 'antd';
+import { Avatar, Button, Card, Modal, message, Typography } from 'antd';
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ERROR, ROUTES, USER_TYPE } from '../../constants';
 import { UserOutlined } from '@ant-design/icons';
 import EditJob from '../edit-profile';
 import { validateEmail } from '../../utils/common';
-import Jobs from '../jobs';
 import { useAppStore } from '../../stores';
 import { IUser } from '../../types/common-types';
 import { useEditProfileMutation } from '../../hooks/mutation';
@@ -24,6 +13,9 @@ import {
   useGetUserData,
   usGetUserGitHubRepos
 } from '../../hooks/query';
+import Skills from './skills';
+import AppliedJobs from './applied-jobs';
+import GithubRepos from './githut-repos';
 
 import './styles.scss';
 
@@ -62,11 +54,8 @@ const Profile: React.FC<ProfileProps> = ({
       !!currentUserProfile?.userDetails?.githubUsername &&
       (isProfileViewer || !isRecruiter)
   );
-  const {
-    mutate: editProfileMutate,
-    isLoading: isEditProfileLoading,
-    isError: isEditProfileError
-  } = useEditProfileMutation(setOpenEditProfileModal);
+  const { mutate: editProfileMutate, isLoading: isEditProfileLoading } =
+    useEditProfileMutation(setOpenEditProfileModal);
 
   const [editProfileFormData, setEditProfileFormData] = useState<
     Partial<IUser & { confirmPassword: string }>
@@ -89,108 +78,6 @@ const Profile: React.FC<ProfileProps> = ({
   if (!currentUserProfile) {
     return <Navigate to={ROUTES.LOGIN} />;
   }
-
-  const renderJobs = () => {
-    if (isAppliedJobLoading) {
-      return <Skeleton active />;
-    }
-
-    if (
-      isAppliedJobError ||
-      !appliedJobs ||
-      appliedJobs.data?.jobs.length === 0
-    ) {
-      return (
-        <div key="no-repo" className="no-repo">
-          <Empty description="No jobs applied!" />
-        </div>
-      );
-    }
-
-    return (
-      <>
-        <Jobs data={appliedJobs.data.jobs} />
-      </>
-    );
-  };
-
-  const renderSkills = () => {
-    if (currentUserProfile.userDetails?.skills?.length === 0) {
-      return null;
-    }
-
-    return (
-      <Typography.Paragraph>
-        {currentUserProfile.userDetails?.skills?.map((skill) => (
-          <Tag title={skill} key={skill}>
-            {skill}
-          </Tag>
-        ))}
-      </Typography.Paragraph>
-    );
-  };
-
-  const renderRepos = () => {
-    if (isFetchingRepos) {
-      return <Skeleton active />;
-    }
-
-    if (isRepoFetchingError || !gitHubRepos || gitHubRepos.data?.length === 0) {
-      return (
-        <div key="no-repo" className="no-repo">
-          <Empty description="No GitHub profile/ repo found." />
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        {gitHubRepos.data.map((repo: any) => (
-          <Card
-            type="inner"
-            key={repo.id}
-            className="git-card"
-            hoverable
-            onClick={() => window.open(repo.html_url)}
-            bordered={false}
-          >
-            <div className="left">
-              <Typography.Link
-                title={repo.name}
-                className="link"
-                strong
-                ellipsis
-              >
-                {repo.name}
-              </Typography.Link>
-              {repo.description ? (
-                <Typography.Paragraph className="repo-description">
-                  {repo.description}
-                </Typography.Paragraph>
-              ) : null}
-            </div>
-            <div className="right">
-              <Typography.Paragraph>
-                <Tag title={`Stars: ${repo.stargazers_count}`}>
-                  Stars: {repo.stargazers_count}
-                </Tag>
-              </Typography.Paragraph>
-              <Typography.Paragraph>
-                <Tag title={`Watchers: ${repo.watchers_count}`}>
-                  Watchers: {repo.watchers_count}
-                </Tag>
-              </Typography.Paragraph>
-              <Typography.Paragraph>
-                <Tag title={`Forks: ${repo.forks_count}`}>
-                  Forks: {repo.forks_count}
-                </Tag>
-              </Typography.Paragraph>
-            </div>
-          </Card>
-        ))}
-      </div>
-    );
-  };
 
   const editProfileHandler = () => {
     setOpenEditProfileModal(true);
@@ -294,7 +181,7 @@ const Profile: React.FC<ProfileProps> = ({
             {currentUserProfile.userDetails?.companyName}
           </Typography.Paragraph>
         ) : null}
-        {renderSkills()}
+        <Skills currentUserProfile={currentUserProfile} />
       </Card>
       {!isRecruiter && !applicant ? (
         <Card
@@ -305,7 +192,11 @@ const Profile: React.FC<ProfileProps> = ({
           }
           className="applied-jobs profile-card"
         >
-          {renderJobs()}
+          <AppliedJobs
+            isAppliedJobLoading={isAppliedJobLoading}
+            isAppliedJobError={isAppliedJobError}
+            appliedJobs={appliedJobs}
+          />
         </Card>
       ) : null}
       {!isRecruiter ? (
@@ -317,7 +208,11 @@ const Profile: React.FC<ProfileProps> = ({
           }
           className="github-repos profile-card"
         >
-          {renderRepos()}
+          <GithubRepos
+            isFetchingRepos={isFetchingRepos}
+            isRepoFetchingError={isRepoFetchingError}
+            gitHubRepos={gitHubRepos}
+          />
         </Card>
       ) : null}
     </div>
