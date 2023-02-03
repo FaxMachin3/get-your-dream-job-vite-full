@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CUSTOM_HEADER, STORE } from '../constants';
+import { CUSTOM_CLASS, CUSTOM_HEADER, ERROR_CODE, STORE } from '../constants';
 
 export const axiosRequest = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080'
@@ -15,7 +15,23 @@ axiosRequest.interceptors.request.use(
     return config;
   },
   (error) => {
-    // Do something with request error
+    return Promise.reject(error);
+  }
+);
+
+axiosRequest.interceptors.response.use(
+  (config) => config,
+  (error) => {
+    if (error?.response?.status === ERROR_CODE.UNAUTHORIZED) {
+      console.log(error?.response?.status);
+      localStorage.clear();
+      sessionStorage.clear();
+      document.cookie = '';
+      (
+        document.querySelector(`.${CUSTOM_CLASS.LOGOUT} a`) as HTMLAnchorElement
+      )?.click(); // logging out when unauthorized
+    }
+
     return Promise.reject(error);
   }
 );

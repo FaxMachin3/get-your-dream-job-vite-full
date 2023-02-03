@@ -1,4 +1,4 @@
-import { API_ROUTES, ROUTES } from '../constants';
+import { API_ROUTES, CUSTOM_CLASS, ROUTES } from '../constants';
 
 export function debounce<T extends Function>(
   func: T,
@@ -47,6 +47,7 @@ export const navLinksWrapper = ({
       {
         title: 'Logout',
         to: ROUTES.ROOT,
+        customClass: CUSTOM_CLASS.LOGOUT,
         onClick: onLogout
       }
     ],
