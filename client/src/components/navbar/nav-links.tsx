@@ -34,8 +34,12 @@ export const NavLinks = () => {
 
   return (
     <>
-      {navs.USER_NAVS.map(({ title, to, onClick }) => (
-        <Typography.Text key={title} title={title} className="sub-links">
+      {navs.USER_NAVS.map(({ title, to, onClick, customClass }) => (
+        <Typography.Text
+          key={title}
+          title={title}
+          className={`sub-links ${customClass}`}
+        >
           <Link to={to} onClick={onClick}>
             {title}
           </Link>

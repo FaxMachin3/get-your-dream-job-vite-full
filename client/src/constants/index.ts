@@ -108,3 +108,11 @@ export enum SUCCESS {
   JOB_CREATED = 'Job created!',
   PROFILE_SAVED = 'Profile saved!'
 }
+
+export enum ERROR_CODE {
+  UNAUTHORIZED = 401
+}
+
+export enum CUSTOM_CLASS {
+  LOGOUT = 'logout'
+}
