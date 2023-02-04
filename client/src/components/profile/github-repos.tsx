@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, Empty, Skeleton, Tag, Typography } from 'antd';
+import { Card, Empty, Tag, Typography } from 'antd';
 import { AxiosResponse } from 'axios';
+import CustomSkeleton from '../skeleton';
 
 interface GithubRepoProps {
   isFetchingRepos: boolean;
@@ -14,7 +15,12 @@ const GithubRepos: React.FC<GithubRepoProps> = ({
   gitHubRepos
 }) => {
   if (isFetchingRepos) {
-    return <Skeleton active />;
+    return (
+      <CustomSkeleton
+        heights={{ large: '128px', medium: '128px', small: '132px' }}
+        totalSkeletons={5}
+      />
+    );
   }
 
   if (isRepoFetchingError || !gitHubRepos || gitHubRepos.data?.length === 0) {
@@ -38,7 +44,7 @@ const GithubRepos: React.FC<GithubRepoProps> = ({
         >
           <div className="left">
             <Typography.Link title={repo.name} className="link" strong ellipsis>
-              {repo.name}
+              {repo.name?.toUpperCase()}
             </Typography.Link>
             {repo.description ? (
               <Typography.Paragraph className="repo-description">

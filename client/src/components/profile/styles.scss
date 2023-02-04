@@ -106,6 +106,16 @@
   }
 }
 
+@media screen and (max-width: $media-tablet-width) {
+  .profile-wrapper {
+    .applied-jobs {
+      .job-details {
+        text-align: center;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: $media-mobile-width) {
   .edit-profile-modal {
     top: 10px;

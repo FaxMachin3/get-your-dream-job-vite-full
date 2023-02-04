@@ -15,7 +15,7 @@ import {
 } from '../../hooks/query';
 import Skills from './skills';
 import AppliedJobs from './applied-jobs';
-import GithubRepos from './githut-repos';
+import GithubRepos from './github-repos';
 
 import './styles.scss';
 

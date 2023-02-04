@@ -153,7 +153,7 @@ const Jobs: React.FC<JobsProps> = ({ data }) => {
                   <div className="job-details">
                     <Typography.Paragraph className="title">
                       <span>
-                        {companyName} - {title}
+                        {companyName?.toUpperCase()} - {title?.toUpperCase()}
                       </span>
                       {isRecruiter && applicants.length > 0 ? (
                         <Typography.Text
