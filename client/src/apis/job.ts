@@ -6,11 +6,11 @@ import { getSpecificVersionApi } from '../utils/common';
 export const getJobs = async ({
   offset,
   pageSize,
-  jobFilters
+  jobFilter
 }: {
   offset: number;
   pageSize: number;
-  jobFilters: FilterType;
+  jobFilter: FilterType;
 }) => {
   return axiosRequest({
     url: getSpecificVersionApi(API_ROUTES.JOB.GET),
@@ -19,7 +19,7 @@ export const getJobs = async ({
       offset: offset - 1,
       pageSize
     },
-    data: jobFilters
+    data: jobFilter
   });
 };
 
