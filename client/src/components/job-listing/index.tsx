@@ -5,6 +5,7 @@ import Sidebar from '../sidebar';
 import { JobsContainer } from './jobs-listing';
 import { useAppStore } from '../../stores';
 import { useGetJobs, useGetUserData } from '../../hooks/query';
+import { usePrefetchJobs } from '../../hooks/common';
 
 import './styles.scss';
 
@@ -19,12 +20,12 @@ const JobListing: React.FC<JobListingProps> = () => {
   }));
 
   useGetUserData(setCurrentUser, !!userToken);
-
   const { data: jobs, isLoading: isJobLoading } = useGetJobs(
     offset,
     !!userToken,
     jobFilter
   );
+  usePrefetchJobs(offset, isJobLoading, jobFilter);
 
   if (!userToken) {
     return <Navigate to={ROUTES.LOGIN} />;

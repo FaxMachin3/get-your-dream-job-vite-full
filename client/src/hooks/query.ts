@@ -23,11 +23,11 @@ export const useGetUserData = (
 export const useGetJobs = (
   offset: number,
   enabled: boolean,
-  jobFilters: FilterType
+  jobFilter: FilterType
 ) => {
   return useQuery(
-    [STORE.SUB_STORE.JOBS, offset, jobFilters],
-    () => getJobs({ offset, pageSize: _PAGE_SIZE, jobFilters }),
+    [STORE.SUB_STORE.JOBS, offset, jobFilter],
+    () => getJobs({ offset, pageSize: _PAGE_SIZE, jobFilter }),
     {
       enabled
     }
