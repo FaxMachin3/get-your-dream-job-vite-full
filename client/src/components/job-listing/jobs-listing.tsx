@@ -1,9 +1,10 @@
-import { Pagination, Skeleton, Typography } from 'antd';
+import { Pagination, Typography } from 'antd';
 import Jobs from '../jobs';
 import React, { useRef } from 'react';
 import { ROUTES, _PAGE_SIZE, _TOTAL_JOBS } from '../../constants';
 import { Link } from 'react-router-dom';
 import { IJob } from '../../types/common-types';
+import CustomSkeleton from '../skeleton';
 
 interface JobsContainerInterface {
   jobs: IJob[];
@@ -20,7 +21,16 @@ export const JobsContainer: React.FC<JobsContainerInterface> = ({
 }) => {
   const dummyTop = useRef<HTMLAnchorElement>(null);
 
-  if (isLoading) return <Skeleton active />;
+  if (isLoading)
+    return (
+      <CustomSkeleton
+        heights={{
+          large: '228.562px',
+          medium: '350.562px',
+          small: '350.562px'
+        }}
+      />
+    );
 
   if (jobs.length === 0) {
     return (

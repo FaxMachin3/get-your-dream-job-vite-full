@@ -1,7 +1,8 @@
 import React from 'react';
-import { Empty, Skeleton } from 'antd';
+import { Empty } from 'antd';
 import Jobs from '../jobs';
 import { AxiosResponse } from 'axios';
+import CustomSkeleton from '../skeleton';
 
 interface AppliedJobsProps {
   isAppliedJobLoading: boolean;
@@ -15,7 +16,16 @@ const AppliedJobs: React.FC<AppliedJobsProps> = ({
   appliedJobs
 }) => {
   if (isAppliedJobLoading) {
-    return <Skeleton active />;
+    return (
+      <CustomSkeleton
+        heights={{
+          large: '228.562px',
+          medium: '298.562px',
+          small: '298.562px'
+        }}
+        totalSkeletons={5}
+      />
+    );
   }
 
   if (

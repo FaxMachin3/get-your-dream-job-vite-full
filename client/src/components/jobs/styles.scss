@@ -73,10 +73,6 @@
 }
 
 .applicants-modal {
-  // div,
-  // button {
-  //     border-radius: $button-radius;
-  // }
   .ant-modal-close-x,
   .applicantsOkButton {
     display: none;
@@ -91,9 +87,16 @@
 
         .logo {
           margin: 1rem auto;
+          padding-bottom: 1rem;
         }
 
         .job-details {
+          margin-left: 0;
+
+          .title {
+            display: block !important;
+          }
+
           .tags {
             max-width: 400px;
           }
