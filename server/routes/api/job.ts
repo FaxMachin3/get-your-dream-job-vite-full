@@ -134,20 +134,18 @@ router.get(
         .skip(start)
         .limit(pageSize);
 
-      const withAppliedSequence: any[] = new Array(pageSize);
+      // TODO: define array size, min of applied jobs length or page size
+      const withAppliedSequence: any[] = [];
 
       /**
        * The size of allJobs would pageSize always
        * so going with O(n^2) approach.
        *
        * This can be done in O(n) approach
-       * with a Map
+       *
        */
-      appliedJobs.forEach(
-        (jobId, index) =>
-          (withAppliedSequence[index] = allJobs.find((job) =>
-            job._id.equals(jobId)
-          ))
+      appliedJobs.forEach((jobId) =>
+        withAppliedSequence.push(allJobs.find((job) => job._id.equals(jobId)))
       );
 
       res.json({ jobs: withAppliedSequence, hasNext: true });

@@ -46,7 +46,7 @@ const Profile: React.FC<ProfileProps> = ({
   } = useGetAppliedJobs(!!currentUser && !isProfileViewer && !isRecruiter);
   const {
     data: gitHubRepos,
-    isLoading: isFetchingRepos,
+    isFetching: isFetchingRepos,
     isError: isRepoFetchingError
   } = usGetUserGitHubRepos(
     currentUserProfile?.userDetails?.githubUsername,
